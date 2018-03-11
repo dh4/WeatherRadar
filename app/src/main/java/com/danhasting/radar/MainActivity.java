@@ -1,6 +1,9 @@
 package com.danhasting.radar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -8,18 +11,21 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     protected DrawerLayout mDrawerLayout;
+    protected SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        settings = this.getSharedPreferences(getString(R.string.app_full_name), Context.MODE_PRIVATE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -32,6 +38,25 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        if (this.getClass().getSimpleName().equals("MainActivity")) {
+            Boolean defaultRadar = settings.getBoolean("default", false);
+            if (defaultRadar) {
+                String location = settings.getString("default_location","BMX");
+                String type = settings.getString("default_type","N0R");
+                Boolean loop = settings.getBoolean("default_loop",false);
+
+                Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+                radarIntent.putExtra("location", location);
+                radarIntent.putExtra("type", type);
+                radarIntent.putExtra("loop", loop);
+                MainActivity.this.startActivity(radarIntent);
+            } else {
+                Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+                MainActivity.this.startActivity(selectIntent);
+            }
+        }
     }
 
     @Override

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Radar</string>
+    <string name="app_full_name">com.danhasting.radar</string>
     <string name="header_title">NWS Radar Images</string>
+    <string name="action_add_favorite">Add Favorite</string>
+    <string name="action_remove_favorite">Remove Favorite</string>
+    <string name="action_set_default">Set Default</string>
+    <string name="action_remove_default">Remove Default</string>
 </resources>

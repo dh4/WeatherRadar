@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add_favorite"
+        android:title="@string/action_add_favorite"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_remove_favorite"
+        android:title="@string/action_remove_favorite"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_set_default"
+        android:title="@string/action_set_default"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_remove_default"
+        android:title="@string/action_remove_default"
+        app:showAsAction="never" />
+</menu>

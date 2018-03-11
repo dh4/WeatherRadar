@@ -2,14 +2,24 @@ package com.danhasting.radar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 
 public class RadarActivity extends MainActivity {
+
+    private String type;
+    private String location;
+    private Boolean loop;
+
+    private Menu actionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,15 +29,71 @@ public class RadarActivity extends MainActivity {
         mDrawerLayout.addView(contentView, 0);
 
         Intent intent = getIntent();
-        String type = intent.getStringExtra("type");
-        String location = intent.getStringExtra("location");
-        Boolean loop = intent.getBooleanExtra("loop", false);
+        type = intent.getStringExtra("type");
+        location = intent.getStringExtra("location");
+        loop = intent.getBooleanExtra("loop", false);
 
         WebView radarWebView = findViewById(R.id.radarWebView);
         radarWebView.getSettings().setLoadWithOverviewMode(true);
         radarWebView.getSettings().setUseWideViewPort(true);
 
         radarWebView.loadData(displayLiteImage(location, type, loop), "text/html", null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.radar_actions, menu);
+        actionsMenu = menu;
+
+        MenuItem removeFavorite = menu.findItem(R.id.action_remove_favorite);
+        removeFavorite.setVisible(false);
+
+        Boolean defaultRadar = settings.getBoolean("default", false);
+        String defaultLocation = settings.getString("default_location","BMX");
+        String defaultType = settings.getString("default_type","N0R");
+        Boolean defaultLoop = settings.getBoolean("default_loop",false);
+
+        if (defaultRadar && defaultLocation.equals(location) && defaultType.equals(type) && defaultLoop == loop) {
+            MenuItem setDefault = menu.findItem(R.id.action_set_default);
+            setDefault.setVisible(false);
+        } else {
+            MenuItem removeDefault = menu.findItem(R.id.action_remove_default);
+            removeDefault.setVisible(false);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_add_favorite) {
+            return true;
+        } else if (id == R.id.action_set_default) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("default", true);
+            editor.putString("default_location", location);
+            editor.putString("default_type", type);
+            editor.putBoolean("default_loop", loop);
+            editor.apply();
+
+            MenuItem setDefault = actionsMenu.findItem(R.id.action_set_default);
+            setDefault.setVisible(false);
+            MenuItem removeDefault = actionsMenu.findItem(R.id.action_remove_default);
+            removeDefault.setVisible(true);
+        } else if (id == R.id.action_remove_default) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("default", false);
+            editor.apply();
+
+            MenuItem setDefault = actionsMenu.findItem(R.id.action_set_default);
+            setDefault.setVisible(true);
+            MenuItem removeDefault = actionsMenu.findItem(R.id.action_remove_default);
+            removeDefault.setVisible(false);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public String displayMosaicImage(String mosaic, Boolean loop) {
