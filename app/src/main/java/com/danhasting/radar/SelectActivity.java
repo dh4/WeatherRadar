@@ -18,6 +18,8 @@ public class SelectActivity extends MainActivity {
         View contentView = inflater.inflate(R.layout.activity_select, null, false);
         mDrawerLayout.addView(contentView, 0);
 
+        setTitle(R.string.select_radar_image);
+
         Spinner typeSpinner = findViewById(R.id.typeSpinner);
         ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(
                 this, R.array.type_names, android.R.layout.simple_spinner_dropdown_item);
