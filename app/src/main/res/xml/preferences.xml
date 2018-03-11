@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="?android:attr/actionBarSize">
+
+    <CheckBoxPreference
+        android:title="Show Favorite on Startup"
+        android:defaultValue="false"
+        android:summary="If selected show a saved radar instead of the default view when the application starts."
+        android:key="show_favorite" />
+
+    <ListPreference
+        android:title="Favorite to Show"
+        android:summary="Select favorite radar to show"
+        android:key="default_favorite"
+        android:defaultValue="1"
+        android:enabled="false" />
+
+</PreferenceScreen>

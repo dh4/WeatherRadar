@@ -18,7 +18,7 @@
             android:text="@string/location_text"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            tools:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp" />
 
         <Spinner
             android:id="@+id/locationSpinner"
@@ -33,7 +33,7 @@
             android:text="@string/type_text"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            tools:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp" />
 
         <Spinner
             android:id="@+id/typeSpinner"
@@ -49,7 +49,7 @@
             android:text="@string/loop"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            tools:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp" />
 
         <Switch
             android:id="@+id/enhancedSwitch"
@@ -58,7 +58,7 @@
             android:text="@string/enhanced"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            tools:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp" />
 
         <Button
             android:id="@+id/viewButton"
@@ -67,7 +67,9 @@
             android:text="@string/view_radar_image"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            tools:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:onClick="viewRadar" />
     </LinearLayout>
 

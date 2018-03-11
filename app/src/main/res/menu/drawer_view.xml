@@ -6,8 +6,8 @@
             android:title="@string/nav_select" />
 
         <item
-            android:id="@+id/nav_default"
-            android:title="@string/nav_default" />
+            android:id="@+id/nav_settings"
+            android:title="@string/nav_settings" />
 
         <item
             android:id="@+id/nav_favorites"

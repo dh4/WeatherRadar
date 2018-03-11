@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".RadarActivity" />
-        <activity android:name=".SelectActivity"></activity>
+        <activity android:name=".SelectActivity" />
+        <activity android:name=".SettingsActivity"
+            android:theme="@style/SettingsTheme" />
     </application>
 
 </manifest>

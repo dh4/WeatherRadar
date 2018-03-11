@@ -11,12 +11,4 @@
         android:title="@string/action_remove_favorite"
         android:icon="@drawable/ic_star"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_set_default"
-        android:title="@string/action_set_default"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_remove_default"
-        android:title="@string/action_remove_default"
-        app:showAsAction="never" />
 </menu>
