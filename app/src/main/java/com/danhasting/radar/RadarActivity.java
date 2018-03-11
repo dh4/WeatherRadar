@@ -24,6 +24,7 @@ public class RadarActivity extends MainActivity {
     private String type;
     private String location;
     private Boolean loop;
+    private Boolean enhanced;
 
     private String radarName;
 
@@ -46,6 +47,7 @@ public class RadarActivity extends MainActivity {
         type = intent.getStringExtra("type");
         location = intent.getStringExtra("location");
         loop = intent.getBooleanExtra("loop", false);
+        enhanced = intent.getBooleanExtra("enhanced", false);
 
         navigationView = findViewById(R.id.nav_view);
 
@@ -62,7 +64,11 @@ public class RadarActivity extends MainActivity {
         radarWebView.getSettings().setDomStorageEnabled(true);
         radarWebView.getSettings().setSupportZoom(true);
 
-        radarWebView.loadData(displayLiteImage(location, type, loop), "text/html", null);
+        if (enhanced) {
+            radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
+        } else {
+            radarWebView.loadData(displayLiteImage(location, type, loop), "text/html", null);
+        }
     }
 
     @Override
@@ -74,7 +80,7 @@ public class RadarActivity extends MainActivity {
         setDefault = actionsMenu.findItem(R.id.action_set_default);
         removeDefault = actionsMenu.findItem(R.id.action_remove_default);
 
-        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop);
+        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop, enhanced);
 
         if (favorites.size() > 0) {
             addFavorite.setVisible(false);
@@ -86,8 +92,10 @@ public class RadarActivity extends MainActivity {
         String defaultLocation = settings.getString("default_location","BMX");
         String defaultType = settings.getString("default_type","N0R");
         Boolean defaultLoop = settings.getBoolean("default_loop",false);
+        Boolean defaultEnhanced = settings.getBoolean("default_enhanced",false);
 
-        if (defaultRadar && defaultLocation.equals(location) && defaultType.equals(type) && defaultLoop == loop) {
+        if (defaultRadar && defaultLocation.equals(location) && defaultType.equals(type)
+                && defaultLoop == loop && defaultEnhanced == enhanced) {
             setDefault.setVisible(false);
         } else {
             removeDefault.setVisible(false);
@@ -108,7 +116,7 @@ public class RadarActivity extends MainActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
-                            List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop);
+                            List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop, enhanced);
                             for (Favorite favorite : favorites) {
                                 settingsDB.favoriteDao().delete(favorite);
                             }
@@ -134,6 +142,7 @@ public class RadarActivity extends MainActivity {
             editor.putString("default_location", location);
             editor.putString("default_type", type);
             editor.putBoolean("default_loop", loop);
+            editor.putBoolean("default_enhanced", enhanced);
             editor.apply();
 
             setDefault.setVisible(false);
@@ -193,6 +202,7 @@ public class RadarActivity extends MainActivity {
                     favorite.setLocation(location);
                     favorite.setType(type);
                     favorite.setLoop(loop);
+                    favorite.setEnhanced(enhanced);
                     settingsDB.favoriteDao().insertAll(favorite);
 
                     addFavorite.setVisible(false);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -41,8 +42,24 @@ public class SelectActivity extends MainActivity {
         index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
         locationSpinner.setSelection(index);
 
-        Switch loopSwitch = findViewById(R.id.loopSwitch);
+        final Switch loopSwitch = findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_loop",false));
+
+        Switch enhancedSwitch = findViewById(R.id.enhancedSwitch);
+        if (settings.getBoolean("last_enhanced",false)) {
+            enhancedSwitch.setChecked(true);
+            loopSwitch.setEnabled(false);
+        }
+
+        enhancedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    loopSwitch.setEnabled(false);
+                } else {
+                    loopSwitch.setEnabled(true);
+                }
+            }
+        });
     }
 
     public void viewRadar(View v) {
@@ -51,19 +68,25 @@ public class SelectActivity extends MainActivity {
         Spinner typeSpinner = findViewById(R.id.typeSpinner);
         Spinner locationSpinner = findViewById(R.id.locationSpinner);
         Switch loopSwitch = findViewById(R.id.loopSwitch);
+        Switch enhancedSwitch = findViewById(R.id.enhancedSwitch);
 
         String location = getResources().getStringArray(R.array.location_values)[locationSpinner.getSelectedItemPosition()];
         String type = getResources().getStringArray(R.array.type_values)[typeSpinner.getSelectedItemPosition()];
         Boolean loop = loopSwitch.isChecked();
+        Boolean enhanced = enhancedSwitch.isChecked();
+
+        if (enhanced) loop = false;
 
         radarIntent.putExtra("type", type);
         radarIntent.putExtra("location", location);
         radarIntent.putExtra("loop", loop);
+        radarIntent.putExtra("enhanced", enhanced);
 
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("last_location", location);
         editor.putString("last_type", type);
         editor.putBoolean("last_loop", loop);
+        editor.putBoolean("last_enhanced", enhanced);
         editor.apply();
 
         SelectActivity.this.startActivity(radarIntent);

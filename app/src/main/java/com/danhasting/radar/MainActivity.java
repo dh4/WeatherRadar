@@ -73,7 +73,8 @@ public class MainActivity extends AppCompatActivity
         } else {
             Favorite favorite = settingsDB.favoriteDao().loadById(id);
             if (favorite != null) {
-                startFavoriteView(favorite.getLocation(), favorite.getType(), favorite.getLoop());
+                startFavoriteView(favorite.getLocation(), favorite.getType(),
+                        favorite.getLoop(), favorite.getEnhanced());
             }
         }
 
@@ -113,19 +114,22 @@ public class MainActivity extends AppCompatActivity
         String location = settings.getString("default_location","BMX");
         String type = settings.getString("default_type","N0R");
         Boolean loop = settings.getBoolean("default_loop",false);
+        Boolean enhanced = settings.getBoolean("default_enhanced",false);
 
         Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
         radarIntent.putExtra("location", location);
         radarIntent.putExtra("type", type);
         radarIntent.putExtra("loop", loop);
+        radarIntent.putExtra("enhanced", enhanced);
         MainActivity.this.startActivity(radarIntent);
     }
 
-    private void startFavoriteView(String location, String type, Boolean loop) {
+    private void startFavoriteView(String location, String type, Boolean loop, Boolean enhanced) {
         Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
         radarIntent.putExtra("location", location);
         radarIntent.putExtra("type", type);
         radarIntent.putExtra("loop", loop);
+        radarIntent.putExtra("enhanced", enhanced);
         MainActivity.this.startActivity(radarIntent);
     }
 }

@@ -15,4 +15,7 @@
     <string name="nav_default">View Default</string>
     <string name="nav_favorites">Favorites</string>
     <string name="confirm_favorite_removal">Are you sure you want to remove this favorite?</string>
+    <string name="type_text">Observation</string>
+    <string name="location_text">Location</string>
+    <string name="enhanced">Enhanced (loop not available)</string>
 </resources>

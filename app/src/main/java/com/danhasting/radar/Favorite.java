@@ -21,6 +21,9 @@ public class Favorite {
     @ColumnInfo(name = "loop")
     private Boolean loop;
 
+    @ColumnInfo(name = "enhanced")
+    private Boolean enhanced;
+
     public int getUid() {
         return uid;
     }
@@ -59,6 +62,14 @@ public class Favorite {
 
     public void setLoop(Boolean loop) {
         this.loop = loop;
+    }
+
+    public Boolean getEnhanced() {
+        return enhanced;
+    }
+
+    public void setEnhanced(Boolean enhanced) {
+        this.enhanced = enhanced;
     }
 }
 
