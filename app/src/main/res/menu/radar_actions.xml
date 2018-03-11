@@ -4,11 +4,13 @@
     <item
         android:id="@+id/action_add_favorite"
         android:title="@string/action_add_favorite"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_star_border"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_remove_favorite"
         android:title="@string/action_remove_favorite"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_star"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_set_default"
         android:title="@string/action_set_default"

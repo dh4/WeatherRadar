@@ -90,7 +90,6 @@ public class RadarActivity extends MainActivity {
         if (defaultRadar && defaultLocation.equals(location) && defaultType.equals(type) && defaultLoop == loop) {
             setDefault.setVisible(false);
         } else {
-
             removeDefault.setVisible(false);
         }
 
@@ -104,14 +103,31 @@ public class RadarActivity extends MainActivity {
         if (id == R.id.action_add_favorite) {
             addFavoriteDialog();
         } else if (id == R.id.action_remove_favorite) {
-            List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop);
-            for (Favorite favorite : favorites) {
-                settingsDB.favoriteDao().delete(favorite);
-            }
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop);
+                            for (Favorite favorite : favorites) {
+                                settingsDB.favoriteDao().delete(favorite);
+                            }
 
-            addFavorite.setVisible(true);
-            removeFavorite.setVisible(false);
-            populateFavorites(navigationView.getMenu());
+                            addFavorite.setVisible(true);
+                            removeFavorite.setVisible(false);
+                            populateFavorites(navigationView.getMenu());
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.confirm_favorite_removal).setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
         } else if (id == R.id.action_set_default) {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("default", true);
