@@ -1,17 +1,23 @@
 package com.danhasting.radar;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.EditText;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class RadarActivity extends MainActivity {
 
@@ -20,6 +26,12 @@ public class RadarActivity extends MainActivity {
     private Boolean loop;
 
     private Menu actionsMenu;
+
+    MenuItem addFavorite;
+    MenuItem removeFavorite;
+    MenuItem setDefault;
+    MenuItem removeDefault;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +45,8 @@ public class RadarActivity extends MainActivity {
         location = intent.getStringExtra("location");
         loop = intent.getBooleanExtra("loop", false);
 
+        navigationView = findViewById(R.id.nav_view);
+
         WebView radarWebView = findViewById(R.id.radarWebView);
         radarWebView.getSettings().setLoadWithOverviewMode(true);
         radarWebView.getSettings().setUseWideViewPort(true);
@@ -44,9 +58,18 @@ public class RadarActivity extends MainActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.radar_actions, menu);
         actionsMenu = menu;
+        addFavorite = actionsMenu.findItem(R.id.action_add_favorite);
+        removeFavorite = actionsMenu.findItem(R.id.action_remove_favorite);
+        setDefault = actionsMenu.findItem(R.id.action_set_default);
+        removeDefault = actionsMenu.findItem(R.id.action_remove_default);
 
-        MenuItem removeFavorite = menu.findItem(R.id.action_remove_favorite);
-        removeFavorite.setVisible(false);
+        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop);
+
+        if (favorites.size() > 0) {
+            addFavorite.setVisible(false);
+        } else {
+            removeFavorite.setVisible(false);
+        }
 
         Boolean defaultRadar = settings.getBoolean("default", false);
         String defaultLocation = settings.getString("default_location","BMX");
@@ -54,10 +77,9 @@ public class RadarActivity extends MainActivity {
         Boolean defaultLoop = settings.getBoolean("default_loop",false);
 
         if (defaultRadar && defaultLocation.equals(location) && defaultType.equals(type) && defaultLoop == loop) {
-            MenuItem setDefault = menu.findItem(R.id.action_set_default);
             setDefault.setVisible(false);
         } else {
-            MenuItem removeDefault = menu.findItem(R.id.action_remove_default);
+
             removeDefault.setVisible(false);
         }
 
@@ -69,7 +91,16 @@ public class RadarActivity extends MainActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_add_favorite) {
-            return true;
+            addFavoriteDialog();
+        } else if (id == R.id.action_remove_favorite) {
+            List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop);
+            for (Favorite favorite : favorites) {
+                settingsDB.favoriteDao().delete(favorite);
+            }
+
+            addFavorite.setVisible(true);
+            removeFavorite.setVisible(false);
+            populateFavorites(navigationView.getMenu());
         } else if (id == R.id.action_set_default) {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("default", true);
@@ -78,22 +109,74 @@ public class RadarActivity extends MainActivity {
             editor.putBoolean("default_loop", loop);
             editor.apply();
 
-            MenuItem setDefault = actionsMenu.findItem(R.id.action_set_default);
             setDefault.setVisible(false);
-            MenuItem removeDefault = actionsMenu.findItem(R.id.action_remove_default);
             removeDefault.setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_default).setVisible(true);
         } else if (id == R.id.action_remove_default) {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("default", false);
             editor.apply();
 
-            MenuItem setDefault = actionsMenu.findItem(R.id.action_set_default);
             setDefault.setVisible(true);
-            MenuItem removeDefault = actionsMenu.findItem(R.id.action_remove_default);
             removeDefault.setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_default).setVisible(false);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addFavoriteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Favorite");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        int index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
+        input.setText(getResources().getStringArray(R.array.location_names)[index]);
+
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing as we will override below
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                String name = input.getText().toString();
+                Favorite exists = settingsDB.favoriteDao().findByName(name);
+                if (name.equals("")) {
+                    input.setError(getString(R.string.empty_name_error));
+                } else if (exists != null) {
+                    input.setError(getString(R.string.already_exists_error));
+                } else {
+                    Favorite favorite = new Favorite();
+                    favorite.setName(input.getText().toString());
+                    favorite.setLocation(location);
+                    favorite.setType(type);
+                    favorite.setLoop(loop);
+                    settingsDB.favoriteDao().insertAll(favorite);
+
+                    addFavorite.setVisible(false);
+                    removeFavorite.setVisible(true);
+                    populateFavorites(navigationView.getMenu());
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
     public String displayMosaicImage(String mosaic, Boolean loop) {
