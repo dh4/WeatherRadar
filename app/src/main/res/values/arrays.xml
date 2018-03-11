@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="type_names">
+        <item>Base Reflectivity</item>
+        <item>Composite Reflectivity</item>
+        <item>Base Velocity</item>
+        <item>Storm Relative Velocity</item>
+        <item>1-Hour Rainfall Total</item>
+        <item>Storm Rainfall Total</item>
+        <item>Long Range Base Reflectivity</item>
+    </array>
+    <array name="type_values">
+        <item>N0R</item>
+        <item>NCR</item>
+        <item>N0V</item>
+        <item>N0S</item>
+        <item>N1P</item>
+        <item>NTP</item>
+        <item>N0Z</item>
+    </array>
+
+    <array name="location_names">
+        <item>Alabama / Birmingham</item>
+        <item>Alabama / E. Alabama</item>
+        <item>Alabama / Fort Rucker</item>
+        <item>Alabama / Mobile</item>
+        <item>Alabama / Nrn. Alabama</item>
+        <item>Alaska / Bethel</item>
+        <item>Alaska / Biorka Is.</item>
+        <item>Alaska / Fairbanks</item>
+        <item>Alaska / Kenai</item>
+        <item>Alaska / King Salmon</item>
+        <item>Alaska / Middleton Is.</item>
+        <item>Alaska / Nome</item>
+        <item>Alaska / Pedro Dome</item>
+        <item>Alaska / Sitka</item>
+        <item>Arizona / Flagstaff</item>
+        <item>Arizona / Phoenix</item>
+        <item>Arizona / Tucson</item>
+        <item>Arizona / Yuma</item>
+        <item>Arkansas / Little Rock</item>
+        <item>Arkansas / W. Ark./Ft. Smith</item>
+        <item>California / Beale AFB</item>
+        <item>California / Edwards AFB</item>
+        <item>California / Eureka</item>
+        <item>California / Hanford</item>
+        <item>California / Los Angeles</item>
+        <item>California / Sacramento</item>
+        <item>California / San Diego</item>
+        <item>California / San Francisco</item>
+        <item>California / San Joaquin Vly.</item>
+        <item>California / Santa Ana Mtns</item>
+        <item>California / Vandenberg AFB</item>
+        <item>Colorado / Denver/Boulder</item>
+        <item>Colorado / Grand Junction</item>
+        <item>Colorado / Pueblo</item>
+        <item>Delaware / Dover AFB</item>
+        <item>Florida / Eglin AFB</item>
+        <item>Florida / Jacksonville</item>
+        <item>Florida / Key West</item>
+        <item>Florida / Melbourne</item>
+        <item>Florida / Miami</item>
+        <item>Florida / NW Florida</item>
+        <item>Florida / Tallahassee</item>
+        <item>Florida / Tampa Bay Area</item>
+        <item>Georgia / Atlanta</item>
+        <item>Georgia / Moody AFB</item>
+        <item>Georgia / Peachtree City</item>
+        <item>Georgia / Robins AFB</item>
+        <item>Guam / Andersen AFB</item>
+        <item>Hawaii / Kauai</item>
+        <item>Hawaii / Kohala</item>
+        <item>Hawaii / Molokai</item>
+        <item>Hawaii / South Shore</item>
+        <item>Idaho / Boise</item>
+        <item>Idaho / Pocatello</item>
+        <item>Illinois / Central IL</item>
+        <item>Illinois / Chicago</item>
+        <item>Indiana / Evansville</item>
+        <item>Indiana / Indianapolis</item>
+        <item>Indiana / Nrn. Indiana</item>
+        <item>Iowa / Des Moines</item>
+        <item>Iowa / Quad Cities</item>
+        <item>Kansas / Dodge City</item>
+        <item>Kansas / Goodland</item>
+        <item>Kansas / Topeka</item>
+        <item>Kansas / Wichita</item>
+        <item>Kentucky / Fort Cambell</item>
+        <item>Kentucky / Jackson</item>
+        <item>Kentucky / Louisville</item>
+        <item>Kentucky / Paducah</item>
+        <item>Louisiana / Fort Polk</item>
+        <item>Louisiana / Lake Charles</item>
+        <item>Louisiana / New Orleans</item>
+        <item>Louisiana / Shreveport</item>
+        <item>Maine / Caribou</item>
+        <item>Maine / Portland</item>
+        <item>Maryland / Baltimore</item>
+        <item>Massachusetts / Boston</item>
+        <item>Michigan / Detroit</item>
+        <item>Michigan / Gaylord</item>
+        <item>Michigan / Grand Rapids</item>
+        <item>Michigan / Marquette</item>
+        <item>Minnesota / Duluth</item>
+        <item>Minnesota / Minneapolis</item>
+        <item>Mississippi / Columbus AFB</item>
+        <item>Mississippi / Jackson/Brandon</item>
+        <item>Missouri / Kansas City</item>
+        <item>Missouri / Springfield</item>
+        <item>Missouri / St. Louis</item>
+        <item>Montana / Billings</item>
+        <item>Montana / Glasgow</item>
+        <item>Montana / Great Falls</item>
+        <item>Montana / Missoula</item>
+        <item>Nebraska / Hastings</item>
+        <item>Nebraska / North Platte</item>
+        <item>Nebraska / Omaha</item>
+        <item>Nevada / Elko</item>
+        <item>Nevada / Las Vegas</item>
+        <item>Nevada / Reno</item>
+        <item>New Jersey / Mt. Holly</item>
+        <item>New Mexico / Albuquerque</item>
+        <item>New Mexico / Cannon AFB</item>
+        <item>New Mexico / Holloman AFB</item>
+        <item>New York / Albany</item>
+        <item>New York / Binghamton</item>
+        <item>New York / Buffalo</item>
+        <item>New York / Montague</item>
+        <item>New York / New York City</item>
+        <item>New York / Upton</item>
+        <item>North Carolina / Durham</item>
+        <item>North Carolina / Morehead City</item>
+        <item>North Carolina / Raleigh</item>
+        <item>North Carolina / Wilmington</item>
+        <item>North Dakota / Bismarck</item>
+        <item>North Dakota / Grand Forks</item>
+        <item>North Dakota / Minot AFB</item>
+        <item>Ohio / Cincinnati</item>
+        <item>Ohio / Cleveland</item>
+        <item>Ohio / Dayton</item>
+        <item>Ohio / Wilmington</item>
+        <item>Oklahoma / Frederick</item>
+        <item>Oklahoma / Oklahoma City</item>
+        <item>Oklahoma / Tulsa</item>
+        <item>Oklahoma / Vance AFB</item>
+        <item>Oregon / Medford</item>
+        <item>Oregon / Pendleton</item>
+        <item>Oregon / Portland</item>
+        <item>Pennsylvania / Philadelphia</item>
+        <item>Pennsylvania / Pittsburgh</item>
+        <item>Pennsylvania / State College</item>
+        <item>Puerto Rico / Puerto Rico/V.I.</item>
+        <item>South Carolina / Charleston</item>
+        <item>South Carolina / Columbia</item>
+        <item>South Carolina / Greenville</item>
+        <item>South Carolina / Spartanburg</item>
+        <item>South Carolina / Greer</item>
+        <item>South Dakota / Aberdeen</item>
+        <item>South Dakota / Rapid City</item>
+        <item>South Dakota / Sioux falls</item>
+        <item>Tennessee / Knoxville</item>
+        <item>Tennessee / Memphis</item>
+        <item>Tennessee / Morristown</item>
+        <item>Tennessee / Nashville</item>
+        <item>Tennessee / Tri Cities</item>
+        <item>Texas / Amarillo</item>
+        <item>Texas / Austin</item>
+        <item>Texas / Brownsville</item>
+        <item>Texas / Central Texas</item>
+        <item>Texas / Corpus Christi</item>
+        <item>Texas / Dallas</item>
+        <item>Texas / Dyess AFB</item>
+        <item>Texas / El Paso</item>
+        <item>Texas / Fort Worth</item>
+        <item>Texas / Galveston</item>
+        <item>Texas / Houston</item>
+        <item>Texas / Laughlin AFB</item>
+        <item>Texas / Lubbock</item>
+        <item>Texas / Midland/Odessa</item>
+        <item>Texas / San Angelo</item>
+        <item>Texas / San Antonio</item>
+        <item>Utah / Cedar City</item>
+        <item>Utah / Salt Lake City</item>
+        <item>Vermont / Burlington</item>
+        <item>Virginia / Blacksburg</item>
+        <item>Virginia / Norfolk</item>
+        <item>Virginia / Richmond</item>
+        <item>Virginia / Roanoke</item>
+        <item>Virginia / Sterling</item>
+        <item>Virginia / Wakefield</item>
+        <item>Washington / Langley Hill</item>
+        <item>Washington / Seattle</item>
+        <item>Washington / Spokane</item>
+        <item>Washington / Tacoma</item>
+        <item>Washington DC / Washington</item>
+        <item>West Virginia / Charleston</item>
+        <item>Wisconsin / Green Bay</item>
+        <item>Wisconsin / La Crosse</item>
+        <item>Wisconsin / Milwaukee</item>
+        <item>Wyoming / Cheyenne</item>
+        <item>Wyoming / Riverton</item>
+    </array>
+
+    <array name="location_values">
+        <item>BMX</item>
+        <item>MXX</item>
+        <item>EOX</item>
+        <item>MOB</item>
+        <item>HTX</item>
+        <item>ABC</item>
+        <item>ACG</item>
+        <item>APD</item>
+        <item>AHG</item>
+        <item>AKC</item>
+        <item>AIH</item>
+        <item>AEC</item>
+        <item>APD</item>
+        <item>ACG</item>
+        <item>FSX</item>
+        <item>IWA</item>
+        <item>EMX</item>
+        <item>YUX</item>
+        <item>LZK</item>
+        <item>SRX</item>
+        <item>BBX</item>
+        <item>EYX</item>
+        <item>BHX</item>
+        <item>HNX</item>
+        <item>VTX</item>
+        <item>DAX</item>
+        <item>NKX</item>
+        <item>MUX</item>
+        <item>HNX</item>
+        <item>SOX</item>
+        <item>VBX</item>
+        <item>FTG</item>
+        <item>GJX</item>
+        <item>PUX</item>
+        <item>DOX</item>
+        <item>EVX</item>
+        <item>JAX</item>
+        <item>BYX</item>
+        <item>MLB</item>
+        <item>AMX</item>
+        <item>EVX</item>
+        <item>TLH</item>
+        <item>TBW</item>
+        <item>FFC</item>
+        <item>VAX</item>
+        <item>FFC</item>
+        <item>JGX</item>
+        <item>GUA</item>
+        <item>HKI</item>
+        <item>HKM</item>
+        <item>HMO</item>
+        <item>HWA</item>
+        <item>CBX</item>
+        <item>SFX</item>
+        <item>ILX</item>
+        <item>LOT</item>
+        <item>VWX</item>
+        <item>IND</item>
+        <item>IWX</item>
+        <item>DMX</item>
+        <item>DVN</item>
+        <item>DDC</item>
+        <item>GLD</item>
+        <item>TWX</item>
+        <item>ICT</item>
+        <item>HPX</item>
+        <item>JKL</item>
+        <item>LVX</item>
+        <item>PAH</item>
+        <item>POE</item>
+        <item>LCH</item>
+        <item>LIX</item>
+        <item>SHV</item>
+        <item>CBW</item>
+        <item>GYX</item>
+        <item>LWX</item>
+        <item>BOX</item>
+        <item>DTX</item>
+        <item>APX</item>
+        <item>GRR</item>
+        <item>MQT</item>
+        <item>DLH</item>
+        <item>MPX</item>
+        <item>GWX</item>
+        <item>DGX</item>
+        <item>EAX</item>
+        <item>SGF</item>
+        <item>LSX</item>
+        <item>BLX</item>
+        <item>GGW</item>
+        <item>TFX</item>
+        <item>MSX</item>
+        <item>UEX</item>
+        <item>LNX</item>
+        <item>OAX</item>
+        <item>LRX</item>
+        <item>ESX</item>
+        <item>RGX</item>
+        <item>DIX</item>
+        <item>ABX</item>
+        <item>FDX</item>
+        <item>HDX</item>
+        <item>ENX</item>
+        <item>BGM</item>
+        <item>BUF</item>
+        <item>TYX</item>
+        <item>OKX</item>
+        <item>OKX</item>
+        <item>RAX</item>
+        <item>MHX</item>
+        <item>RAX</item>
+        <item>LTX</item>
+        <item>BIS</item>
+        <item>MVX</item>
+        <item>MBX</item>
+        <item>ILN</item>
+        <item>CLE</item>
+        <item>ILN</item>
+        <item>ILN</item>
+        <item>FDR</item>
+        <item>TLX</item>
+        <item>INX</item>
+        <item>VNX</item>
+        <item>MAX</item>
+        <item>PDT</item>
+        <item>RTX</item>
+        <item>DIX</item>
+        <item>PBZ</item>
+        <item>CCX</item>
+        <item>JUA</item>
+        <item>CLX</item>
+        <item>CAE</item>
+        <item>GSP</item>
+        <item>GSP</item>
+        <item>GSP</item>
+        <item>ABR</item>
+        <item>UDX</item>
+        <item>FSD</item>
+        <item>MRX</item>
+        <item>NQA</item>
+        <item>MRX</item>
+        <item>OHX</item>
+        <item>MRX</item>
+        <item>AMA</item>
+        <item>EWX</item>
+        <item>BRO</item>
+        <item>GRK</item>
+        <item>CRP</item>
+        <item>FWS</item>
+        <item>DYX</item>
+        <item>EPZ</item>
+        <item>FWS</item>
+        <item>HGX</item>
+        <item>HGX</item>
+        <item>DFX</item>
+        <item>LBB</item>
+        <item>MAF</item>
+        <item>SJT</item>
+        <item>EWX</item>
+        <item>ICX</item>
+        <item>MTX</item>
+        <item>CXX</item>
+        <item>FCX</item>
+        <item>AKQ</item>
+        <item>AKQ</item>
+        <item>FCX</item>
+        <item>LWX</item>
+        <item>AKQ</item>
+        <item>LGX</item>
+        <item>ATX</item>
+        <item>OTX</item>
+        <item>ATX</item>
+        <item>LWX</item>
+        <item>RLX</item>
+        <item>GRB</item>
+        <item>ARX</item>
+        <item>MKX</item>
+        <item>CYS</item>
+        <item>RIW</item>
+    </array>
+</resources>
