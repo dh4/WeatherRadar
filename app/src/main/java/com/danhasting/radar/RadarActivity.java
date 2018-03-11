@@ -25,13 +25,15 @@ public class RadarActivity extends MainActivity {
     private String location;
     private Boolean loop;
 
+    private String radarName;
+
     private Menu actionsMenu;
 
-    MenuItem addFavorite;
-    MenuItem removeFavorite;
-    MenuItem setDefault;
-    MenuItem removeDefault;
-    NavigationView navigationView;
+    private MenuItem addFavorite;
+    private MenuItem removeFavorite;
+    private MenuItem setDefault;
+    private MenuItem removeDefault;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,10 @@ public class RadarActivity extends MainActivity {
         loop = intent.getBooleanExtra("loop", false);
 
         navigationView = findViewById(R.id.nav_view);
+
+        int index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
+        radarName = getResources().getStringArray(R.array.location_names)[index];
+        setTitle(radarName);
 
         WebView radarWebView = findViewById(R.id.radarWebView);
         radarWebView.getSettings().setLoadWithOverviewMode(true);
@@ -131,10 +137,8 @@ public class RadarActivity extends MainActivity {
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(radarName);
         builder.setView(input);
-
-        int index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
-        input.setText(getResources().getStringArray(R.array.location_names)[index]);
 
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override

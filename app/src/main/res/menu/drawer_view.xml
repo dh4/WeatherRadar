@@ -3,19 +3,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_select"
-            android:title="Select Radar" />
+            android:title="@string/nav_select" />
 
         <item
             android:id="@+id/nav_default"
-            android:title="View Default" />
+            android:title="@string/nav_default" />
 
         <item
             android:id="@+id/nav_favorites"
             android:titleCondensed="Favorites"
-            android:title="Favorites">
-            <menu>
-                <item android:id="@+id/item1" android:title="Placeholder"></item>
-            </menu>
+            android:title="@string/nav_favorites">
+            <menu />
         </item>
     </group>
 </menu>

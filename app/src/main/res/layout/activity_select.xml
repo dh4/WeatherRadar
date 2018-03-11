@@ -24,7 +24,7 @@
             android:id="@+id/loopSwitch"
             android:layout_width="match_parent"
             android:layout_height="41dp"
-            android:text="Loop"
+            android:text="@string/loop"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             tools:layout_marginTop="10dp" />
@@ -41,7 +41,7 @@
             android:id="@+id/viewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Radar"
+            android:text="@string/view_radar_image"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             tools:layout_marginTop="10dp"
