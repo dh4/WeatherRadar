@@ -1,46 +1,65 @@
 package com.danhasting.radar;
 
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Switch;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
+    protected DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Spinner typeSpinner = findViewById(R.id.typeSpinner);
-        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(
-                this, R.array.type_names, android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(typeAdapter);
 
-        Spinner locationSpinner = findViewById(R.id.locationSpinner);
-        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(
-                this, R.array.location_names, android.R.layout.simple_spinner_dropdown_item);
-        locationSpinner.setAdapter(locationAdapter);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public void viewRadar(View v) {
-        Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        // set item as selected to persist highlight
+        menuItem.setChecked(true);
+        // close drawer when item is tapped
+        mDrawerLayout.closeDrawers();
 
-        Spinner typeSpinner = findViewById(R.id.typeSpinner);
-        radarIntent.putExtra("type",
-                getResources().getStringArray(R.array.type_values)[typeSpinner.getSelectedItemPosition()]);
+        // Add code here to update the UI based on the item selected
+        // For example, swap UI fragments here
+        int id = menuItem.getItemId();
 
-        Spinner locationSpinner = findViewById(R.id.locationSpinner);
-        radarIntent.putExtra("location",
-                getResources().getStringArray(R.array.location_values)[locationSpinner.getSelectedItemPosition()]);
+        if (id == R.id.nav_select) {
+            Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+            MainActivity.this.startActivity(selectIntent);
+        }
 
-        Switch loopSwitch = findViewById(R.id.loopSwitch);
-        radarIntent.putExtra("loop", loopSwitch.isChecked());
+        return true;
+    }
 
-        MainActivity.this.startActivity(radarIntent);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

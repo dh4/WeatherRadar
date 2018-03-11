@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Radar</string>
+    <string name="header_title">NWS Radar Images</string>
 </resources>
