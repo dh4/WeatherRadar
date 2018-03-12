@@ -189,7 +189,11 @@ public class RadarActivity extends MainActivity {
     public String displayMosaicImage(String mosaic, Boolean loop) {
         String url = "https://radar.weather.gov/Conus/";
         if (loop) {
-            url += "Loop/"+mosaic+"_loop.gif";
+            if (mosaic.equals("latest")) {
+                url += "Loop/NatLoop.gif";
+            } else {
+                url += "Loop/" + mosaic + "_loop.gif";
+            }
         } else {
             url += "RadarImg/"+mosaic+".gif";
         }
