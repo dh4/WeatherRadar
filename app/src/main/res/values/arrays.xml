@@ -21,23 +21,23 @@
 
     <array name="location_names">
         <item>Alabama / Birmingham</item>
-        <item>Alabama / E. Alabama</item>
+        <item>Alabama / Eastern Alabama</item>
         <item>Alabama / Fort Rucker</item>
         <item>Alabama / Mobile</item>
-        <item>Alabama / Nrn. Alabama</item>
+        <item>Alabama / Northern Alabama</item>
         <item>Alaska / Bethel</item>
         <item>Alaska / Fairbanks</item>
         <item>Alaska / Kenai</item>
         <item>Alaska / King Salmon</item>
-        <item>Alaska / Middleton Is.</item>
+        <item>Alaska / Middleton Island</item>
         <item>Alaska / Nome</item>
         <item>Alaska / Sitka</item>
         <item>Arizona / Flagstaff</item>
         <item>Arizona / Phoenix</item>
         <item>Arizona / Tucson</item>
         <item>Arizona / Yuma</item>
+        <item>Arkansas / Fort Smith</item>
         <item>Arkansas / Little Rock</item>
-        <item>Arkansas / W. Ark./Ft. Smith</item>
         <item>California / Beale AFB</item>
         <item>California / Edwards AFB</item>
         <item>California / Eureka</item>
@@ -46,34 +46,34 @@
         <item>California / Sacramento</item>
         <item>California / San Diego</item>
         <item>California / San Francisco</item>
-        <item>California / Santa Ana Mtns</item>
+        <item>California / Santa Ana Mountains</item>
         <item>California / Vandenberg AFB</item>
-        <item>Colorado / Denver/Boulder</item>
+        <item>Colorado / Denver</item>
         <item>Colorado / Grand Junction</item>
         <item>Colorado / Pueblo</item>
-        <item>Delaware / Dover AFB</item>
+        <item>Delaware / Dover</item>
         <item>Florida / Jacksonville</item>
         <item>Florida / Key West</item>
         <item>Florida / Melbourne</item>
         <item>Florida / Miami</item>
-        <item>Florida / NW Florida</item>
+        <item>Florida / Northwest Florida</item>
         <item>Florida / Tallahassee</item>
         <item>Florida / Tampa Bay Area</item>
         <item>Georgia / Atlanta</item>
         <item>Georgia / Moody AFB</item>
         <item>Georgia / Robins AFB</item>
-        <item>Guam / Andersen AFB</item>
+        <item>Guam</item>
         <item>Hawaii / Kauai</item>
         <item>Hawaii / Kohala</item>
         <item>Hawaii / Molokai</item>
         <item>Hawaii / South Shore</item>
         <item>Idaho / Boise</item>
         <item>Idaho / Pocatello</item>
-        <item>Illinois / Central IL</item>
+        <item>Illinois / Central Illinois</item>
         <item>Illinois / Chicago</item>
         <item>Indiana / Evansville</item>
         <item>Indiana / Indianapolis</item>
-        <item>Indiana / Nrn. Indiana</item>
+        <item>Indiana / Northern Indiana</item>
         <item>Iowa / Des Moines</item>
         <item>Iowa / Quad Cities</item>
         <item>Kansas / Dodge City</item>
@@ -138,13 +138,13 @@
         <item>Pennsylvania / Philadelphia</item>
         <item>Pennsylvania / Pittsburgh</item>
         <item>Pennsylvania / State College</item>
-        <item>Puerto Rico / Puerto Rico/V.I.</item>
+        <item>Puerto Rico</item>
         <item>South Carolina / Charleston</item>
         <item>South Carolina / Columbia</item>
         <item>South Carolina / Greenville</item>
         <item>South Dakota / Aberdeen</item>
         <item>South Dakota / Rapid City</item>
-        <item>South Dakota / Sioux falls</item>
+        <item>South Dakota / Sioux Falls</item>
         <item>Tennessee / Knoxville</item>
         <item>Tennessee / Memphis</item>
         <item>Tennessee / Nashville</item>
@@ -158,7 +158,7 @@
         <item>Texas / Houston</item>
         <item>Texas / Laughlin AFB</item>
         <item>Texas / Lubbock</item>
-        <item>Texas / Midland/Odessa</item>
+        <item>Texas / Odessa</item>
         <item>Texas / San Angelo</item>
         <item>Texas / San Antonio</item>
         <item>Utah / Cedar City</item>
@@ -169,7 +169,7 @@
         <item>Washington / Langley Hill</item>
         <item>Washington / Seattle</item>
         <item>Washington / Spokane</item>
-        <item>Washington DC / Washington</item>
+        <item>Washington D.C.</item>
         <item>West Virginia / Charleston</item>
         <item>Wisconsin / Green Bay</item>
         <item>Wisconsin / La Crosse</item>
@@ -195,8 +195,8 @@
         <item>IWA</item>
         <item>EMX</item>
         <item>YUX</item>
-        <item>LZK</item>
         <item>SRX</item>
+        <item>LZK</item>
         <item>BBX</item>
         <item>EYX</item>
         <item>BHX</item>
