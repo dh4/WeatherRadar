@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
+        } else if (id == R.id.nav_about) {
+            Intent aboutIntent = new Intent(this, AboutActivity.class);
+            startActivity(aboutIntent);
         } else {
             Favorite favorite = settingsDB.favoriteDao().loadById(id);
             if (favorite != null) {

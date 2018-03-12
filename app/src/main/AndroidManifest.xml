@@ -20,8 +20,10 @@
         </activity>
         <activity android:name=".RadarActivity" />
         <activity android:name=".SelectActivity" />
-        <activity android:name=".SettingsActivity"
+        <activity
+            android:name=".SettingsActivity"
             android:theme="@style/SettingsTheme" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>

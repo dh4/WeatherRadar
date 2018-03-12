@@ -12,6 +12,11 @@
             android:title="@string/nav_settings" />
 
         <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_help"
+            android:title="@string/nav_about" />
+
+        <item
             android:id="@+id/nav_favorites"
             android:titleCondensed="Favorites"
             android:title="@string/nav_favorites">
