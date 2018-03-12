@@ -7,6 +7,11 @@
             android:title="@string/nav_select" />
 
         <item
+            android:id="@+id/nav_mosaic"
+            android:icon="@drawable/ic_select_mosaic"
+            android:title="@string/nav_mosaic" />
+
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/nav_settings" />

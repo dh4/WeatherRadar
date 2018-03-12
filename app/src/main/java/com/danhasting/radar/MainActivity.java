@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_select) {
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
             MainActivity.this.startActivity(selectIntent);
+        } else if (id == R.id.nav_mosaic) {
+            Intent mosaicIntent = new Intent(MainActivity.this, SelectMosaicActivity.class);
+            MainActivity.this.startActivity(mosaicIntent);
         } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
@@ -76,8 +79,8 @@ public class MainActivity extends AppCompatActivity
         } else {
             Favorite favorite = settingsDB.favoriteDao().loadById(id);
             if (favorite != null) {
-                startFavoriteView(favorite.getLocation(), favorite.getType(),
-                        favorite.getLoop(), favorite.getEnhanced());
+                startFavoriteView(favorite.getLocation(), favorite.getType(), favorite.getLoop(),
+                        favorite.getEnhanced(), favorite.getMosaic());
             }
         }
 
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity
                 radarIntent.putExtra("type", favorite.getType());
                 radarIntent.putExtra("loop", favorite.getLoop());
                 radarIntent.putExtra("enhanced", favorite.getEnhanced());
+                radarIntent.putExtra("mosaic", favorite.getMosaic());
                 MainActivity.this.startActivity(radarIntent);
             } else {
                 Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
@@ -136,12 +140,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void startFavoriteView(String location, String type, Boolean loop, Boolean enhanced) {
+    private void startFavoriteView(String location, String type, Boolean loop, Boolean enhanced, Boolean mosaic) {
         Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
         radarIntent.putExtra("location", location);
         radarIntent.putExtra("type", type);
         radarIntent.putExtra("loop", loop);
         radarIntent.putExtra("enhanced", enhanced);
+        radarIntent.putExtra("mosaic", mosaic);
         MainActivity.this.startActivity(radarIntent);
     }
 }

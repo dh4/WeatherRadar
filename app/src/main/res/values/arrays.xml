@@ -382,4 +382,36 @@
         <item>CYS</item>
         <item>RIW</item>
     </array>
+
+    <array name="mosaic_names">
+        <item>Alaska</item>
+        <item>Central Great Lakes</item>
+        <item>Hawaii</item>
+        <item>National</item>
+        <item>Northeast</item>
+        <item>Northern Rockies</item>
+        <item>Pacific Northwest</item>
+        <item>Pacific Southwest</item>
+        <item>Southeast</item>
+        <item>Southern Mississippi Valley</item>
+        <item>Southern Rockies</item>
+        <item>South Plains</item>
+        <item>Upper Mississippi Valley</item>
+    </array>
+
+    <array name="mosaic_values">
+        <item>alaska</item>
+        <item>centgrtlakes</item>
+        <item>hawaii</item>
+        <item>latest</item>
+        <item>northeast</item>
+        <item>northrockies</item>
+        <item>pacnorthwest</item>
+        <item>pacsouthwest</item>
+        <item>southeast</item>
+        <item>southmissvly</item>
+        <item>southrockies</item>
+        <item>southplains</item>
+        <item>uppermissvly</item>
+    </array>
 </resources>

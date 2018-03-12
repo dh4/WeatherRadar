@@ -24,6 +24,7 @@ public class RadarActivity extends MainActivity {
     private String location;
     private Boolean loop;
     private Boolean enhanced;
+    private Boolean mosaic;
 
     private String radarName;
 
@@ -45,11 +46,17 @@ public class RadarActivity extends MainActivity {
         location = intent.getStringExtra("location");
         loop = intent.getBooleanExtra("loop", false);
         enhanced = intent.getBooleanExtra("enhanced", false);
+        mosaic = intent.getBooleanExtra("mosaic", false);
 
         navigationView = findViewById(R.id.nav_view);
 
-        int index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
-        radarName = getResources().getStringArray(R.array.location_names)[index];
+        if (mosaic) {
+            int index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(location);
+            radarName = getResources().getStringArray(R.array.mosaic_names)[index];
+        } else {
+            int index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
+            radarName = getResources().getStringArray(R.array.location_names)[index];
+        }
         setTitle(radarName);
 
         WebView radarWebView = findViewById(R.id.radarWebView);
@@ -63,6 +70,8 @@ public class RadarActivity extends MainActivity {
 
         if (enhanced) {
             radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
+        } else if (mosaic) {
+            radarWebView.loadData(displayMosaicImage(location, loop), "text/html", null);
         } else {
             radarWebView.loadData(displayLiteImage(location, type, loop), "text/html", null);
         }
@@ -75,7 +84,7 @@ public class RadarActivity extends MainActivity {
         addFavorite = actionsMenu.findItem(R.id.action_add_favorite);
         removeFavorite = actionsMenu.findItem(R.id.action_remove_favorite);
 
-        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop, enhanced);
+        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop, enhanced, mosaic);
 
         if (favorites.size() > 0) {
             addFavorite.setVisible(false);
@@ -98,7 +107,7 @@ public class RadarActivity extends MainActivity {
                 public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop, enhanced);
+                        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop, enhanced, mosaic);
                         for (Favorite favorite : favorites) {
                             settingsDB.favoriteDao().delete(favorite);
                         }
@@ -165,6 +174,7 @@ public class RadarActivity extends MainActivity {
                     favorite.setType(type);
                     favorite.setLoop(loop);
                     favorite.setEnhanced(enhanced);
+                    favorite.setMosaic(mosaic);
                     settingsDB.favoriteDao().insertAll(favorite);
 
                     addFavorite.setVisible(false);
@@ -187,10 +197,6 @@ public class RadarActivity extends MainActivity {
         return displayRadar(url);
     }
 
-    public String displayMosaicImage(String mosaic) {
-        return displayMosaicImage(mosaic, false);
-    }
-
     public String displayLiteImage(String loc, String type, Boolean loop) {
         String url = "https://radar.weather.gov/lite/"+type+"/";
         if (loop) {
@@ -200,14 +206,6 @@ public class RadarActivity extends MainActivity {
         }
 
         return displayRadar(url);
-    }
-
-    public String displayLiteImage(String loc, String type) {
-        return displayLiteImage(loc, type, false);
-    }
-
-    public String displayLiteImage(String loc) {
-        return displayLiteImage(loc, "N0R", false);
     }
 
     public String displayRadar(String url) {

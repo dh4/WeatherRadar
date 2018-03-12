@@ -18,9 +18,9 @@ public interface FavoriteDao {
     @Query("SELECT * FROM favorite WHERE uid = :uid LIMIT 1")
     Favorite loadById(int uid);
 
-    @Query("SELECT * FROM favorite WHERE location LIKE :location AND "
-            + "type LIKE :type AND loop = :loop AND enhanced = :enhanced")
-    List<Favorite> findByData(String location, String type, Boolean loop, Boolean enhanced);
+    @Query("SELECT * FROM favorite WHERE location LIKE :location AND type LIKE :type AND "
+            + "loop = :loop AND enhanced = :enhanced AND mosaic = :mosaic")
+    List<Favorite> findByData(String location, String type, Boolean loop, Boolean enhanced, Boolean mosaic);
 
     @Query("SELECT * FROM favorite WHERE name LIKE :name LIMIT 1")
     Favorite findByName(String name);

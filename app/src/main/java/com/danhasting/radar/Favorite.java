@@ -24,6 +24,9 @@ public class Favorite {
     @ColumnInfo(name = "enhanced")
     private Boolean enhanced;
 
+    @ColumnInfo(name = "mosaic")
+    private Boolean mosaic;
+
     public int getUid() {
         return uid;
     }
@@ -70,6 +73,14 @@ public class Favorite {
 
     public void setEnhanced(Boolean enhanced) {
         this.enhanced = enhanced;
+    }
+
+    public Boolean getMosaic() {
+        return mosaic;
+    }
+
+    public void setMosaic(Boolean mosaic) {
+        this.mosaic = mosaic;
     }
 }
 
