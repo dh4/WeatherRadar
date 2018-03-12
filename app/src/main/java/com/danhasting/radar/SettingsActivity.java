@@ -10,6 +10,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,16 @@ public class SettingsActivity extends PreferenceActivity {
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         setTitle(R.string.nav_settings);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static class SettingsFragment extends PreferenceFragment
