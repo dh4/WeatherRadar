@@ -19,8 +19,10 @@ public class SelectActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_select, null, false);
-        mDrawerLayout.addView(contentView, 0);
+        if (inflater != null) {
+            View contentView = inflater.inflate(R.layout.activity_select, mDrawerLayout, false);
+            mDrawerLayout.addView(contentView, 0);
+        }
 
         setTitle(R.string.select_radar_image);
 

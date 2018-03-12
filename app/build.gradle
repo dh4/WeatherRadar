@@ -32,7 +32,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'android.arch.persistence.room:runtime:1.0.0'
+    implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
-    compile group: 'com.x5dev', name: 'chunk-templates', version: '3.3.1'
+    implementation group: 'com.x5dev', name: 'chunk-templates', version: '3.3.1'
 }

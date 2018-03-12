@@ -1,6 +1,5 @@
 package com.danhasting.radar;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -9,7 +8,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ public class SettingsActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         setTitle(R.string.nav_settings);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

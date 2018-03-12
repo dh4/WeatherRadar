@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,10 +12,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
 import android.view.WindowManager;
 
 import java.util.List;
@@ -22,9 +23,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected DrawerLayout mDrawerLayout;
-    protected SharedPreferences settings;
-    protected AppDatabase settingsDB;
+    DrawerLayout mDrawerLayout;
+    SharedPreferences settings;
+    AppDatabase settingsDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,10 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         menuItem.setChecked(true);
         mDrawerLayout.closeDrawers();
 
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    protected void populateFavorites(Menu menu) {
+    void populateFavorites(Menu menu) {
         SubMenu favMenu = menu.findItem(R.id.nav_favorites).getSubMenu();
         favMenu.clear();
         List<Favorite> favorites = settingsDB.favoriteDao().getAll();
@@ -151,4 +154,7 @@ public class MainActivity extends AppCompatActivity
         radarIntent.putExtra("name", name);
         MainActivity.this.startActivity(radarIntent);
     }
+
+    public void viewRadar(View v) {}
+    public void viewMosaic(View v) {}
 }

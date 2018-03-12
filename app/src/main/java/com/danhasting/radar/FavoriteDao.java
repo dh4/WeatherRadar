@@ -12,9 +12,6 @@ public interface FavoriteDao {
     @Query("SELECT * FROM favorite")
     List<Favorite> getAll();
 
-    @Query("SELECT * FROM favorite WHERE uid IN (:favoriteIds)")
-    List<Favorite> loadAllByIds(int[] favoriteIds);
-
     @Query("SELECT * FROM favorite WHERE uid = :uid LIMIT 1")
     Favorite loadById(int uid);
 

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,8 +31,6 @@ public class RadarActivity extends MainActivity {
 
     private String radarName;
 
-    private Menu actionsMenu;
-
     private MenuItem addFavorite;
     private MenuItem removeFavorite;
     private NavigationView navigationView;
@@ -42,8 +39,10 @@ public class RadarActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_radar, null, false);
-        mDrawerLayout.addView(contentView, 0);
+        if (inflater != null) {
+            View contentView = inflater.inflate(R.layout.activity_radar, mDrawerLayout, false);
+            mDrawerLayout.addView(contentView, 0);
+        }
 
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
@@ -89,9 +88,9 @@ public class RadarActivity extends MainActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.radar_actions, menu);
-        actionsMenu = menu;
-        addFavorite = actionsMenu.findItem(R.id.action_add_favorite);
-        removeFavorite = actionsMenu.findItem(R.id.action_remove_favorite);
+
+        addFavorite = menu.findItem(R.id.action_add_favorite);
+        removeFavorite = menu.findItem(R.id.action_remove_favorite);
 
         List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop, enhanced, mosaic);
 
@@ -141,7 +140,7 @@ public class RadarActivity extends MainActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addFavoriteDialog() {
+    private void addFavoriteDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Favorite");
 
@@ -195,7 +194,7 @@ public class RadarActivity extends MainActivity {
         });
     }
 
-    public String displayMosaicImage(String mosaic, Boolean loop) {
+    private String displayMosaicImage(String mosaic, Boolean loop) {
         String url = "https://radar.weather.gov/Conus/";
         if (loop) {
             if (mosaic.equals("latest")) {
@@ -210,7 +209,7 @@ public class RadarActivity extends MainActivity {
         return displayRadar(url);
     }
 
-    public String displayLiteImage(String loc, String type, Boolean loop) {
+    private String displayLiteImage(String loc, String type, Boolean loop) {
         String url = "https://radar.weather.gov/lite/"+type+"/";
         if (loop) {
             url += loc+"_loop.gif";
@@ -221,7 +220,7 @@ public class RadarActivity extends MainActivity {
         return displayRadar(url);
     }
 
-    public String displayRadar(String url) {
+    private String displayRadar(String url) {
         AndroidTemplates loader = new AndroidTemplates(getBaseContext());
         Theme theme = new Theme(loader);
 
@@ -231,7 +230,7 @@ public class RadarActivity extends MainActivity {
         return html.toString();
     }
 
-    public String displayEnhancedRadar(String location, String type) {
+    private String displayEnhancedRadar(String location, String type) {
         AndroidTemplates loader = new AndroidTemplates(getBaseContext());
         Theme theme = new Theme(loader);
 
