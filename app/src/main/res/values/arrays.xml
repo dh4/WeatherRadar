@@ -26,13 +26,11 @@
         <item>Alabama / Mobile</item>
         <item>Alabama / Nrn. Alabama</item>
         <item>Alaska / Bethel</item>
-        <item>Alaska / Biorka Is.</item>
         <item>Alaska / Fairbanks</item>
         <item>Alaska / Kenai</item>
         <item>Alaska / King Salmon</item>
         <item>Alaska / Middleton Is.</item>
         <item>Alaska / Nome</item>
-        <item>Alaska / Pedro Dome</item>
         <item>Alaska / Sitka</item>
         <item>Arizona / Flagstaff</item>
         <item>Arizona / Phoenix</item>
@@ -48,14 +46,12 @@
         <item>California / Sacramento</item>
         <item>California / San Diego</item>
         <item>California / San Francisco</item>
-        <item>California / San Joaquin Vly.</item>
         <item>California / Santa Ana Mtns</item>
         <item>California / Vandenberg AFB</item>
         <item>Colorado / Denver/Boulder</item>
         <item>Colorado / Grand Junction</item>
         <item>Colorado / Pueblo</item>
         <item>Delaware / Dover AFB</item>
-        <item>Florida / Eglin AFB</item>
         <item>Florida / Jacksonville</item>
         <item>Florida / Key West</item>
         <item>Florida / Melbourne</item>
@@ -65,7 +61,6 @@
         <item>Florida / Tampa Bay Area</item>
         <item>Georgia / Atlanta</item>
         <item>Georgia / Moody AFB</item>
-        <item>Georgia / Peachtree City</item>
         <item>Georgia / Robins AFB</item>
         <item>Guam / Andersen AFB</item>
         <item>Hawaii / Kauai</item>
@@ -95,7 +90,6 @@
         <item>Louisiana / Shreveport</item>
         <item>Maine / Caribou</item>
         <item>Maine / Portland</item>
-        <item>Maryland / Baltimore</item>
         <item>Massachusetts / Boston</item>
         <item>Michigan / Detroit</item>
         <item>Michigan / Gaylord</item>
@@ -118,7 +112,6 @@
         <item>Nevada / Elko</item>
         <item>Nevada / Las Vegas</item>
         <item>Nevada / Reno</item>
-        <item>New Jersey / Mt. Holly</item>
         <item>New Mexico / Albuquerque</item>
         <item>New Mexico / Cannon AFB</item>
         <item>New Mexico / Holloman AFB</item>
@@ -127,8 +120,6 @@
         <item>New York / Buffalo</item>
         <item>New York / Montague</item>
         <item>New York / New York City</item>
-        <item>New York / Upton</item>
-        <item>North Carolina / Durham</item>
         <item>North Carolina / Morehead City</item>
         <item>North Carolina / Raleigh</item>
         <item>North Carolina / Wilmington</item>
@@ -137,8 +128,6 @@
         <item>North Dakota / Minot AFB</item>
         <item>Ohio / Cincinnati</item>
         <item>Ohio / Cleveland</item>
-        <item>Ohio / Dayton</item>
-        <item>Ohio / Wilmington</item>
         <item>Oklahoma / Frederick</item>
         <item>Oklahoma / Oklahoma City</item>
         <item>Oklahoma / Tulsa</item>
@@ -153,26 +142,19 @@
         <item>South Carolina / Charleston</item>
         <item>South Carolina / Columbia</item>
         <item>South Carolina / Greenville</item>
-        <item>South Carolina / Spartanburg</item>
-        <item>South Carolina / Greer</item>
         <item>South Dakota / Aberdeen</item>
         <item>South Dakota / Rapid City</item>
         <item>South Dakota / Sioux falls</item>
         <item>Tennessee / Knoxville</item>
         <item>Tennessee / Memphis</item>
-        <item>Tennessee / Morristown</item>
         <item>Tennessee / Nashville</item>
-        <item>Tennessee / Tri Cities</item>
         <item>Texas / Amarillo</item>
-        <item>Texas / Austin</item>
         <item>Texas / Brownsville</item>
         <item>Texas / Central Texas</item>
         <item>Texas / Corpus Christi</item>
         <item>Texas / Dallas</item>
         <item>Texas / Dyess AFB</item>
         <item>Texas / El Paso</item>
-        <item>Texas / Fort Worth</item>
-        <item>Texas / Galveston</item>
         <item>Texas / Houston</item>
         <item>Texas / Laughlin AFB</item>
         <item>Texas / Lubbock</item>
@@ -182,16 +164,11 @@
         <item>Utah / Cedar City</item>
         <item>Utah / Salt Lake City</item>
         <item>Vermont / Burlington</item>
-        <item>Virginia / Blacksburg</item>
         <item>Virginia / Norfolk</item>
-        <item>Virginia / Richmond</item>
         <item>Virginia / Roanoke</item>
-        <item>Virginia / Sterling</item>
-        <item>Virginia / Wakefield</item>
         <item>Washington / Langley Hill</item>
         <item>Washington / Seattle</item>
         <item>Washington / Spokane</item>
-        <item>Washington / Tacoma</item>
         <item>Washington DC / Washington</item>
         <item>West Virginia / Charleston</item>
         <item>Wisconsin / Green Bay</item>
@@ -208,13 +185,11 @@
         <item>MOB</item>
         <item>HTX</item>
         <item>ABC</item>
-        <item>ACG</item>
         <item>APD</item>
         <item>AHG</item>
         <item>AKC</item>
         <item>AIH</item>
         <item>AEC</item>
-        <item>APD</item>
         <item>ACG</item>
         <item>FSX</item>
         <item>IWA</item>
@@ -230,14 +205,12 @@
         <item>DAX</item>
         <item>NKX</item>
         <item>MUX</item>
-        <item>HNX</item>
         <item>SOX</item>
         <item>VBX</item>
         <item>FTG</item>
         <item>GJX</item>
         <item>PUX</item>
         <item>DOX</item>
-        <item>EVX</item>
         <item>JAX</item>
         <item>BYX</item>
         <item>MLB</item>
@@ -247,7 +220,6 @@
         <item>TBW</item>
         <item>FFC</item>
         <item>VAX</item>
-        <item>FFC</item>
         <item>JGX</item>
         <item>GUA</item>
         <item>HKI</item>
@@ -277,7 +249,6 @@
         <item>SHV</item>
         <item>CBW</item>
         <item>GYX</item>
-        <item>LWX</item>
         <item>BOX</item>
         <item>DTX</item>
         <item>APX</item>
@@ -300,7 +271,6 @@
         <item>LRX</item>
         <item>ESX</item>
         <item>RGX</item>
-        <item>DIX</item>
         <item>ABX</item>
         <item>FDX</item>
         <item>HDX</item>
@@ -309,8 +279,6 @@
         <item>BUF</item>
         <item>TYX</item>
         <item>OKX</item>
-        <item>OKX</item>
-        <item>RAX</item>
         <item>MHX</item>
         <item>RAX</item>
         <item>LTX</item>
@@ -319,8 +287,6 @@
         <item>MBX</item>
         <item>ILN</item>
         <item>CLE</item>
-        <item>ILN</item>
-        <item>ILN</item>
         <item>FDR</item>
         <item>TLX</item>
         <item>INX</item>
@@ -335,26 +301,19 @@
         <item>CLX</item>
         <item>CAE</item>
         <item>GSP</item>
-        <item>GSP</item>
-        <item>GSP</item>
         <item>ABR</item>
         <item>UDX</item>
         <item>FSD</item>
         <item>MRX</item>
         <item>NQA</item>
-        <item>MRX</item>
         <item>OHX</item>
-        <item>MRX</item>
         <item>AMA</item>
-        <item>EWX</item>
         <item>BRO</item>
         <item>GRK</item>
         <item>CRP</item>
         <item>FWS</item>
         <item>DYX</item>
         <item>EPZ</item>
-        <item>FWS</item>
-        <item>HGX</item>
         <item>HGX</item>
         <item>DFX</item>
         <item>LBB</item>
@@ -364,16 +323,11 @@
         <item>ICX</item>
         <item>MTX</item>
         <item>CXX</item>
-        <item>FCX</item>
-        <item>AKQ</item>
         <item>AKQ</item>
         <item>FCX</item>
-        <item>LWX</item>
-        <item>AKQ</item>
         <item>LGX</item>
         <item>ATX</item>
         <item>OTX</item>
-        <item>ATX</item>
         <item>LWX</item>
         <item>RLX</item>
         <item>GRB</item>
