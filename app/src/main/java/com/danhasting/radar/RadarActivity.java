@@ -57,6 +57,11 @@ public class RadarActivity extends MainActivity {
             int index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
             radarName = getResources().getStringArray(R.array.location_names)[index];
         }
+
+        if (intent.getBooleanExtra("favorite", false))
+            radarName = intent.getStringExtra("name");
+        else
+            radarName = radarName.replaceAll("[^/]+/ ","");
         setTitle(radarName);
 
         WebView radarWebView = findViewById(R.id.radarWebView);

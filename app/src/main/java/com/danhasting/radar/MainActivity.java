@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity
         } else {
             Favorite favorite = settingsDB.favoriteDao().loadById(id);
             if (favorite != null) {
-                startFavoriteView(favorite.getLocation(), favorite.getType(), favorite.getLoop(),
-                        favorite.getEnhanced(), favorite.getMosaic());
+                startFavoriteView(favorite.getName(), favorite.getLocation(), favorite.getType(),
+                        favorite.getLoop(), favorite.getEnhanced(), favorite.getMosaic());
             }
         }
 
@@ -140,13 +140,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void startFavoriteView(String location, String type, Boolean loop, Boolean enhanced, Boolean mosaic) {
+    private void startFavoriteView(String name, String location, String type, Boolean loop, Boolean enhanced, Boolean mosaic) {
         Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
         radarIntent.putExtra("location", location);
         radarIntent.putExtra("type", type);
         radarIntent.putExtra("loop", loop);
         radarIntent.putExtra("enhanced", enhanced);
         radarIntent.putExtra("mosaic", mosaic);
+        radarIntent.putExtra("favorite", true);
+        radarIntent.putExtra("name", name);
         MainActivity.this.startActivity(radarIntent);
     }
 }
