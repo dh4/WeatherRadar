@@ -43,9 +43,17 @@ public class SettingsActivity extends PreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
+            final ListPreference selectedFavorite = (ListPreference) findPreference("default_favorite");
+            final CheckBoxPreference showFavorite = (CheckBoxPreference) findPreference("show_favorite");
+
             AppDatabase settingsDB = AppDatabase.getAppDatabase(getActivity());
             List<Favorite> favorites = settingsDB.favoriteDao().getAll();
-            final ListPreference selectedFavorite = (ListPreference) findPreference("default_favorite");
+
+            if (favorites.size() == 0) {
+                selectedFavorite.setEnabled(false);
+                showFavorite.setEnabled(false);
+                showFavorite.setChecked(false);
+            }
 
             ArrayList<String> names = new ArrayList<>();
             ArrayList<String> values = new ArrayList<>();
@@ -64,7 +72,6 @@ public class SettingsActivity extends PreferenceActivity {
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
             selectedFavorite.setEnabled(settings.getBoolean("show_favorite", false));
 
-            CheckBoxPreference showFavorite = (CheckBoxPreference) findPreference("show_favorite");
             showFavorite.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
