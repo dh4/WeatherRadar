@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Radar</string>
+    <string name="app_name">Weather Radar</string>
     <string name="header_title">NWS Doppler Radar</string>
     <string name="action_add_favorite">Add Favorite</string>
     <string name="action_remove_favorite">Remove Favorite</string>
@@ -21,22 +21,4 @@
     <string name="mosaic_text">Mosaic</string>
     <string name="enhanced">Enhanced (loop not available)</string>
     <string name="about">About Application</string>
-
-    <string name="about_text">
-This application provides unofficial access to doppler radar images from the National Weather Service:
-\n<a href="https://radar.weather.gov/">radar.weather.gov</a>
-\n
-\n
-\nCopyright © 2018, Dan Hasting
-\nAll rights reserved.
-\n
-\nThis software is provided by the copyright holders and contributors \"as is\"
-and any express or implied warranties, including, but not limited to, the
-implied warranties of merchantability and fitness for a particular purpose
-are disclaimed.
-\n
-\n
-\nFor full license and source code:
-\n<a href="https://github.com/dh4">github.com/dh4</a>
-    </string>
 </resources>

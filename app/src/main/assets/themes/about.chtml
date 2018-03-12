@@ -1,0 +1,19 @@
+This application provides access to doppler radar images from the National Weather Service:<br />
+<a href="https://radar.weather.gov/">radar.weather.gov</a><br />
+<br />
+This application is not endorsed by the National Weather Service. Their images are public domain
+and not subject to copyright protection:<br />
+<a href="https://www.weather.gov/disclaimer">www.weather.gov/disclaimer</a><br />
+<br />
+<br />
+Copyright &copy; 2018, Dan Hasting<br />
+All rights reserved.<br />
+<br />
+This software is provided by the copyright holders and contributors &quot;as is&quot;
+and any express or implied warranties, including, but not limited to, the
+implied warranties of merchantability and fitness for a particular purpose
+are disclaimed.<br />
+<br />
+<br />
+For full license and source code:<br />
+<a href="https://github.com/dh4">github.com/dh4</a>
