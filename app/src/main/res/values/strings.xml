@@ -8,7 +8,7 @@
     <string name="action_remove_default">Remove Default</string>
     <string name="empty_name_error">Please give your favorite a name</string>
     <string name="already_exists_error">A favorite with this name already exists</string>
-    <string name="select_radar_image">Select Image</string>
+    <string name="select_radar_image">Select Radar</string>
     <string name="view_radar_image">View Radar Image</string>
     <string name="loop">Loop</string>
     <string name="nav_select">Select Image</string>
