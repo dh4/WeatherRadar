@@ -24,7 +24,7 @@
             android:name=".SettingsActivity"
             android:theme="@style/SettingsTheme" />
         <activity android:name=".AboutActivity" />
-        <activity android:name=".SelectMosaicActivity"></activity>
+        <activity android:name=".SelectMosaicActivity" />
     </application>
 
 </manifest>

@@ -18,6 +18,10 @@ import android.widget.EditText;
 import java.util.Arrays;
 import java.util.List;
 
+import com.x5.template.Chunk;
+import com.x5.template.Theme;
+import com.x5.template.providers.AndroidTemplates;
+
 public class RadarActivity extends MainActivity {
 
     private String type;
@@ -218,131 +222,23 @@ public class RadarActivity extends MainActivity {
     }
 
     public String displayRadar(String url) {
-        String data =
-            "<html>\n" +
-            "<head>\n" +
-            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-            "<style>\n" +
-            "body {margin:0;}\n" +
-            "img {max-width:100%;max-height:100%;}\n" +
-            "#image {\n" +
-            "    background:url("+url+");\n" +
-            "    position:absolute;\n" +
-            "    width:100%;\n" +
-            "    height:100%;\n" +
-            "    background-size:contain;\n" +
-            "    background-position:center;\n" +
-            "    background-repeat:no-repeat;\n" +
-            "    z-index:1;\n" +
-            "}\n" +
-            "\n" +
-            "#failed {\n" +
-            "    position:absolute;\n" +
-            "    width:100%;\n" +
-            "    text-align:center;\n" +
-            "    top:40%;\n" +
-            "    z-index:0;\n" +
-            "}\n" +
-            "\n" +
-            ".hidden {\n" +
-            "    display:none;\n" +
-            "}\n" +
-            "</style>\n" +
-            "<script>\n" +
-            "setTimeout(function() {\n" +
-            "    document.querySelector(\"#failed\").classList.remove(\"hidden\");\n" +
-            "}, 10000);\n" +
-            "</script>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "    <div id=\"image\"></div>\n" +
-            "    <div id=\"failed\" class=\"hidden\">Failed to load image</div>\n" +
-            "</body>\n" +
-            "</html>";
-        return data;
+        AndroidTemplates loader = new AndroidTemplates(getBaseContext());
+        Theme theme = new Theme(loader);
+
+        Chunk html = theme.makeChunk("lite_radar");
+        html.set("url", url);
+
+        return html.toString();
     }
 
-    public String displayEnhancedRadar(String loc, String type) {
-        String data =
-            "<html>\n" +
-            "<head>\n" +
-            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-            "<style>\n" +
-            "body {margin:0;}\n" +
-            "img {max-width:100%;max-height:100%;}\n" +
-            ".image {\n" +
-            "    position:absolute;\n" +
-            "    width:100%;\n" +
-            "    height:100%;\n" +
-            "    background-size:contain !important;\n" +
-            "    background-position:center !important;\n" +
-            "    background-repeat:no-repeat !important;\n" +
-            "}\n" +
-            "\n" +
-            "#image0 {\n" +
-            "    background:url(https://radar.weather.gov/ridge/Overlays/Topo/Short/"+loc+"_Topo_Short.jpg);\n" +
-            "    z-index:1;\n" +
-            "}\n" +
-            "\n" +
-            "#image1 {\n" +
-            "    background:url(https://radar.weather.gov/ridge/RadarImg/"+type+"/"+loc+"_"+type+"_0.gif);\n" +
-            "    z-index:2;\n" +
-            "}\n" +
-            "\n" +
-            "#image2 {\n" +
-            "    background:url(https://radar.weather.gov/ridge/Overlays/County/Short/"+loc+"_County_Short.gif);\n" +
-            "    z-index:3;\n" +
-            "}\n" +
-            "\n" +
-            "#image4 {\n" +
-            "    background:url(https://radar.weather.gov/ridge/Overlays/Highways/Short/"+loc+"_Highways_Short.gif);\n" +
-            "    z-index:4;\n" +
-            "}\n" +
-            "\n" +
-            "#image5 {\n" +
-            "    background:url(https://radar.weather.gov/ridge/Overlays/Cities/Short/"+loc+"_City_Short.gif);\n" +
-            "    z-index:5;\n" +
-            "}\n" +
-            "\n" +
-            "#image6 {\n" +
-            "    background:url(https://radar.weather.gov/ridge/Warnings/Short/"+loc+"_Warnings_0.gif);\n" +
-            "    z-index:6;\n" +
-            "}\n" +
-            "\n" +
-            "#image7 {\n" +
-            "    background:url(https://radar.weather.gov/ridge/Legend/"+type+"/"+loc+"_"+type+"_Legend_0.gif);\n" +
-            "    z-index:7;\n" +
-            "}\n" +
-            "\n" +
-            "#failed {\n" +
-            "    position:absolute;\n" +
-            "    width:100%;\n" +
-            "    text-align:center;\n" +
-            "    top:40%;\n" +
-            "    z-index:0;\n" +
-            "}\n" +
-            "\n" +
-            ".hidden {\n" +
-            "    display:none;\n" +
-            "}\n" +
-            "</style>\n" +
-            "<script>\n" +
-            "setTimeout(function() {\n" +
-            "    document.querySelector(\"#failed\").classList.remove(\"hidden\");\n" +
-            "}, 5000);\n" +
-            "</script>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "    <div id=\"image0\" class=\"image\"></div>\n" +
-            "    <div id=\"image1\" class=\"image\"></div>\n" +
-            "    <div id=\"image2\" class=\"image\"></div>\n" +
-            "    <div id=\"image4\" class=\"image\"></div>\n" +
-            "    <div id=\"image5\" class=\"image\"></div>\n" +
-            "    <div id=\"image6\" class=\"image\"></div>\n" +
-            "    <div id=\"image7\" class=\"image\"></div>\n" +
-            "    <div id=\"failed\" class=\"hidden\">Failed to load image</div>\n" +
-            "</body>\n" +
-            "</html>";
-        return data;
+    public String displayEnhancedRadar(String location, String type) {
+        AndroidTemplates loader = new AndroidTemplates(getBaseContext());
+        Theme theme = new Theme(loader);
+
+        Chunk html = theme.makeChunk("enhanced_radar");
+        html.set("location", location);
+        html.set("type", type);
+
+        return html.toString();
     }
 }

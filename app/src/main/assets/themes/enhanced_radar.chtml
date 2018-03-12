@@ -1,0 +1,86 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+    margin:0;
+}
+
+img {
+    max-width:100%;
+    max-height:100%;
+}
+
+.image {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-size:contain !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+}
+
+#image0 {
+    background:url(https://radar.weather.gov/ridge/Overlays/Topo/Short/{$location}_Topo_Short.jpg);
+    z-index:1;
+}
+
+#image1 {
+    background:url(https://radar.weather.gov/ridge/RadarImg/{$type}/{$location}_{$type}_0.gif);
+    z-index:2;
+}
+
+#image2 {
+    background:url(https://radar.weather.gov/ridge/Overlays/County/Short/{$location}_County_Short.gif);
+    z-index:3;
+}
+
+#image4 {
+    background:url(https://radar.weather.gov/ridge/Overlays/Highways/Short/{$location}_Highways_Short.gif);
+    z-index:4;
+}
+
+#image5 {
+    background:url(https://radar.weather.gov/ridge/Overlays/Cities/Short/{$location}_City_Short.gif);
+    z-index:5;
+}
+
+#image6 {
+    background:url(https://radar.weather.gov/ridge/Warnings/Short/{$location}_Warnings_0.gif);
+    z-index:6;
+}
+
+#image7 {
+    background:url(https://radar.weather.gov/ridge/Legend/{$type}/{$location}_{$type}_Legend_0.gif);
+    z-index:7;
+}
+
+#failed {
+    position:absolute;
+    width:100%;
+    text-align:center;
+    top:40%;
+    z-index:0;
+}
+
+.hidden {
+    display:none;
+}
+</style>
+<script>
+setTimeout(function() {
+    document.querySelector("#failed").classList.remove("hidden");
+}, 5000);
+</script>
+</head>
+<body>
+    <div id="image0" class="image"></div>
+    <div id="image1" class="image"></div>
+    <div id="image2" class="image"></div>
+    <div id="image4" class="image"></div>
+    <div id="image5" class="image"></div>
+    <div id="image6" class="image"></div>
+    <div id="image7" class="image"></div>
+    <div id="failed" class="hidden">Failed to load image</div>
+</body>
+</html>
