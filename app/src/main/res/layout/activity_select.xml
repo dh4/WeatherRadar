@@ -7,70 +7,77 @@
     android:paddingTop="?android:attr/actionBarSize"
     tools:context="com.danhasting.radar.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/location_text"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:layout_marginTop="30dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/locationSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location_text"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="30dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/type_text"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:layout_marginTop="30dp" />
+            <Spinner
+                android:id="@+id/locationSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp" />
 
-        <Spinner
-            android:id="@+id/typeSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/type_text"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="30dp" />
 
-        <Switch
-            android:id="@+id/loopSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:text="@string/loop"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:layout_marginTop="30dp" />
+            <Spinner
+                android:id="@+id/typeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp" />
 
-        <Switch
-            android:id="@+id/enhancedSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:text="@string/enhanced"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:layout_marginTop="30dp" />
+            <Switch
+                android:id="@+id/loopSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:text="@string/loop"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="30dp" />
 
-        <Button
-            android:id="@+id/viewButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/view_radar_image"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:onClick="viewRadar" />
-    </LinearLayout>
+            <Switch
+                android:id="@+id/enhancedSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:text="@string/enhanced"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="30dp" />
+
+            <Button
+                android:id="@+id/viewButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/view_radar_image"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="viewRadar" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
