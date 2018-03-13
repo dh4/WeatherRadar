@@ -51,6 +51,9 @@ public class RadarActivity extends MainActivity {
         enhanced = intent.getBooleanExtra("enhanced", false);
         mosaic = intent.getBooleanExtra("mosaic", false);
 
+        if (type == null) type = "";
+        if (location == null) location = "";
+
         navigationView = findViewById(R.id.nav_view);
 
         if (mosaic) {
@@ -110,31 +113,7 @@ public class RadarActivity extends MainActivity {
         if (id == R.id.action_add_favorite) {
             addFavoriteDialog();
         } else if (id == R.id.action_remove_favorite) {
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop, enhanced, mosaic);
-                        for (Favorite favorite : favorites) {
-                            settingsDB.favoriteDao().delete(favorite);
-                        }
-
-                        addFavorite.setVisible(true);
-                        removeFavorite.setVisible(false);
-                        populateFavorites(navigationView.getMenu());
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
-                }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.confirm_favorite_removal).setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
+            removeFavoriteDialog();
         }
 
         return super.onOptionsItemSelected(item);
@@ -192,6 +171,32 @@ public class RadarActivity extends MainActivity {
                 }
             }
         });
+    }
+
+    private void removeFavoriteDialog() {
+        DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == DialogInterface.BUTTON_POSITIVE) {
+                    List<Favorite> favorites = settingsDB.favoriteDao()
+                            .findByData(location, type, loop, enhanced, mosaic);
+
+                    for (Favorite favorite : favorites) {
+                        settingsDB.favoriteDao().delete(favorite);
+                    }
+
+                    addFavorite.setVisible(true);
+                    removeFavorite.setVisible(false);
+                    populateFavorites(navigationView.getMenu());
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.confirm_favorite_removal)
+                .setPositiveButton("Yes", dialogListener)
+                .setNegativeButton("No", dialogListener)
+                .show();
     }
 
     private String displayMosaicImage(String mosaic, Boolean loop) {

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0b3f71d181399cecbd066abbf16a100d",
+    "identityHash": "ce18b8a85cd9cf7bf3d231a4797a1995",
     "entities": [
       {
         "tableName": "Favorite",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `location` TEXT, `type` TEXT, `loop` INTEGER, `enhanced` INTEGER, `mosaic` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `location` TEXT NOT NULL, `type` TEXT NOT NULL, `loop` INTEGER NOT NULL, `enhanced` INTEGER NOT NULL, `mosaic` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -18,37 +18,37 @@
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "location",
             "columnName": "location",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "type",
             "columnName": "type",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "loop",
             "columnName": "loop",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "enhanced",
             "columnName": "enhanced",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "mosaic",
             "columnName": "mosaic",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -63,7 +63,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0b3f71d181399cecbd066abbf16a100d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ce18b8a85cd9cf7bf3d231a4797a1995\")"
     ]
   }
 }
