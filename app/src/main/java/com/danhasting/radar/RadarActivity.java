@@ -307,13 +307,10 @@ public class RadarActivity extends MainActivity {
     private String displayRadar(String url) {
         AndroidTemplates loader = new AndroidTemplates(getBaseContext());
         Theme theme = new Theme(loader);
-        Chunk html;
 
-        if (settings.getBoolean("show_maximized", false))
-            html = theme.makeChunk("lite_radar_maximized");
-        else
-            html = theme.makeChunk("lite_radar");
+        Chunk html = theme.makeChunk("lite_radar");
         html.set("url", url);
+        html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
 
         return html.toString();
     }
@@ -321,14 +318,11 @@ public class RadarActivity extends MainActivity {
     private String displayEnhancedRadar(String location, String type) {
         AndroidTemplates loader = new AndroidTemplates(getBaseContext());
         Theme theme = new Theme(loader);
-        Chunk html;
 
-        if (settings.getBoolean("show_maximized", false))
-            html = theme.makeChunk("enhanced_radar_maximized");
-        else
-            html = theme.makeChunk("enhanced_radar");
+        Chunk html = theme.makeChunk("enhanced_radar");
         html.set("location", location);
         html.set("type", type);
+        html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
 
         if (type.equals("N0Z"))
             html.set("distance", "Long");

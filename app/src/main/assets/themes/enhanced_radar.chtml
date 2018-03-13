@@ -4,6 +4,7 @@
 <style>
 body {
     margin:0;
+    background:#333;
 }
 
 img {
@@ -15,10 +16,68 @@ img {
     position:absolute;
     width:100%;
     height:100%;
+{% if ($maximized == true) %}
+    background-size:cover !important;
+{% else %}
     background-size:contain !important;
+{% endif %}
     background-position:center !important;
     background-repeat:no-repeat !important;
 }
+
+{% if ($maximized == true) %}
+#left_click {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10%;
+    height: 100%;
+    z-index:100;
+}
+
+#right_click {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10%;
+    height: 100%;
+    z-index:100;
+}
+
+#top_click {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    z-index:50;
+}
+
+#bottom_click {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    z-index:50;
+}
+
+.background-left {
+    background-position:left !important;
+}
+
+.background-right {
+    background-position:right !important;
+}
+
+.background-top {
+    background-position:top !important;
+}
+
+.background-bottom {
+    background-position:bottom !important;
+}
+{% endif %}
 
 #image0 {
     background:url(https://radar.weather.gov/ridge/Overlays/Topo/{$distance}/{$location}_Topo_{$distance}.jpg);
@@ -71,6 +130,68 @@ img {
 setTimeout(function() {
     document.querySelector("#failed").classList.remove("hidden");
 }, 10000);
+
+{% if ($maximized == true) %}
+var removeAll = function() {
+    [].forEach.call(document.querySelectorAll('.image'), function(e) {
+        e.classList.remove(
+            'background',
+            'background-left',
+            'background-right',
+            'background-top',
+            'background-bottom'
+        );
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var image = document.querySelector("#image0");
+    var left = document.querySelector('#left_click');
+    var right = document.querySelector('#right_click');
+    var top = document.querySelector('#top_click');
+    var bottom = document.querySelector('#bottom_click');
+
+    left.addEventListener('click', function() {
+        if (image.classList.contains('background') && !image.classList.contains('background-left'))
+            removeAll();
+        else {
+            [].forEach.call(document.querySelectorAll('.image'), function(e) {
+                e.classList.add('background','background-left');
+            });
+        }
+    });
+
+    right.addEventListener('click', function() {
+        if (image.classList.contains('background') && !image.classList.contains('background-right'))
+            removeAll(image);
+        else {
+            [].forEach.call(document.querySelectorAll('.image'), function(e) {
+                e.classList.add('background','background-right');
+            });
+        }
+    });
+
+    top.addEventListener('click', function() {
+        if (image.classList.contains('background') && !image.classList.contains('background-top'))
+            removeAll(image);
+        else {
+            [].forEach.call(document.querySelectorAll('.image'), function(e) {
+                e.classList.add('background','background-top');
+            });
+        }
+    });
+
+    bottom.addEventListener('click', function() {
+        if (image.classList.contains('background') && !image.classList.contains('background-bottom'))
+            removeAll(image);
+        else {
+            [].forEach.call(document.querySelectorAll('.image'), function(e) {
+                e.classList.add('background','background-bottom');
+            });
+        }
+    });
+});
+{% endif %}
 </script>
 </head>
 <body>
@@ -81,6 +202,12 @@ setTimeout(function() {
     <div id="image5" class="image"></div>
     <div id="image6" class="image"></div>
     <div id="image7" class="image"></div>
+{% if ($maximized == true) %}
+    <div id="left_click"></div>
+    <div id="right_click"></div>
+    <div id="top_click"></div>
+    <div id="bottom_click"></div>
+{% endif %}
     <div id="failed" class="hidden">Failed to load image</div>
 </body>
 </html>
