@@ -71,9 +71,10 @@ public class RadarActivity extends MainActivity {
             radarName = getResources().getStringArray(R.array.location_names)[index];
         }
 
-        if (intent.getBooleanExtra("favorite", false))
+        if (intent.getBooleanExtra("favorite", false)) {
             radarName = intent.getStringExtra("name");
-        else
+            currentFavorite = intent.getIntExtra("favoriteID", -1);
+        } else
             radarName = radarName.replaceAll("[^/]+/ ","");
         setTitle(radarName);
 

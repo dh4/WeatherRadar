@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences settings;
     AppDatabase settingsDB;
 
+    protected Integer currentFavorite = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,12 +81,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_about) {
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             startActivity(aboutIntent);
-        } else {
+        } else if (id != currentFavorite) {
             Favorite favorite = settingsDB.favoriteDao().loadById(id);
-            if (favorite != null) {
-                startFavoriteView(favorite.getName(), favorite.getLocation(), favorite.getType(),
-                        favorite.getLoop(), favorite.getEnhanced(), favorite.getMosaic());
-            }
+            if (favorite != null) startFavoriteView(favorite);
+        } else {
+            menuItem.setChecked(false);
         }
 
         return true;
@@ -143,15 +144,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void startFavoriteView(String name, String location, String type, Boolean loop, Boolean enhanced, Boolean mosaic) {
+    private void startFavoriteView(Favorite favorite) {
         Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
-        radarIntent.putExtra("location", location);
-        radarIntent.putExtra("type", type);
-        radarIntent.putExtra("loop", loop);
-        radarIntent.putExtra("enhanced", enhanced);
-        radarIntent.putExtra("mosaic", mosaic);
+        radarIntent.putExtra("location", favorite.getLocation());
+        radarIntent.putExtra("type", favorite.getType());
+        radarIntent.putExtra("loop", favorite.getLoop());
+        radarIntent.putExtra("enhanced", favorite.getEnhanced());
+        radarIntent.putExtra("mosaic", favorite.getMosaic());
         radarIntent.putExtra("favorite", true);
-        radarIntent.putExtra("name", name);
+        radarIntent.putExtra("name", favorite.getName());
+        radarIntent.putExtra("favoriteID", favorite.getUid());
         MainActivity.this.startActivity(radarIntent);
     }
 
