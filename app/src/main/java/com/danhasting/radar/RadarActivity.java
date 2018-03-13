@@ -126,6 +126,14 @@ public class RadarActivity extends MainActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (data.getBooleanExtra("from_settings", false))
+            recreate();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.radar_actions, menu);
 

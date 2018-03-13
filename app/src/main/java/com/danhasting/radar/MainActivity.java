@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
             MainActivity.this.startActivity(mosaicIntent);
         } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
+            startActivityForResult(settingsIntent, 1);
         } else if (id == R.id.nav_about) {
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             startActivity(aboutIntent);

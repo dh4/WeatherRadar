@@ -1,5 +1,6 @@
 package com.danhasting.radar;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -21,6 +22,15 @@ public class SettingsActivity extends PreferenceActivity {
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         setTitle(R.string.nav_settings);
         if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("from_settings", true);
+        setResult(RESULT_OK, intent);
+
+        super.onBackPressed();
     }
 
     @Override
