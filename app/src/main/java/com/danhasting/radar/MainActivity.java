@@ -57,14 +57,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         populateFavorites(navigationView.getMenu());
 
-        if (this.getClass().getSimpleName().equals("MainActivity")) {
+        if (this.getClass().getSimpleName().equals("MainActivity"))
             startDefaultView();
-        }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        menuItem.setChecked(true);
         mDrawerLayout.closeDrawers();
 
         int id = menuItem.getItemId();
@@ -84,8 +82,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id != currentFavorite) {
             Favorite favorite = settingsDB.favoriteDao().loadById(id);
             if (favorite != null) startFavoriteView(favorite);
-        } else {
-            menuItem.setChecked(false);
         }
 
         return true;
@@ -142,6 +138,9 @@ public class MainActivity extends AppCompatActivity
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
             MainActivity.this.startActivity(selectIntent);
         }
+
+        if (this.getClass().getSimpleName().equals("MainActivity"))
+            this.finish();
     }
 
     private void startFavoriteView(Favorite favorite) {
