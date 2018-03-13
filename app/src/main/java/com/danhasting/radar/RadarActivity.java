@@ -304,6 +304,11 @@ public class RadarActivity extends MainActivity {
         html.set("location", location);
         html.set("type", type);
 
+        if (type.equals("N0Z"))
+            html.set("distance", "Long");
+        else
+            html.set("distance", "Short");
+
         return html.toString();
     }
 }

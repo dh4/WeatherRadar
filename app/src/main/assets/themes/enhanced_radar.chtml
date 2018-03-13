@@ -21,7 +21,7 @@ img {
 }
 
 #image0 {
-    background:url(https://radar.weather.gov/ridge/Overlays/Topo/Short/{$location}_Topo_Short.jpg);
+    background:url(https://radar.weather.gov/ridge/Overlays/Topo/{$distance}/{$location}_Topo_{$distance}.jpg);
     z-index:1;
 }
 
@@ -31,22 +31,22 @@ img {
 }
 
 #image2 {
-    background:url(https://radar.weather.gov/ridge/Overlays/County/Short/{$location}_County_Short.gif);
+    background:url(https://radar.weather.gov/ridge/Overlays/County/{$distance}/{$location}_County_{$distance}.gif);
     z-index:3;
 }
 
 #image4 {
-    background:url(https://radar.weather.gov/ridge/Overlays/Highways/Short/{$location}_Highways_Short.gif);
+    background:url(https://radar.weather.gov/ridge/Overlays/Highways/{$distance}/{$location}_Highways_{$distance}.gif);
     z-index:4;
 }
 
 #image5 {
-    background:url(https://radar.weather.gov/ridge/Overlays/Cities/Short/{$location}_City_Short.gif);
+    background:url(https://radar.weather.gov/ridge/Overlays/Cities/{$distance}/{$location}_City_{$distance}.gif);
     z-index:5;
 }
 
 #image6 {
-    background:url(https://radar.weather.gov/ridge/Warnings/Short/{$location}_Warnings_0.gif);
+    background:url(https://radar.weather.gov/ridge/Warnings/{$distance}/{$location}_Warnings_0.gif);
     z-index:6;
 }
 
