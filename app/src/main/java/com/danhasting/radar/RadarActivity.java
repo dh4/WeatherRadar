@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 
 import java.util.Arrays;
@@ -86,6 +88,22 @@ public class RadarActivity extends MainActivity {
         radarWebView.getSettings().setJavaScriptEnabled(true);
         radarWebView.getSettings().setDomStorageEnabled(true);
         radarWebView.getSettings().setSupportZoom(true);
+
+//        radarWebView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public void onPageFinished(WebView view, String url) {
+//                super.onPageFinished(view, url);
+//
+//                int width = radarWebView.getWidth();
+//                int height = radarWebView.getContentHeight();
+//
+//                Log.e("Width", "TEST"+width);
+//                Log.e("Height","TEST"+height);
+//
+//                radarWebView.loadUrl("javascript:document.querySelector('#image').style.width = "+height+";");
+//                radarWebView.scrollTo(120, 0);
+//            }
+//        });
 
         if (enhanced) {
             radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
@@ -289,8 +307,12 @@ public class RadarActivity extends MainActivity {
     private String displayRadar(String url) {
         AndroidTemplates loader = new AndroidTemplates(getBaseContext());
         Theme theme = new Theme(loader);
+        Chunk html;
 
-        Chunk html = theme.makeChunk("lite_radar");
+        if (settings.getBoolean("show_maximized", false))
+            html = theme.makeChunk("lite_radar_maximized");
+        else
+            html = theme.makeChunk("lite_radar");
         html.set("url", url);
 
         return html.toString();
@@ -299,8 +321,12 @@ public class RadarActivity extends MainActivity {
     private String displayEnhancedRadar(String location, String type) {
         AndroidTemplates loader = new AndroidTemplates(getBaseContext());
         Theme theme = new Theme(loader);
+        Chunk html;
 
-        Chunk html = theme.makeChunk("enhanced_radar");
+        if (settings.getBoolean("show_maximized", false))
+            html = theme.makeChunk("enhanced_radar_maximized");
+        else
+            html = theme.makeChunk("enhanced_radar");
         html.set("location", location);
         html.set("type", type);
 

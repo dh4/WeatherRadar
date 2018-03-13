@@ -16,4 +16,10 @@
         android:defaultValue="1"
         android:enabled="false" />
 
+    <CheckBoxPreference
+        android:title="Show Images Maximized"
+        android:defaultValue="false"
+        android:summary="Touch the edge of the image to view cut-off portions."
+        android:key="show_maximized" />
+
 </PreferenceScreen>
