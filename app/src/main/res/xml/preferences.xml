@@ -22,4 +22,10 @@
         android:summary="Touch the edge of the image to view cut-off portions."
         android:key="show_maximized" />
 
+    <CheckBoxPreference
+        android:title="Show Images Fullscreen"
+        android:defaultValue="false"
+        android:summary="Hides title and notification bar. Drag from left of screen to access the menu."
+        android:key="show_fullscreen" />
+
 </PreferenceScreen>

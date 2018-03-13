@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.ActionBar;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.EditText;
 
@@ -44,11 +48,25 @@ public class RadarActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("show_fullscreen", false);
+        if (fullscreen) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
             View contentView = inflater.inflate(R.layout.activity_radar, mDrawerLayout, false);
             mDrawerLayout.addView(contentView, 0);
+        }
+
+        ActionBar actionBar = getSupportActionBar();
+        if (fullscreen && actionBar != null) {
+            getSupportActionBar().hide();
+            findViewById(R.id.radarLayout).setPadding(0,0,0,0);
         }
 
         Intent intent = getIntent();
