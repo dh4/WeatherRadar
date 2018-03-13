@@ -70,7 +70,7 @@ img {
 <script>
 setTimeout(function() {
     document.querySelector("#failed").classList.remove("hidden");
-}, 5000);
+}, 10000);
 </script>
 </head>
 <body>
