@@ -16,6 +16,8 @@ import android.widget.EditText;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.x5.template.Chunk;
 import com.x5.template.Theme;
@@ -34,6 +36,11 @@ public class RadarActivity extends MainActivity {
     private MenuItem addFavorite;
     private MenuItem removeFavorite;
     private NavigationView navigationView;
+
+    private WebView radarWebView;
+
+    private Timer timer;
+    private Boolean refreshed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +77,7 @@ public class RadarActivity extends MainActivity {
             radarName = radarName.replaceAll("[^/]+/ ","");
         setTitle(radarName);
 
-        WebView radarWebView = findViewById(R.id.radarWebView);
+        radarWebView = findViewById(R.id.radarWebView);
         radarWebView.getSettings().setLoadWithOverviewMode(true);
         radarWebView.getSettings().setUseWideViewPort(true);
         radarWebView.getSettings().setBuiltInZoomControls(true);
@@ -86,6 +93,8 @@ public class RadarActivity extends MainActivity {
         } else {
             radarWebView.loadData(displayLiteImage(location, type, loop), "text/html", null);
         }
+
+        scheduleRefresh();
     }
 
     @Override
@@ -114,6 +123,8 @@ public class RadarActivity extends MainActivity {
             addFavoriteDialog();
         } else if (id == R.id.action_remove_favorite) {
             removeFavoriteDialog();
+        } else if (id == R.id.action_refresh) {
+            refreshRadar();
         }
 
         return super.onOptionsItemSelected(item);
@@ -197,6 +208,46 @@ public class RadarActivity extends MainActivity {
                 .setPositiveButton("Yes", dialogListener)
                 .setNegativeButton("No", dialogListener)
                 .show();
+    }
+
+    private void refreshRadar() {
+        if (!refreshed) {
+            radarWebView.reload();
+            scheduleRefresh();
+        } else {
+            DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == DialogInterface.BUTTON_POSITIVE) {
+                        radarWebView.reload();
+                        scheduleRefresh();
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.confirm_refresh)
+                    .setPositiveButton("Yes", dialogListener)
+                    .setNegativeButton("No", dialogListener)
+                    .show();
+        }
+    }
+
+    private void scheduleRefresh() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+
+        timer = new Timer();
+        refreshed = true;
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                refreshed = false;
+            }
+        }, 1000 * 60 * 5);
     }
 
     private String displayMosaicImage(String mosaic, Boolean loop) {
