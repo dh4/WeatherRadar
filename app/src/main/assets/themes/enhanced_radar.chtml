@@ -118,6 +118,7 @@ img {
     position:absolute;
     width:100%;
     text-align:center;
+    color:#999;
     top:40%;
     z-index:0;
 }
