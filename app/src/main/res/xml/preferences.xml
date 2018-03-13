@@ -3,29 +3,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingTop="?android:attr/actionBarSize">
 
-    <CheckBoxPreference
-        android:title="Show Favorite on Startup"
-        android:defaultValue="false"
-        android:summary="If selected show a saved radar instead of the default view when the application starts."
-        android:key="show_favorite" />
+    <PreferenceCategory android:title="Startup Options">
+        <CheckBoxPreference
+            android:title="Show Favorite on Startup"
+            android:defaultValue="false"
+            android:summary="Show a saved radar instead of the default view when the application starts."
+            android:key="show_favorite" />
 
-    <ListPreference
-        android:title="Favorite to Show"
-        android:summary="Select favorite radar to show"
-        android:key="default_favorite"
-        android:defaultValue="1"
-        android:enabled="false" />
+        <ListPreference
+            android:title="Favorite to Show"
+            android:summary="Select favorite radar to show"
+            android:key="default_favorite"
+            android:defaultValue="1"
+            android:enabled="false" />
+    </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:title="Show Images Maximized"
-        android:defaultValue="false"
-        android:summary="Touch the edge of the image to view cut-off portions."
-        android:key="show_maximized" />
+    <PreferenceCategory android:title="Image Options">
+        <CheckBoxPreference
+            android:title="Show Maximized"
+            android:defaultValue="false"
+            android:summary="Touch the edge of the image to view cut-off portions."
+            android:key="show_maximized" />
 
-    <CheckBoxPreference
-        android:title="Show Images Fullscreen"
-        android:defaultValue="false"
-        android:summary="Hides title and notification bar. Drag from left of screen to access the menu."
-        android:key="show_fullscreen" />
+        <CheckBoxPreference
+            android:title="Show Fullscreen"
+            android:defaultValue="false"
+            android:summary="Hides title and notification bar. Drag from left of screen to access the menu."
+            android:key="show_fullscreen" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
