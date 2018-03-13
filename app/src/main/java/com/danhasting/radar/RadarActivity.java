@@ -7,13 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 
 import java.util.Arrays;
@@ -88,22 +86,6 @@ public class RadarActivity extends MainActivity {
         radarWebView.getSettings().setJavaScriptEnabled(true);
         radarWebView.getSettings().setDomStorageEnabled(true);
         radarWebView.getSettings().setSupportZoom(true);
-
-//        radarWebView.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public void onPageFinished(WebView view, String url) {
-//                super.onPageFinished(view, url);
-//
-//                int width = radarWebView.getWidth();
-//                int height = radarWebView.getContentHeight();
-//
-//                Log.e("Width", "TEST"+width);
-//                Log.e("Height","TEST"+height);
-//
-//                radarWebView.loadUrl("javascript:document.querySelector('#image').style.width = "+height+";");
-//                radarWebView.scrollTo(120, 0);
-//            }
-//        });
 
         if (enhanced) {
             radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
