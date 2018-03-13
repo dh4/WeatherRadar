@@ -252,12 +252,12 @@ public class RadarActivity extends MainActivity {
         timer = new Timer();
         refreshed = true;
 
-        timer.schedule(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 refreshed = false;
             }
-        }, 1000 * 60 * 5);
+        }, 1000 * 60 * 5, 1000 * 60 * 5);
     }
 
     private String displayMosaicImage(String mosaic, Boolean loop) {
