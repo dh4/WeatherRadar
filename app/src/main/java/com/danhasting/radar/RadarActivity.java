@@ -99,6 +99,15 @@ public class RadarActivity extends MainActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (!refreshed && !(loop && mosaic)) { // Mosaic loops are large, don't auto-refresh
+            radarWebView.reload();
+            scheduleRefresh();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.radar_actions, menu);
 
