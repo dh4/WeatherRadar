@@ -3,32 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingTop="?android:attr/actionBarSize">
 
-    <PreferenceCategory android:title="Startup Options">
+    <PreferenceCategory android:title="@string/startup_options_title">
         <CheckBoxPreference
-            android:title="Show Favorite on Startup"
+            android:title="@string/show_favorite_title"
             android:defaultValue="false"
-            android:summary="Show a saved radar instead of the default view when the application starts."
+            android:summary="@string/show_favorite_summary"
             android:key="show_favorite" />
 
         <ListPreference
-            android:title="Favorite to Show"
-            android:summary="Select favorite radar to show"
+            android:title="@string/default_favorite_title"
+            android:summary="@string/default_favorite_summary"
             android:key="default_favorite"
             android:defaultValue="1"
             android:enabled="false" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Image Options">
+    <PreferenceCategory android:title="@string/image_options_title">
         <CheckBoxPreference
-            android:title="Show Maximized"
+            android:title="@string/show_maximized_title"
             android:defaultValue="false"
-            android:summary="Touch the edge of the image to view cut-off portions."
+            android:summary="@string/show_maximized_summary"
             android:key="show_maximized" />
 
         <CheckBoxPreference
-            android:title="Show Fullscreen"
+            android:title="@string/show_fullscreen_title"
             android:defaultValue="false"
-            android:summary="Hides title and notification bar. Drag from left of screen to access the menu."
+            android:summary="@string/show_fullscreen_summary"
             android:key="show_fullscreen" />
     </PreferenceCategory>
 
