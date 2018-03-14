@@ -47,7 +47,7 @@ public class Favorite {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
@@ -56,7 +56,7 @@ public class Favorite {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(@NonNull String location) {
         this.location = location;
     }
 
@@ -65,7 +65,7 @@ public class Favorite {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(@NonNull String type) {
         this.type = type;
     }
 
@@ -74,7 +74,7 @@ public class Favorite {
         return loop;
     }
 
-    public void setLoop(Boolean loop) {
+    public void setLoop(@NonNull Boolean loop) {
         this.loop = loop;
     }
 
@@ -83,7 +83,7 @@ public class Favorite {
         return enhanced;
     }
 
-    public void setEnhanced(Boolean enhanced) {
+    public void setEnhanced(@NonNull Boolean enhanced) {
         this.enhanced = enhanced;
     }
 
@@ -92,7 +92,7 @@ public class Favorite {
         return mosaic;
     }
 
-    public void setMosaic(Boolean mosaic) {
+    public void setMosaic(@NonNull Boolean mosaic) {
         this.mosaic = mosaic;
     }
 }
