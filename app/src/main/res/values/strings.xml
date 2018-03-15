@@ -2,14 +2,17 @@
     <string name="app_name">Weather Radar</string>
 
     <!-- Activity Headers -->
-    <string name="select_radar_image">Select Radar</string>
-    <string name="select_mosaic_image">Select Mosaic</string>
+    <string name="select_radar_image">NWS Radar</string>
+    <string name="select_mosaic_image">NWS Mosaic Radar</string>
+    <string name="select_wunderground_image">Weather Underground</string>
+    <string name="chooser_title">Select Location</string>
     <string name="about">About Application</string>
 
     <!-- Nav Drawer -->
     <string name="header_title">Weather Radar</string>
-    <string name="nav_select">Radar Images</string>
-    <string name="nav_mosaic">Mosaic Images</string>
+    <string name="nav_select">NWS Radar</string>
+    <string name="nav_mosaic">NWS Mosaic</string>
+    <string name="nav_wunderground">Weather Underground</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_about">About</string>
     <string name="nav_favorites">Favorites</string>
@@ -26,15 +29,23 @@
     <!-- Forms -->
     <string name="view_radar_image">View Radar Image</string>
     <string name="view_mosaic_image">View Mosaic Image</string>
+    <string name="view_wunderground_image">View Radar</string>
     <string name="location_text">Location</string>
     <string name="mosaic_text">Mosaic</string>
     <string name="type_text">Observation</string>
     <string name="loop">Loop</string>
     <string name="enhanced">Enhanced (loop not available)</string>
+    <string name="location_placeholder">City, State or Zip Code</string>
+    <string name="radius_text">Distance</string>
+    <string name="connection_error">An error occurred connecting to Weather Underground. Please check your network settings.</string>
+    <string name="no_results_error">No results found. Please modify your location search.</string>
+    <string name="need_key_text">This requires a valid (free) API Key</string>
+    <string name="need_key_button">Get Key from Weather Underground</string>
 
     <!-- Preferences -->
-    <string name="startup_options_title">Startup Options</string>
-    <string name="image_options_title">Image Options</string>
+    <string name="general_title">General</string>
+    <string name="nws_title">National Weather Service</string>
+    <string name="wunderground_title">Weather Underground</string>
     <string name="show_favorite_title">Show Favorite on Startup</string>
     <string name="show_favorite_summary">Show a saved radar instead of the default view when the application starts.</string>
     <string name="default_favorite_title">Favorite to Show</string>
@@ -43,4 +54,22 @@
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
     <string name="show_fullscreen_title">Show Fullscreen</string>
     <string name="show_fullscreen_summary">Hides title and notification bar. Drag from left of screen to access the menu.</string>
+    <string name="api_key_title">API Key</string>
+    <string name="api_key_summary">An API key is needed for access to Weather Underground images</string>
+    <string name="api_key_activated">API Key Activated!</string>
+    <string name="api_key_error">API Key Error</string>
+    <string name="api_key_failed">There was an issue verifying your API key. Please check your key and try again.</string>
+    <string name="show_time_label_title">Show Time Label</string>
+    <string name="show_time_label_summary">Display image time in upper left</string>
+    <string name="image_size_title">Image Resolution</string>
+    <string name="image_size_summary">Larger resolutions will take longer to load and use more data, but appear more crisp</string>
+    <string name="animation_speed_title">Animation Speed</string>
+    <string name="distance_units_title">Distance Units</string>
+    <string name="show_snow_mix_title">Snow and Mixed Precipitation</string>
+    <string name="show_snow_mix_summary">Use a different color palette to show rain/mix/snow</string>
+    <string name="smooth_title">Use Smoothing</string>
+    <string name="smooth_summary">Smooth the colors</string>
+    <string name="noclutter_title">Remove Clutter</string>
+    <string name="noclutter_summary">Remove radar data that we know is not precipitation. Some radar data is not actually rain, but rather particles in the air that reflect back to the radar station. Note: This option will sometimes result in an image that looks more cluttered, not less</string>
+
 </resources>

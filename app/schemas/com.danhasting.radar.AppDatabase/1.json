@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ce18b8a85cd9cf7bf3d231a4797a1995",
+    "identityHash": "93dca75546b03fb5867314a286cfd7ae",
     "entities": [
       {
         "tableName": "Favorite",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `location` TEXT NOT NULL, `type` TEXT NOT NULL, `loop` INTEGER NOT NULL, `enhanced` INTEGER NOT NULL, `mosaic` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `location` TEXT NOT NULL, `type` TEXT NOT NULL, `loop` INTEGER NOT NULL, `enhanced` INTEGER NOT NULL, `mosaic` INTEGER NOT NULL, `wunderground` INTEGER NOT NULL, `distance` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -49,6 +49,18 @@
             "columnName": "mosaic",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "wunderground",
+            "columnName": "wunderground",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "distance",
+            "columnName": "distance",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -63,7 +75,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ce18b8a85cd9cf7bf3d231a4797a1995\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"93dca75546b03fb5867314a286cfd7ae\")"
     ]
   }
 }

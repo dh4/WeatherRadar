@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingTop="?android:attr/actionBarSize">
 
-    <PreferenceCategory android:title="@string/startup_options_title">
+    <PreferenceCategory android:title="@string/general_title">
         <CheckBoxPreference
             android:title="@string/show_favorite_title"
             android:defaultValue="false"
@@ -16,20 +16,78 @@
             android:key="default_favorite"
             android:defaultValue="1"
             android:enabled="false" />
+        <CheckBoxPreference
+            android:title="@string/show_fullscreen_title"
+            android:defaultValue="false"
+            android:summary="@string/show_fullscreen_summary"
+            android:key="show_fullscreen" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/image_options_title">
+    <PreferenceCategory android:title="@string/nws_title">
         <CheckBoxPreference
             android:title="@string/show_maximized_title"
             android:defaultValue="false"
             android:summary="@string/show_maximized_summary"
             android:key="show_maximized" />
 
-        <CheckBoxPreference
-            android:title="@string/show_fullscreen_title"
-            android:defaultValue="false"
-            android:summary="@string/show_fullscreen_summary"
-            android:key="show_fullscreen" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/wunderground_title">
+        <EditTextPreference
+            android:title="@string/api_key_title"
+            android:key="api_key"
+            android:summary="@string/api_key_summary"
+            android:selectAllOnFocus="true"
+            android:singleLine="true" />
+
+        <CheckBoxPreference
+            android:title="@string/show_time_label_title"
+            android:defaultValue="true"
+            android:summary="@string/show_time_label_summary"
+            android:key="show_time_label" />
+
+        <ListPreference
+            android:defaultValue="@string/image_resolution_default"
+            android:entries="@array/image_resolution_names"
+            android:entryValues="@array/image_resolution_values"
+            android:key="image_resolution"
+            android:title="@string/image_size_title"
+            android:summary="@string/image_size_summary" />
+
+        <ListPreference
+            android:defaultValue="@string/animation_speed_default"
+            android:entries="@array/animation_speed_names"
+            android:entryValues="@array/animation_speed_values"
+            android:key="animation_speed"
+            android:title="@string/animation_speed_title" />
+
+        <ListPreference
+            android:defaultValue="@string/distance_unit_default"
+            android:entries="@array/distance_unit_names"
+            android:entryValues="@array/distance_unit_values"
+            android:key="distance_units"
+            android:title="@string/distance_units_title" />
+
+        <CheckBoxPreference
+            android:title="@string/show_snow_mix_title"
+            android:defaultValue="true"
+            android:summary="@string/show_snow_mix_summary"
+            android:key="show_snow_mix" />
+
+        <CheckBoxPreference
+            android:title="@string/smooth_title"
+            android:defaultValue="true"
+            android:summary="@string/smooth_summary"
+            android:key="smoothing" />
+
+        <CheckBoxPreference
+            android:title="@string/noclutter_title"
+            android:defaultValue="false"
+            android:summary="@string/noclutter_summary"
+            android:key="noclutter" />
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

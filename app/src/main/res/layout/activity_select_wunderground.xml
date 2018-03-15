@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?android:attr/actionBarSize"
+    tools:context="com.danhasting.radar.MainActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location_text"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="30dp" />
+
+            <EditText
+                android:id="@+id/wunderground_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/location_placeholder"
+                android:inputType="textCapWords"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:selectAllOnFocus="true" />
+
+            <Switch
+                android:id="@+id/loopSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:text="@string/loop"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="30dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical|center_horizontal|center">
+
+                <TextView
+                    android:id="@+id/radiusText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radius_text"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:layout_marginTop="30dp" />
+
+                <NumberPicker
+                    android:id="@+id/radiusPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/viewButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/view_wunderground_image"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="viewWunderground" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

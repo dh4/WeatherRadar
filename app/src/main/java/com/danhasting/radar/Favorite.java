@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2018, Dan Hasting
+ *
+ * This file is part of WeatherRadar
+ *
+ * WeatherRadar is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * WeatherRadar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.danhasting.radar;
 
 import android.arch.persistence.room.ColumnInfo;
@@ -33,6 +51,14 @@ public class Favorite {
     @ColumnInfo(name = "mosaic")
     @NonNull
     private Boolean mosaic = false;
+
+    @ColumnInfo(name = "wunderground")
+    @NonNull
+    private Boolean wunderground = false;
+
+    @ColumnInfo(name = "distance")
+    @NonNull
+    private Integer distance = 50;
 
     public int getUid() {
         return uid;
@@ -94,6 +120,24 @@ public class Favorite {
 
     public void setMosaic(@NonNull Boolean mosaic) {
         this.mosaic = mosaic;
+    }
+
+    @NonNull
+    public Boolean getWunderground() {
+        return wunderground;
+    }
+
+    public void setWunderground(@NonNull Boolean wunderground) {
+        this.wunderground = wunderground;
+    }
+
+    @NonNull
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(@NonNull Integer distance) {
+        this.distance = distance;
     }
 }
 

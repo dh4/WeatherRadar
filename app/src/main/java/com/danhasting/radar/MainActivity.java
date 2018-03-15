@@ -1,7 +1,27 @@
+/*
+ * Copyright (c) 2018, Dan Hasting
+ *
+ * This file is part of WeatherRadar
+ *
+ * WeatherRadar is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * WeatherRadar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.danhasting.radar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -12,11 +32,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -73,6 +95,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_mosaic) {
             Intent mosaicIntent = new Intent(MainActivity.this, SelectMosaicActivity.class);
             MainActivity.this.startActivity(mosaicIntent);
+        } else if (id == R.id.nav_wunderground) {
+            Intent wIntent = new Intent(MainActivity.this, SelectWundergroundActivity.class);
+            MainActivity.this.startActivity(wIntent);
         } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivityForResult(settingsIntent, 1);
@@ -122,25 +147,26 @@ public class MainActivity extends AppCompatActivity
         if (settings.getBoolean("show_favorite", false)) {
             int favoriteID = Integer.parseInt(settings.getString("default_favorite","0"));
             Favorite favorite = settingsDB.favoriteDao().loadById(favoriteID);
-            if (favorite != null) {
-                Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
-                radarIntent.putExtra("location", favorite.getLocation());
-                radarIntent.putExtra("type", favorite.getType());
-                radarIntent.putExtra("loop", favorite.getLoop());
-                radarIntent.putExtra("enhanced", favorite.getEnhanced());
-                radarIntent.putExtra("mosaic", favorite.getMosaic());
-                MainActivity.this.startActivity(radarIntent);
-            } else {
-                Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
-                MainActivity.this.startActivity(selectIntent);
-            }
-        } else {
-            Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
-            MainActivity.this.startActivity(selectIntent);
-        }
+            if (favorite != null)
+                startFavoriteView(favorite);
+            else
+                startFormView();
+        } else
+            startFormView();
 
         if (this.getClass().getSimpleName().equals("MainActivity"))
             this.finish();
+    }
+
+    private void startFormView() {
+        Intent selectIntent;
+
+        if (settings.getBoolean("api_key_activated", false))
+            selectIntent = new Intent(MainActivity.this, SelectWundergroundActivity.class);
+        else
+            selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+
+        MainActivity.this.startActivity(selectIntent);
     }
 
     private void startFavoriteView(Favorite favorite) {
@@ -150,12 +176,35 @@ public class MainActivity extends AppCompatActivity
         radarIntent.putExtra("loop", favorite.getLoop());
         radarIntent.putExtra("enhanced", favorite.getEnhanced());
         radarIntent.putExtra("mosaic", favorite.getMosaic());
+        radarIntent.putExtra("wunderground", favorite.getWunderground());
+        radarIntent.putExtra("distance", favorite.getDistance());
         radarIntent.putExtra("favorite", true);
         radarIntent.putExtra("name", favorite.getName());
         radarIntent.putExtra("favoriteID", favorite.getUid());
         MainActivity.this.startActivity(radarIntent);
     }
 
+    protected void inflateNeedKeyView() {
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (inflater != null) {
+            View contentView = inflater.inflate(R.layout.wunderground_key_missing, mDrawerLayout, false);
+            mDrawerLayout.addView(contentView, 0);
+        }
+
+        Button needKey = findViewById(R.id.needKeyButton);
+        needKey.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent browser= new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.wunderground.com/weather/api/"));
+                startActivity(browser);
+            }
+
+        });
+    }
+
     public void viewRadar(View v) {}
     public void viewMosaic(View v) {}
+    public void viewWunderground(View v) {}
 }

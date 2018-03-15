@@ -368,4 +368,49 @@
         <item>southplains</item>
         <item>uppermissvly</item>
     </array>
+
+    <array name="animation_speed_names">
+        <item>Very Slow</item>
+        <item>Slow</item>
+        <item>Normal</item>
+        <item>Fast</item>
+        <item>Very Fast</item>
+    </array>
+
+    <string-array name="animation_speed_values">
+        <item>100</item>
+        <item>75</item>
+        <item>50</item>
+        <item>25</item>
+        <item>10</item>
+    </string-array>
+    <string name="animation_speed_default">25</string>
+
+    <array name="image_resolution_names">
+        <item>Very Small (240p)</item>
+        <item>Small (480p)</item>
+        <item>Medium (720p)</item>
+        <item>Large (1080p)</item>
+        <item>Very Large(2160p)</item>
+    </array>
+
+    <string-array name="image_resolution_values">
+        <item>240</item>
+        <item>480</item>
+        <item>720</item>
+        <item>1080</item>
+        <item>2160</item>
+    </string-array>
+    <string name="image_resolution_default">720</string>
+
+    <array name="distance_unit_names">
+        <item>Nautical Miles</item>
+        <item>Kilometers</item>
+    </array>
+
+    <array name="distance_unit_values">
+        <item>nm</item>
+        <item>km</item>
+    </array>
+    <string name="distance_unit_default">nm</string>
 </resources>
