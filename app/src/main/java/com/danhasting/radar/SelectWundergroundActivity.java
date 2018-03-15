@@ -25,7 +25,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.NumberPicker;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +47,7 @@ public class SelectWundergroundActivity extends MainActivity {
 
     private EditText locationEditText;
     private Switch loopSwitch;
-    private NumberPicker radiusPicker;
+    private TextView radiusNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +72,27 @@ public class SelectWundergroundActivity extends MainActivity {
         loopSwitch = findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_wunderground_loop", false));
 
-        radiusPicker = findViewById(R.id.radiusPicker);
-        radiusPicker.setMaxValue(1000);
-        radiusPicker.setMinValue(10);
-        radiusPicker.setValue(settings.getInt("last_wunderground_distance", 50));
+
+        int distance = settings.getInt("last_wunderground_distance", 50);
+
+        radiusNumber = findViewById(R.id.radiusNumber);
+        radiusNumber.setText(String.valueOf(distance));
+
+        final SeekBar radiusBar = findViewById(R.id.radiusBar);
+        radiusBar.setProgress(getRadiusPercent(distance));
+
+        radiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                radiusNumber.setText(String.valueOf(getRadiusValue(i)));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
 
         TextView radiusText = findViewById(R.id.radiusText);
         String currentText = radiusText.getText().toString();
@@ -87,10 +104,48 @@ public class SelectWundergroundActivity extends MainActivity {
         radiusText.setText(newText);
     }
 
+    private String getRadiusValue(int i) {
+        int result;
+
+        if (i > 90)
+            result = 1000 + (i - 90) * 100;
+        else if (i > 80)
+            result = 500 + (i - 80) * 50;
+        else if (i > 70)
+            result = 250 + (i - 70) * 25;
+        else if (i > 55)
+            result = 100 + (i - 55) * 10;
+        else if (i > 45)
+            result = 50 + (i - 45) * 5;
+        else
+            result = i + 5;
+
+        return String.valueOf(result);
+    }
+
+    private int getRadiusPercent(int i) {
+        int result;
+
+        if (i <= 50)
+            result = i - 5;
+        else if (i <= 100)
+            result = (i - 50) / 5 + 45;
+        else if (i <= 250)
+            result = (i - 100) / 10 + 55;
+        else if (i <= 500)
+            result = (i - 250) / 25 + 70;
+        else if (i <= 1000)
+            result = (i - 500) / 50 + 80;
+        else
+            result = (i - 1000) / 100 + 90;
+
+        return result;
+    }
+
     public void viewWunderground(View v) {
         final String location = locationEditText.getText().toString();
         final Boolean loop = loopSwitch.isChecked();
-        final int distance = radiusPicker.getValue();
+        final int distance = Integer.parseInt(radiusNumber.getText().toString());
 
         RequestParams params = new RequestParams();
         params.put("query", location);

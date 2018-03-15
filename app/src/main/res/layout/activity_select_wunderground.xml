@@ -43,25 +43,37 @@
                 android:paddingRight="30dp"
                 android:layout_marginTop="30dp" />
 
+            <TextView
+                android:id="@+id/radiusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/radius_text"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="30dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_vertical|center_horizontal|center">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <SeekBar
+                    android:id="@+id/radiusBar"
+                    android:layout_width="0dp"
+                    android:layout_weight=".75"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp" />
 
                 <TextView
-                    android:id="@+id/radiusText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/radius_text"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:layout_marginTop="30dp" />
-
-                <NumberPicker
-                    android:id="@+id/radiusPicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/radiusNumber"
+                    android:layout_width="0dp"
+                    android:layout_weight=".25"
+                    android:layout_height="30dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
             </LinearLayout>
 
