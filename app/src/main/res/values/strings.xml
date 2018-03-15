@@ -63,8 +63,10 @@
     <string name="show_time_label_summary">Display image time in upper left</string>
     <string name="image_size_title">Image Resolution</string>
     <string name="image_size_summary">Larger resolutions will take longer to load and use more data, but appear more crisp</string>
-    <string name="animation_speed_title">Animation Speed</string>
     <string name="distance_units_title">Distance Units</string>
+    <string name="animation_speed_title">Animation Speed</string>
+    <string name="animation_frames_title">Animation Frames</string>
+    <string name="animation_frames_summary">Adding frames will slow down loading and use more data, but show a longer history</string>
     <string name="show_snow_mix_title">Snow and Mixed Precipitation</string>
     <string name="show_snow_mix_summary">Use a different color palette to show rain/mix/snow</string>
     <string name="smooth_title">Use Smoothing</string>

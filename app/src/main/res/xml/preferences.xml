@@ -56,6 +56,13 @@
             android:summary="@string/image_size_summary" />
 
         <ListPreference
+            android:defaultValue="@string/distance_unit_default"
+            android:entries="@array/distance_unit_names"
+            android:entryValues="@array/distance_unit_values"
+            android:key="distance_units"
+            android:title="@string/distance_units_title" />
+
+        <ListPreference
             android:defaultValue="@string/animation_speed_default"
             android:entries="@array/animation_speed_names"
             android:entryValues="@array/animation_speed_values"
@@ -63,11 +70,12 @@
             android:title="@string/animation_speed_title" />
 
         <ListPreference
-            android:defaultValue="@string/distance_unit_default"
-            android:entries="@array/distance_unit_names"
-            android:entryValues="@array/distance_unit_values"
-            android:key="distance_units"
-            android:title="@string/distance_units_title" />
+            android:defaultValue="@string/animation_frames_default"
+            android:entries="@array/animation_frames"
+            android:entryValues="@array/animation_frames"
+            android:key="animation_frames"
+            android:title="@string/animation_frames_title"
+            android:summary="@string/animation_frames_summary" />
 
         <CheckBoxPreference
             android:title="@string/show_snow_mix_title"

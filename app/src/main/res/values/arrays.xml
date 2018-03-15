@@ -386,6 +386,25 @@
     </string-array>
     <string name="animation_speed_default">25</string>
 
+    <string-array name="animation_frames">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+    </string-array>
+    <string name="animation_frames_default">5</string>
+
     <array name="image_resolution_names">
         <item>Very Small (240p)</item>
         <item>Small (480p)</item>

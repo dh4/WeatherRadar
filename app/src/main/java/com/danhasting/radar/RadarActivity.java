@@ -380,7 +380,7 @@ public class RadarActivity extends MainActivity {
         String units = settings.getString("distance_units", getString(R.string.distance_unit_default));
         String speed = settings.getString("animation_speed", getString(R.string.animation_speed_default));
         String res = settings.getString("image_resolution", getString(R.string.image_resolution_default));
-        String frames = "6";
+        String frames = settings.getString("animation_frames", getString(R.string.animation_frames_default));
 
         int width = radarWebView.getWidth();
         int height = radarWebView.getHeight();
