@@ -49,6 +49,7 @@ public class SelectWundergroundActivity extends MainActivity {
     private EditText locationEditText;
     private Switch loopSwitch;
     private TextView radiusNumber;
+    private Button viewButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +105,13 @@ public class SelectWundergroundActivity extends MainActivity {
         String newText = currentText + String.format(" (in %s)", unitsName.toLowerCase());
         radiusText.setText(newText);
 
-        Button viewButton = findViewById(R.id.viewButton);
+        viewButton = findViewById(R.id.viewButton);
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 viewWunderground();
+                viewButton.setText(R.string.loading);
+                viewButton.setEnabled(false);
             }
         });
     }
@@ -216,12 +219,16 @@ public class SelectWundergroundActivity extends MainActivity {
                     e.printStackTrace();
                 }
 
+                viewButton.setText(R.string.view_wunderground_image);
+                viewButton.setEnabled(true);
             }
 
             @Override
             public void onFailure(int status, Header[] h, Throwable t, JSONObject e) {
                 Toast.makeText(getApplicationContext(),
                         R.string.connection_error, Toast.LENGTH_LONG).show();
+                viewButton.setText(R.string.view_wunderground_image);
+                viewButton.setEnabled(true);
             }
 
         });
