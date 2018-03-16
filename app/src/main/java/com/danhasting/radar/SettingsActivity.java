@@ -192,6 +192,7 @@ public class SettingsActivity extends PreferenceActivity {
             CheckBoxPreference noclutter = (CheckBoxPreference)findPreference("noclutter");
             ListPreference resolution = (ListPreference)findPreference("image_resolution");
             ListPreference speed = (ListPreference)findPreference("animation_speed");
+            ListPreference frames = (ListPreference)findPreference("animation_frames");
             ListPreference units = (ListPreference)findPreference("distance_units");
 
             String currentKey = apiKey.getText();
@@ -206,6 +207,7 @@ public class SettingsActivity extends PreferenceActivity {
                 noclutter.setEnabled(true);
                 resolution.setEnabled(true);
                 speed.setEnabled(true);
+                frames.setEnabled(true);
                 units.setEnabled(true);
             } else {
                 if (failed || !currentKey.equals(""))
@@ -219,6 +221,7 @@ public class SettingsActivity extends PreferenceActivity {
                 noclutter.setEnabled(false);
                 resolution.setEnabled(false);
                 speed.setEnabled(false);
+                frames.setEnabled(false);
                 units.setEnabled(false);
             }
         }

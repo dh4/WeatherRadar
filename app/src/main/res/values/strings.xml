@@ -74,6 +74,6 @@
     <string name="smooth_title">Use Smoothing</string>
     <string name="smooth_summary">Smooth the colors</string>
     <string name="noclutter_title">Remove Clutter</string>
-    <string name="noclutter_summary">Remove radar data that we know is not precipitation. Some radar data is not actually rain, but rather particles in the air that reflect back to the radar station. Note: This option will sometimes result in an image that looks more cluttered, not less</string>
+    <string name="noclutter_summary">Remove radar data that we know is not precipitation. Some radar data is not actually rain, but rather particles in the air that reflect back to the radar station.\nNote: This option will sometimes result in an image that looks more cluttered, not less</string>
 
 </resources>
