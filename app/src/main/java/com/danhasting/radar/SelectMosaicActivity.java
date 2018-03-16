@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -54,9 +55,17 @@ public class SelectMosaicActivity extends MainActivity {
 
         final Switch loopSwitch = findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_mosaic_loop",false));
+
+        Button viewButton = findViewById(R.id.viewButton);
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewMosaic();
+            }
+        });
     }
 
-    public void viewMosaic(View v) {
+    private void viewMosaic() {
         Intent radarIntent = new Intent(SelectMosaicActivity.this, RadarActivity.class);
 
         Spinner mosaicSpinner = findViewById(R.id.mosaicSpinner);

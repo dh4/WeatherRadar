@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences settings;
     AppDatabase settingsDB;
 
-    protected Integer currentFavorite = -1;
+    Integer currentFavorite = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_select) {
-            Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+            Intent selectIntent = new Intent(MainActivity.this, SelectNWSActivity.class);
             MainActivity.this.startActivity(selectIntent);
         } else if (id == R.id.nav_mosaic) {
             Intent mosaicIntent = new Intent(MainActivity.this, SelectMosaicActivity.class);
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
         if (settings.getBoolean("api_key_activated", false))
             selectIntent = new Intent(MainActivity.this, SelectWundergroundActivity.class);
         else
-            selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+            selectIntent = new Intent(MainActivity.this, SelectNWSActivity.class);
 
         MainActivity.this.startActivity(selectIntent);
     }
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity
         MainActivity.this.startActivity(radarIntent);
     }
 
-    protected void inflateNeedKeyView() {
+    void inflateNeedKeyView() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
             View contentView = inflater.inflate(R.layout.wunderground_key_missing, mDrawerLayout, false);
@@ -203,8 +203,4 @@ public class MainActivity extends AppCompatActivity
 
         });
     }
-
-    public void viewRadar(View v) {}
-    public void viewMosaic(View v) {}
-    public void viewWunderground(View v) {}
 }

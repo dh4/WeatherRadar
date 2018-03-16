@@ -37,7 +37,6 @@ import java.util.Map;
 public class ChooserActivity extends MainActivity {
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,8 +51,8 @@ public class ChooserActivity extends MainActivity {
         final ArrayList<String> optionNames = new ArrayList<>();
 
         Intent intent = getIntent();
-        final HashMap<String, String> optionsHash = (HashMap<String, String>)
-                intent.getSerializableExtra("location_options");
+        @SuppressWarnings("unchecked") final HashMap<String, String> optionsHash =
+                (HashMap<String, String>) intent.getSerializableExtra("location_options");
         final Boolean loop = intent.getBooleanExtra("loop", false);
         final int distance = intent.getIntExtra("distance", 50);
 

@@ -18,6 +18,7 @@
  */
 package com.danhasting.radar;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -69,6 +70,7 @@ public class RadarActivity extends MainActivity {
     private Boolean refreshed;
 
     @Override
+    @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(Bundle savedInstanceState) {
         Boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("show_fullscreen", false);

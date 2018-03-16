@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -102,6 +103,14 @@ public class SelectWundergroundActivity extends MainActivity {
         String unitsName = getResources().getStringArray(R.array.distance_unit_names)[index];
         String newText = currentText + String.format(" (in %s)", unitsName.toLowerCase());
         radiusText.setText(newText);
+
+        Button viewButton = findViewById(R.id.viewButton);
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewWunderground();
+            }
+        });
     }
 
     private String getRadiusValue(int i) {
@@ -142,7 +151,7 @@ public class SelectWundergroundActivity extends MainActivity {
         return result;
     }
 
-    public void viewWunderground(View v) {
+    private void viewWunderground() {
         final String location = locationEditText.getText().toString();
         final Boolean loop = loopSwitch.isChecked();
         final int distance = Integer.parseInt(radiusNumber.getText().toString());

@@ -25,20 +25,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 
 import java.util.Arrays;
 
-public class SelectActivity extends MainActivity {
+public class SelectNWSActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_select, mDrawerLayout, false);
+            View contentView = inflater.inflate(R.layout.activity_select_nws, mDrawerLayout, false);
             mDrawerLayout.addView(contentView, 0);
         }
 
@@ -80,10 +81,18 @@ public class SelectActivity extends MainActivity {
                 }
             }
         });
+
+        Button viewButton = findViewById(R.id.viewButton);
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewRadar();
+            }
+        });
     }
 
-    public void viewRadar(View v) {
-        Intent radarIntent = new Intent(SelectActivity.this, RadarActivity.class);
+    private void viewRadar() {
+        Intent radarIntent = new Intent(SelectNWSActivity.this, RadarActivity.class);
 
         Spinner typeSpinner = findViewById(R.id.typeSpinner);
         Spinner locationSpinner = findViewById(R.id.locationSpinner);
@@ -109,6 +118,6 @@ public class SelectActivity extends MainActivity {
         editor.putBoolean("last_enhanced", enhanced);
         editor.apply();
 
-        SelectActivity.this.startActivity(radarIntent);
+        SelectNWSActivity.this.startActivity(radarIntent);
     }
 }
