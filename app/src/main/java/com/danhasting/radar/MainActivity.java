@@ -74,6 +74,23 @@ public class MainActivity extends AppCompatActivity
         }
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {}
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                NavigationView navigationView = findViewById(R.id.nav_view);
+                for (int i = 0; i < navigationView.getMenu().size(); i++)
+                    navigationView.getMenu().getItem(i).setChecked(false);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {}
+        });
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -84,24 +101,24 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         mDrawerLayout.closeDrawers();
 
         int id = menuItem.getItemId();
 
-        if (id == R.id.nav_select) {
+        if (id == R.id.nav_select && !this.getClass().getSimpleName().equals("SelectNWSActivity")) {
             Intent selectIntent = new Intent(MainActivity.this, SelectNWSActivity.class);
             MainActivity.this.startActivity(selectIntent);
-        } else if (id == R.id.nav_mosaic) {
+        } else if (id == R.id.nav_mosaic && !this.getClass().getSimpleName().equals("SelectMosaicActivity")) {
             Intent mosaicIntent = new Intent(MainActivity.this, SelectMosaicActivity.class);
             MainActivity.this.startActivity(mosaicIntent);
-        } else if (id == R.id.nav_wunderground) {
+        } else if (id == R.id.nav_wunderground && !this.getClass().getSimpleName().equals("SelectWundergroundActivity")) {
             Intent wIntent = new Intent(MainActivity.this, SelectWundergroundActivity.class);
             MainActivity.this.startActivity(wIntent);
         } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivityForResult(settingsIntent, 1);
-        } else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_about && !this.getClass().getSimpleName().equals("AboutActivity")) {
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             startActivity(aboutIntent);
         } else if (id != currentFavorite) {
@@ -116,9 +133,8 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         NavigationView navigationView = findViewById(R.id.nav_view);
-        for (int i = 0; i < navigationView.getMenu().size(); i++) {
+        for (int i = 0; i < navigationView.getMenu().size(); i++)
             navigationView.getMenu().getItem(i).setChecked(false);
-        }
     }
 
     @Override
