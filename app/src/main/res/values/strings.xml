@@ -55,6 +55,7 @@
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
     <string name="show_fullscreen_title">Show Fullscreen</string>
     <string name="show_fullscreen_summary">Hides title and notification bar. Drag from left of screen to access the menu.</string>
+    <string name="enhanced_layer_title">Enhanced Image Layers</string>
     <string name="api_key_title">API Key</string>
     <string name="api_key_summary">An API key is needed for access to Weather Underground images</string>
     <string name="api_key_activated">API Key Activated!</string>

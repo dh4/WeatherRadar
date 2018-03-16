@@ -79,40 +79,61 @@ img {
 }
 {% endif %}
 
+{% if ($image0 == true) %}
 #image0 {
     background:url(https://radar.weather.gov/ridge/Overlays/Topo/{$distance}/{$location}_Topo_{$distance}.jpg);
     z-index:1;
 }
+{% endif %}
 
+{% if (image1 == true) %}
 #image1 {
     background:url(https://radar.weather.gov/ridge/RadarImg/{$type}/{$location}_{$type}_0.gif);
     z-index:2;
 }
+{% endif %}
 
+{% if (image2 == true) %}
 #image2 {
     background:url(https://radar.weather.gov/ridge/Overlays/County/{$distance}/{$location}_County_{$distance}.gif);
     z-index:3;
 }
+{% endif %}
 
-#image4 {
-    background:url(https://radar.weather.gov/ridge/Overlays/Highways/{$distance}/{$location}_Highways_{$distance}.gif);
+{% if (image3 == true) %}
+#image3 {
+    background:url(https://radar.weather.gov/ridge/Overlays/Rivers/{$distance}/{$location}_Rivers_{$distance}.gif);
     z-index:4;
 }
+{% endif %}
 
-#image5 {
-    background:url(https://radar.weather.gov/ridge/Overlays/Cities/{$distance}/{$location}_City_{$distance}.gif);
+{% if (image4 == true) %}
+#image4 {
+    background:url(https://radar.weather.gov/ridge/Overlays/Highways/{$distance}/{$location}_Highways_{$distance}.gif);
     z-index:5;
 }
+{% endif %}
 
-#image6 {
-    background:url(https://radar.weather.gov/ridge/Warnings/{$distance}/{$location}_Warnings_0.gif);
+{% if (image5 == true) %}
+#image5 {
+    background:url(https://radar.weather.gov/ridge/Overlays/Cities/{$distance}/{$location}_City_{$distance}.gif);
     z-index:6;
 }
+{% endif %}
 
-#image7 {
-    background:url(https://radar.weather.gov/ridge/Legend/{$type}/{$location}_{$type}_Legend_0.gif);
+{% if (image6 == true) %}
+#image6 {
+    background:url(https://radar.weather.gov/ridge/Warnings/{$distance}/{$location}_Warnings_0.gif);
     z-index:7;
 }
+{% endif %}
+
+{% if (image7 == true) %}
+#image7 {
+    background:url(https://radar.weather.gov/ridge/Legend/{$type}/{$location}_{$type}_Legend_0.gif);
+    z-index:8;
+}
+{% endif %}
 
 #failed {
     position:absolute;
@@ -199,6 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id="image0" class="image"></div>
     <div id="image1" class="image"></div>
     <div id="image2" class="image"></div>
+    <div id="image3" class="image"></div>
     <div id="image4" class="image"></div>
     <div id="image5" class="image"></div>
     <div id="image6" class="image"></div>

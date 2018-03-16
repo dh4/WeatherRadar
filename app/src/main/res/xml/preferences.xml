@@ -16,6 +16,7 @@
             android:key="default_favorite"
             android:defaultValue="1"
             android:enabled="false" />
+
         <CheckBoxPreference
             android:title="@string/show_fullscreen_title"
             android:defaultValue="false"
@@ -30,6 +31,13 @@
             android:defaultValue="false"
             android:summary="@string/show_maximized_summary"
             android:key="show_maximized" />
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/enhanced_layer_default"
+            android:entries="@array/enhanced_layer_names"
+            android:entryValues="@array/enhanced_layer_values"
+            android:key="enhanced_layers"
+            android:title="@string/enhanced_layer_title" />
 
     </PreferenceCategory>
 

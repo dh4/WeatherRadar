@@ -41,6 +41,7 @@ import android.widget.EditText;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -432,6 +433,30 @@ public class RadarActivity extends MainActivity {
             html.set("distance", "Long");
         else
             html.set("distance", "Short");
+
+        String[] layers;
+        Set<String> layersSet = settings.getStringSet("enhanced_layers", null);
+        if (layersSet != null)
+            layers = layersSet.toArray(new String[] {});
+        else
+            layers = getResources().getStringArray(R.array.enhanced_layer_default);
+
+        if (Arrays.asList(layers).contains("0"))
+            html.set("image0", "true");
+        if (Arrays.asList(layers).contains("1"))
+            html.set("image1", "true");
+        if (Arrays.asList(layers).contains("2"))
+            html.set("image2", "true");
+        if (Arrays.asList(layers).contains("3"))
+            html.set("image3", "true");
+        if (Arrays.asList(layers).contains("4"))
+            html.set("image4", "true");
+        if (Arrays.asList(layers).contains("5"))
+            html.set("image5", "true");
+        if (Arrays.asList(layers).contains("6"))
+            html.set("image6", "true");
+        if (Arrays.asList(layers).contains("7"))
+            html.set("image7", "true");
 
         return html.toString();
     }

@@ -369,6 +369,38 @@
         <item>uppermissvly</item>
     </array>
 
+    <array name="enhanced_layer_names">
+        <item>Topo</item>
+        <item>Radar</item>
+        <item>Counties</item>
+        <item>Rivers</item>
+        <item>Highways</item>
+        <item>Cities</item>
+        <item>Warnings</item>
+        <item>Legend</item>
+    </array>
+
+    <string-array name="enhanced_layer_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
+    <string-array name="enhanced_layer_default">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
     <array name="animation_speed_names">
         <item>Very Slow</item>
         <item>Slow</item>
