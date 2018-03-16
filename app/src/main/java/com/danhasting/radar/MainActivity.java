@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import java.util.List;
@@ -79,7 +80,13 @@ public class MainActivity extends AppCompatActivity
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
 
             @Override
-            public void onDrawerOpened(@NonNull View drawerView) {}
+            public void onDrawerOpened(@NonNull View drawerView) {
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {

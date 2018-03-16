@@ -19,10 +19,13 @@
 package com.danhasting.radar;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.x5.template.Chunk;
@@ -42,15 +45,41 @@ public class AboutActivity extends MainActivity {
 
         setTitle(R.string.about);
 
+        final TextView about = findViewById(R.id.about_text);
+
         AndroidTemplates loader = new AndroidTemplates(getBaseContext());
         Theme theme = new Theme(loader);
-        Chunk html = theme.makeChunk("about");
+        final Chunk html = theme.makeChunk("about");
 
-        TextView about = findViewById(R.id.about_text);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            about.setText(Html.fromHtml(html.toString(), Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            about.setText(Html.fromHtml(html.toString()));
-        }
+        final ViewTreeObserver observer = about.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Html.ImageGetter imageGetter = new Html.ImageGetter() {
+                    public Drawable getDrawable(String source) {
+                        Drawable d = getResources().getDrawable(R.mipmap.wunderground);
+
+                        int viewWidth = about.getWidth();
+                        int width = Math.round(viewWidth * 4 / 5);
+
+                        Float ratio = (float)d.getIntrinsicHeight() / d.getIntrinsicWidth();
+                        int height = Math.round(width * ratio);
+
+                        d.setBounds(0, 0, width, height);
+                        return d;
+                    }
+                };
+
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    about.setText(Html.fromHtml(html.toString(), Html.FROM_HTML_MODE_LEGACY,
+                            imageGetter, null));
+                } else {
+                    about.setText(Html.fromHtml(html.toString(), imageGetter, null));
+                }
+
+                about.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+       });
     }
 }

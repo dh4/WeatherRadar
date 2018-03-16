@@ -6,7 +6,7 @@
     <string name="select_mosaic_image">NWS Mosaic Radar</string>
     <string name="select_wunderground_image">Weather Underground</string>
     <string name="chooser_title">Select Location</string>
-    <string name="about">About Application</string>
+    <string name="about">About Weather Radar</string>
 
     <!-- Nav Drawer -->
     <string name="header_title">Weather Radar</string>

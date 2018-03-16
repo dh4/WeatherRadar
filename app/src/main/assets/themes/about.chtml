@@ -1,25 +1,46 @@
-This application provides access to doppler radar images from the National Weather Service:<br />
-<a href="https://radar.weather.gov/">radar.weather.gov</a><br />
+<h1>Weather Radar</h1>
+
+<p>Copyright &copy; 2018, Dan Hasting</p>
+
+<p>Weather Radar is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>Weather Radar is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+
+<p>Full license:<br />
+<a href="https://www.gnu.org/licenses/gpl-3.0.en.html">www.gnu.org/licenses/gpl-3.0.en.html</a></p>
+
+<p>Source code can be viewed at:<br />
+<a href="https://github.com/dh4/WeatherRadar">github.com/dh4/WeatherRadar</a></p>
+
+<p>To report bugs or issues with the application:<br />
+<a href="https://github.com/dh4/WeatherRadar/issues">github.com/dh4/WeatherRadar/issues</a></p>
 <br />
-This application is not endorsed by the National Weather Service. Their images are public domain
+
+
+<h2>National Weather Service</h2>
+
+<p>Weather Radar provides access to doppler radar images from the National Weather Service:<br />
+<a href="https://radar.weather.gov/">radar.weather.gov</a></p>
+
+<p>This application is not endorsed by the National Weather Service. Their images are public domain
 and not subject to copyright protection:<br />
-<a href="https://www.weather.gov/disclaimer">www.weather.gov/disclaimer</a><br />
+<a href="https://www.weather.gov/disclaimer">www.weather.gov/disclaimer</a></p>
 <br />
-<br />
-Copyright &copy; 2018, Dan Hasting<br />
-All rights reserved.<br />
-<br />
-This software is provided by the copyright holders and contributors &quot;as is&quot;
-and any express or implied warranties, including, but not limited to, the
-implied warranties of merchantability and fitness for a particular purpose
-are disclaimed.<br />
-<br />
-Full license:<br />
-<a href="https://github.com/dh4/WeatherRadar/blob/master/LICENSE">github.com/dh4/WeatherRadar/blob/master/LICENSE</a><br />
-<br />
-<br />
-Source code can be viewed at:<br />
-<a href="https://github.com/dh4/WeatherRadar">github.com/dh4/WeatherRadar</a><br />
-<br />
-To report bugs or issues with the application:<br />
-<a href="https://github.com/dh4/WeatherRadar/issues">github.com/dh4/WeatherRadar/issues</a><br />
+
+
+<h2>Weather Underground</h2>
+
+<p>Weather Radar makes use of the API owned and operated by The Weather Underground, LLC.
+Weather Underground is a registered trademark of The Weather Channel, LLC.</p>
+
+<p>Weather Underground API:<br />
+<a href="https://www.wunderground.com/api">www.wunderground.com/api</a></p>
+
+<p><a href="https://www.wunderground.com/"><img src="" /></a><br /><br />
+Powered by Weather Underground</p>
