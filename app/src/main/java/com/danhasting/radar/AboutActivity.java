@@ -19,10 +19,12 @@
 package com.danhasting.radar;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -61,7 +63,11 @@ public class AboutActivity extends MainActivity {
 
                         int viewWidth = about.getWidth();
                         int width = Math.round(viewWidth * 4 / 5);
-                        if (width > 770) width = 770;
+
+                        Resources resources = getApplicationContext().getResources();
+                        DisplayMetrics metrics = resources.getDisplayMetrics();
+                        float px = 300 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+                        if (width > px) width = Math.round(px);
 
                         Float ratio = (float)d.getIntrinsicHeight() / d.getIntrinsicWidth();
                         int height = Math.round(width * ratio);
