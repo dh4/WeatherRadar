@@ -2,15 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="92dp"
-    android:padding="16dp"
+    android:paddingBottom="5dp"
+    android:paddingTop="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:theme="@style/NavHeader"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:gravity="bottom">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
         android:text="@string/header_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+
+    <Button
+        android:id="@+id/nav_settings"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="bottom"
+        android:gravity="end"
+        android:background="@drawable/ic_settings" />
+
+    <Button
+        android:id="@+id/nav_about"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="bottom"
+        android:gravity="end"
+        android:background="@drawable/ic_help" />
 
 </LinearLayout>

@@ -103,7 +103,29 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         populateFavorites(navigationView.getMenu());
 
-        if (this.getClass().getSimpleName().equals("MainActivity"))
+        Button settingsButton = navigationView.getHeaderView(0).findViewById(R.id.nav_settings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDrawerLayout.closeDrawers();
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(settingsIntent, 1);
+            }
+        });
+
+        Button aboutButton = navigationView.getHeaderView(0).findViewById(R.id.nav_about);
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDrawerLayout.closeDrawers();
+                if (!classNameEquals("AboutActivity")) {
+                    Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                    startActivity(aboutIntent);
+                }
+            }
+        });
+
+        if (classNameEquals("MainActivity"))
             startDefaultView();
     }
 
@@ -113,21 +135,15 @@ public class MainActivity extends AppCompatActivity
 
         int id = menuItem.getItemId();
 
-        if (id == R.id.nav_select && !this.getClass().getSimpleName().equals("SelectNWSActivity")) {
+        if (id == R.id.nav_select && !classNameEquals("SelectNWSActivity")) {
             Intent selectIntent = new Intent(MainActivity.this, SelectNWSActivity.class);
             MainActivity.this.startActivity(selectIntent);
-        } else if (id == R.id.nav_mosaic && !this.getClass().getSimpleName().equals("SelectMosaicActivity")) {
+        } else if (id == R.id.nav_mosaic && !classNameEquals("SelectMosaicActivity")) {
             Intent mosaicIntent = new Intent(MainActivity.this, SelectMosaicActivity.class);
             MainActivity.this.startActivity(mosaicIntent);
-        } else if (id == R.id.nav_wunderground && !this.getClass().getSimpleName().equals("SelectWundergroundActivity")) {
+        } else if (id == R.id.nav_wunderground && !classNameEquals("SelectWundergroundActivity")) {
             Intent wIntent = new Intent(MainActivity.this, SelectWundergroundActivity.class);
             MainActivity.this.startActivity(wIntent);
-        } else if (id == R.id.nav_settings) {
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivityForResult(settingsIntent, 1);
-        } else if (id == R.id.nav_about && !this.getClass().getSimpleName().equals("AboutActivity")) {
-            Intent aboutIntent = new Intent(this, AboutActivity.class);
-            startActivity(aboutIntent);
         } else if (id != currentFavorite) {
             Favorite favorite = settingsDB.favoriteDao().loadById(id);
             if (favorite != null) startFavoriteView(favorite);
@@ -154,6 +170,10 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean classNameEquals(String name) {
+        return this.getClass().getSimpleName().equals(name);
+    }
+
     void populateFavorites(Menu menu) {
         SubMenu favMenu = menu.findItem(R.id.nav_favorites).getSubMenu();
         favMenu.clear();
@@ -177,7 +197,7 @@ public class MainActivity extends AppCompatActivity
         } else
             startFormView();
 
-        if (this.getClass().getSimpleName().equals("MainActivity"))
+        if (classNameEquals("MainActivity"))
             this.finish();
     }
 

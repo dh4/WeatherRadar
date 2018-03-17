@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_wunderground"
+            android:icon="@drawable/ic_select_image"
+            android:title="@string/nav_wunderground" />
+
         <item
             android:id="@+id/nav_select"
             android:icon="@drawable/ic_select_image"
@@ -12,23 +18,8 @@
             android:title="@string/nav_mosaic" />
 
         <item
-            android:id="@+id/nav_wunderground"
-            android:icon="@drawable/ic_select_image"
-            android:title="@string/nav_wunderground" />
-
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/nav_settings" />
-
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_help"
-            android:title="@string/nav_about" />
-
-        <item
             android:id="@+id/nav_favorites"
-            android:titleCondensed="Favorites"
+            android:titleCondensed="@string/nav_favorites"
             android:title="@string/nav_favorites">
             <menu />
         </item>
