@@ -42,6 +42,7 @@
     <string name="no_results_error">No results found. Please modify your location search.</string>
     <string name="need_key_text">This requires a valid (free) API Key</string>
     <string name="need_key_button">Get Key from Weather Underground</string>
+    <string name="open_settings_button">Open Settings</string>
 
     <!-- Preferences -->
     <string name="general_title">General</string>

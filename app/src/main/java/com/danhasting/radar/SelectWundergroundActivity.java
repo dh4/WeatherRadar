@@ -119,8 +119,11 @@ public class SelectWundergroundActivity extends MainActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        viewButton.setText(R.string.view_wunderground_image);
-        viewButton.setEnabled(true);
+
+        if (settings.getBoolean("api_key_activated", false)) {
+            viewButton.setText(R.string.view_wunderground_image);
+            viewButton.setEnabled(true);
+        }
     }
 
     private String getRadiusValue(int i) {

@@ -225,5 +225,16 @@ public class MainActivity extends AppCompatActivity
             }
 
         });
+
+        Button openSettings = findViewById(R.id.openSettingsButton);
+        openSettings.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(settingsIntent, 1);
+            }
+
+        });
     }
 }
