@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -142,6 +143,7 @@ public class RadarActivity extends MainActivity {
         radarWebView.getSettings().setJavaScriptEnabled(true);
         radarWebView.getSettings().setDomStorageEnabled(true);
         radarWebView.getSettings().setSupportZoom(true);
+        registerForContextMenu(radarWebView);
 
         if (enhanced) {
             radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
@@ -189,7 +191,30 @@ public class RadarActivity extends MainActivity {
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        initializeMenu(menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        initializeMenu(menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        itemSelected(item);
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        itemSelected(item);
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initializeMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.radar_actions, menu);
 
         addFavorite = menu.findItem(R.id.action_add_favorite);
@@ -204,12 +229,9 @@ public class RadarActivity extends MainActivity {
         } else {
             removeFavorite.setVisible(false);
         }
-
-        return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    private void itemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.action_add_favorite) {
@@ -219,8 +241,6 @@ public class RadarActivity extends MainActivity {
         } else if (id == R.id.action_refresh) {
             refreshRadar();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void addFavoriteDialog() {
