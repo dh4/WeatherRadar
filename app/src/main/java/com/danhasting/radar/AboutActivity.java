@@ -61,6 +61,7 @@ public class AboutActivity extends MainActivity {
 
                         int viewWidth = about.getWidth();
                         int width = Math.round(viewWidth * 4 / 5);
+                        if (width > 770) width = 770;
 
                         Float ratio = (float)d.getIntrinsicHeight() / d.getIntrinsicWidth();
                         int height = Math.round(width * ratio);

@@ -2,8 +2,8 @@
     <string name="app_name">Weather Radar</string>
 
     <!-- Activity Headers -->
-    <string name="select_radar_image">NWS Radar</string>
-    <string name="select_mosaic_image">NWS Mosaic Radar</string>
+    <string name="select_radar_image">National Weather Service</string>
+    <string name="select_mosaic_image">NWS Mosaic</string>
     <string name="select_wunderground_image">Weather Underground</string>
     <string name="chooser_title">Select Location</string>
     <string name="about">About Weather Radar</string>

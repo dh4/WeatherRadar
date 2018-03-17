@@ -64,7 +64,7 @@
                 <SeekBar
                     android:id="@+id/radiusBar"
                     android:layout_width="0dp"
-                    android:layout_weight=".75"
+                    android:layout_weight="1"
                     android:layout_height="30dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginStart="30dp"
@@ -73,8 +73,7 @@
 
                 <TextView
                     android:id="@+id/radiusNumber"
-                    android:layout_width="0dp"
-                    android:layout_weight=".25"
+                    android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -82,15 +81,16 @@
 
             <Button
                 android:id="@+id/viewButton"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/view_wunderground_image"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginTop="50dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@string/view_wunderground_image" />
 
         </LinearLayout>
     </ScrollView>

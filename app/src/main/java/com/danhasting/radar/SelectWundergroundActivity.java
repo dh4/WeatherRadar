@@ -120,7 +120,7 @@ public class SelectWundergroundActivity extends MainActivity {
     protected void onResume() {
         super.onResume();
 
-        if (settings.getBoolean("api_key_activated", false)) {
+        if (settings.getBoolean("api_key_activated", false) && viewButton != null) {
             viewButton.setText(R.string.view_wunderground_image);
             viewButton.setEnabled(true);
         }
