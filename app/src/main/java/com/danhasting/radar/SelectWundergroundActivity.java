@@ -116,6 +116,13 @@ public class SelectWundergroundActivity extends MainActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewButton.setText(R.string.view_wunderground_image);
+        viewButton.setEnabled(true);
+    }
+
     private String getRadiusValue(int i) {
         int result;
 
@@ -212,15 +219,16 @@ public class SelectWundergroundActivity extends MainActivity {
                     } else {
                         Toast.makeText(getApplicationContext(),
                                 R.string.no_results_error, Toast.LENGTH_LONG).show();
+                        viewButton.setText(R.string.view_wunderground_image);
+                        viewButton.setEnabled(true);
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(),
                             R.string.connection_error, Toast.LENGTH_LONG).show();
                     e.printStackTrace();
+                    viewButton.setText(R.string.view_wunderground_image);
+                    viewButton.setEnabled(true);
                 }
-
-                viewButton.setText(R.string.view_wunderground_image);
-                viewButton.setEnabled(true);
             }
 
             @Override
