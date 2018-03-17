@@ -52,7 +52,8 @@
                 android:text="@string/loop"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp"
+                android:theme="@style/controlTheme" />
 
             <Switch
                 android:id="@+id/enhancedSwitch"
@@ -61,7 +62,8 @@
                 android:text="@string/enhanced"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp"
+                android:theme="@style/controlTheme" />
 
             <Button
                 android:id="@+id/viewButton"
@@ -73,7 +75,8 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                style="@style/buttonTheme" />
 
         </LinearLayout>
     </ScrollView>

@@ -35,7 +35,8 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="@string/need_key_button" />
+                android:text="@string/need_key_button"
+                style="@style/buttonTheme" />
 
             <Button
                 android:id="@+id/openSettingsButton"

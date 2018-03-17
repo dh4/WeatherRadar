@@ -45,7 +45,8 @@
                 android:text="@string/loop"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp"
+                android:theme="@style/controlTheme" />
 
             <TextView
                 android:id="@+id/radiusText"
@@ -70,7 +71,8 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp" />
+                    android:layout_marginEnd="10dp"
+                    android:theme="@style/controlTheme" />
 
                 <TextView
                     android:id="@+id/radiusNumber"
@@ -82,7 +84,6 @@
 
             <Button
                 android:id="@+id/viewButton"
-                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -91,7 +92,8 @@
                 android:layout_marginTop="50dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                android:text="@string/view_wunderground_image" />
+                android:text="@string/view_wunderground_image"
+                style="@style/buttonTheme" />
 
         </LinearLayout>
     </ScrollView>
