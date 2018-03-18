@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="92dp"
+    android:layout_height="?attr/actionBarSize"
     android:paddingBottom="5dp"
     android:paddingTop="16dp"
     android:paddingLeft="16dp"
@@ -24,7 +24,7 @@
         android:layout_height="28dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="4dp"
         android:layout_gravity="bottom"
         android:gravity="end"
         android:background="@drawable/ic_settings" />
@@ -33,7 +33,7 @@
         android:id="@+id/nav_about"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="4dp"
         android:layout_gravity="bottom"
         android:gravity="end"
         android:background="@drawable/ic_help" />
