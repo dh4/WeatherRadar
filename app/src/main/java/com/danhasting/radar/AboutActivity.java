@@ -19,20 +19,13 @@
 package com.danhasting.radar;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.x5.template.Chunk;
-import com.x5.template.Theme;
-import com.x5.template.providers.AndroidTemplates;
 
 public class AboutActivity extends MainActivity {
 
@@ -47,46 +40,20 @@ public class AboutActivity extends MainActivity {
 
         setTitle(R.string.about);
 
-        final TextView about = findViewById(R.id.about_text);
+        TextView version = findViewById(R.id.version);
+        String versionName = String.format("%s %s", getText(R.string.version),
+                BuildConfig.VERSION_NAME);
+        version.setText(versionName);
 
-        AndroidTemplates loader = new AndroidTemplates(getBaseContext());
-        Theme theme = new Theme(loader);
-        final Chunk html = theme.makeChunk("about");
-
-        final ViewTreeObserver observer = about.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Html.ImageGetter imageGetter = new Html.ImageGetter() {
-                    public Drawable getDrawable(String source) {
-                        Drawable d = getResources().getDrawable(R.mipmap.wunderground);
-
-                        int viewWidth = about.getWidth();
-                        int width = Math.round(viewWidth * 4 / 5);
-
-                        Resources resources = getApplicationContext().getResources();
-                        DisplayMetrics metrics = resources.getDisplayMetrics();
-                        float px = 300 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-                        if (width > px) width = Math.round(px);
-
-                        Float ratio = (float)d.getIntrinsicHeight() / d.getIntrinsicWidth();
-                        int height = Math.round(width * ratio);
-
-                        d.setBounds(0, 0, width, height);
-                        return d;
-                    }
-                };
-
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    about.setText(Html.fromHtml(html.toString(), Html.FROM_HTML_MODE_LEGACY,
-                            imageGetter, null));
-                } else {
-                    about.setText(Html.fromHtml(html.toString(), imageGetter, null));
-                }
-
-                about.setMovementMethod(LinkMovementMethod.getInstance());
+        ImageView wundergroundImage = findViewById(R.id.wunderground_image);
+        wundergroundImage.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://www.wunderground.com/"));
+                startActivity(intent);
             }
-       });
+        });
     }
 }

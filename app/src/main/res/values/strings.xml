@@ -76,4 +76,20 @@
     <string name="noclutter_title">Remove Clutter</string>
     <string name="noclutter_summary">Remove radar data that we know is not precipitation. Some radar data is not actually rain, but rather particles in the air that reflect back to the radar station.\nNote: This option will sometimes result in an image that looks more cluttered, not less</string>
 
+    <!-- About -->
+    <string name="version">Version:</string>
+    <string name="copyright">Copyright © 2018, Dan Hasting</string>
+    <string name="contact">You can also contact me at:\n<a>www.danhasting.com</a></string>
+    <string name="license_line1">Weather Radar is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</string>
+    <string name="license_line2">Weather Radar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</string>
+    <string name="source_code_link">Full license and source code:\n<a>github.com/dh4/WeatherRadar</a></string>
+    <string name="issues_link">To report bugs or issues:\n<a>github.com/dh4/WeatherRadar/issues</a></string>
+    <string name="nws_header">National Weather Service</string>
+    <string name="nws_line1">Weather Radar provides access to doppler radar images from the National Weather Service:\n<a>radar.weather.gov</a></string>
+    <string name="nws_line2">This application is not endorsed by the National Weather Service. Their images are public domain and not subject to copyright protection:\n<a>www.weather.gov/disclaimer</a></string>
+    <string name="wunderground_header">Weather Underground</string>
+    <string name="wunderground_line1">Weather Radar makes use of the API owned and operated by The Weather Underground, LLC. Weather Underground is a registered trademark of The Weather Channel, LLC.</string>
+    <string name="wunderground_line2">Weather Underground API:\n<a>www.wunderground.com/api</a></string>
+    <string name="wunderground_powered_by">Powered by Weather Underground</string>
+
 </resources>
