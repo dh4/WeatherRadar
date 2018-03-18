@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.danhasting.radar"
         minSdkVersion 15
@@ -25,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -34,6 +35,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
-    implementation group: 'com.x5dev', name: 'chunk-templates', version: '3.3.1'
+    implementation 'com.x5dev:chunk-templates:3.3.1'
     implementation 'com.loopj.android:android-async-http:1.4.9'
 }
