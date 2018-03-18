@@ -151,7 +151,7 @@ img {
 <script>
 setTimeout(function() {
     document.querySelector("#failed").classList.remove("hidden");
-}, 10000);
+}, 15000);
 
 {% if ($maximized == true) %}
 var removeAll = function() {
@@ -231,6 +231,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id="top_click"></div>
     <div id="bottom_click"></div>
 {% endif %}
-    <div id="failed" class="hidden">Failed to load image</div>
+    <div id="failed" class="hidden">Image possibly failed to load</div>
 </body>
 </html>
