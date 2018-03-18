@@ -63,6 +63,15 @@
             android:title="@string/image_size_title"
             android:summary="@string/image_size_summary" />
 
+        <EditTextPreference
+            android:defaultValue="@string/image_resolution_default"
+            android:title="@string/custom_resolution_title"
+            android:key="custom_resolution"
+            android:summary="@string/custom_resolution_summary"
+            android:selectAllOnFocus="true"
+            android:inputType="number"
+            android:singleLine="true" />
+
         <ListPreference
             android:defaultValue="@string/distance_unit_default"
             android:entries="@array/distance_unit_names"

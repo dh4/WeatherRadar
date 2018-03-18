@@ -182,6 +182,44 @@ public class SettingsActivity extends PreferenceActivity {
                     return true;
                 }
             });
+
+            final ListPreference resEdit = (ListPreference) findPreference("image_resolution");
+            final EditTextPreference custom = (EditTextPreference)findPreference("custom_resolution");
+            checkResolution(settings.getString("image_resolution",
+                    getString(R.string.image_resolution_default)), custom);
+
+            resEdit.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    checkResolution(o.toString(), custom);
+                    return true;
+                }
+            });
+
+            custom.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                String newValue = o.toString();
+
+                if (newValue.matches("\\d+")) {
+                    int value = Integer.parseInt(newValue);
+
+                    if (value >= 100 && value <= 4096)
+                        return true;
+                }
+
+                Toast.makeText(context, getString(R.string.custom_resolution_error),
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
+        }
+
+        private void checkResolution(String resolution, EditTextPreference custom) {
+            if (resolution.equals("custom"))
+                custom.setEnabled(true);
+            else
+                custom.setEnabled(false);
         }
 
         private void checkApiKeyStatus(SharedPreferences settings, Boolean failed) {
@@ -194,6 +232,10 @@ public class SettingsActivity extends PreferenceActivity {
             ListPreference speed = (ListPreference)findPreference("animation_speed");
             ListPreference frames = (ListPreference)findPreference("animation_frames");
             ListPreference units = (ListPreference)findPreference("distance_units");
+            EditTextPreference custom = (EditTextPreference)findPreference("custom_resolution");
+
+            String resCurrent = settings.getString("image_resolution",
+                    getString(R.string.image_resolution_default));
 
             String currentKey = apiKey.getText();
             if (currentKey == null) currentKey = "";
@@ -209,6 +251,9 @@ public class SettingsActivity extends PreferenceActivity {
                 speed.setEnabled(true);
                 frames.setEnabled(true);
                 units.setEnabled(true);
+
+                if (resCurrent.equals("custom"))
+                    custom.setEnabled(true);
             } else {
                 if (failed || !currentKey.equals(""))
                     apiKey.setSummary(R.string.api_key_error);
@@ -223,6 +268,7 @@ public class SettingsActivity extends PreferenceActivity {
                 speed.setEnabled(false);
                 frames.setEnabled(false);
                 units.setEnabled(false);
+                custom.setEnabled(false);
             }
         }
     }
