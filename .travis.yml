@@ -1,0 +1,31 @@
+language: android
+android:
+  components:
+  - tools
+  - platform-tools
+  - tools
+  - build-tools-26.0.2
+  - android-26
+  licenses:
+  - ".+"
+before_install:
+- yes | sdkmanager "platforms;android-27"
+before_script:
+- sed -i "s/versionName \"\([0-9\.]\+\)\"/versionName \"\1~git:${TRAVIS_COMMIT:0:7}\"/g" app/build.gradle
+before_deploy:
+- mkdir app/build/outputs/apk/debug/$TRAVIS_BRANCH/
+- mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/$TRAVIS_BRANCH/com.danhasting.radar_latest-debug.apk
+deploy:
+  provider: s3
+  access_key_id:
+    secure: N4cevApSJl3oIahxgm0rz28qwlGFr3sVP901C6qxrE+dr4a4jwibvj+5KfAEJ7zpFWQDzqB3uf1Hlb5LhyCg3UmrFQekalIQF7VH3ES8n2cmG93JYcN3y8f6GQ+8NAh5HaIWecAefiw+LNJMRBvNesSVSoUbjV2Trw76MQv+mI1qes9wDgKcVkX4o77T0o/e2F4ONOw4Zjr4sVa3H6P5S/9dNslhAvAmSZA01O4qqWoEmbggVASgoxJW6v3nanYCeMFSc8N7e8Z91ZpVmxXE+wTyzc2wPuUcgZyMPKftgLALE4yz19ueuxS3CKWFIioLKTc/QZ9RIvpvZpXAcCxR8BDGnMZ+cacyBKtQRzhjoKDkFG4Gv1LzqAew9C+jRT3ovHqiB+ujbGKLMGH/Sg4sGx5GwaYjyJT9jk75e69r+3BYVTiw6wfX68JzSldyetI0wAYI8ntMuc1HxoSBDfnn/f4i68kk/jn6nL9bH2/v3yCMc49Z9yEIqDwnz9wIKEMe95GRF73WMwwDvNS2SPqoInk9kHgrG0B0hHu8O5KxZs+xLstyKv3Hdbx64NV52mbXco4nvGl7YypIPdxuxh8MZyTFz+cABdWpZyCPRRDlhnjRzq+bNcl13yD6jLFfdtVSwIBzwsEQ5OWNmq+yekA4EgtUga0QM0smof37KtkdnPY=
+  secret_access_key:
+    secure: OM4yvg0fylOfNmfHVwdJopLh3jfx1JX2BLBnfiGPN1Q5L67p+8+qqs1p100JKNC8G64LNOuVb4Yg+VS+0AAFeKL+J4BySg4l8PmDPzQdE6g4HNf/r8SwUddAv+G/UQNJgrHKYr+MaxUmICOAi3rFIevCumKOOLGNQvu/5cLpX2Se3H0+NIqSJnTji1DoJSc0nHcrxUTGRXeA1GFm+UOfkIDcMBGJ7wrtKla6DBGVo/AV18WwrUbR6ZAoEFFIm3l5cavy1DMiZZmxVMv8pDczu8yvVlf6PLlKlX66gAO57b2NunLMrDqASzVOUctuPLgsaMTOYGTVYSPHZNgKV0gRf6BuIrNADfQ5QYD4HPuaTwAj2ywpTC0cO0w525QZZVMQp2zd+CYsxF47myzV3TK1aFSyCSIFhX7tA8S/a2Q1WP7IUb3MTzhp6mFMUxKjf/Bfh3t1AEkO4APJ6Zs04WtgFhEfvEUKMXoXDK60/PGG0eD2Ic7EWnqIFIqEpzPTU3WXLZXehbPdlq1VDMC8TfdG3BfUhc98IGsr2X+ZqPoA6+Jz+LHvGFPuQsiopaOHN1lA6Pjr6SR1Si17QoQ+uu7GIaEG3fyKAAb5U0QRPTCfo6K7KI/+CSfnBOX4gdvrfh9xZxgw8EV3a10SQDVnU7ojYek7k8fJqf2AVY8PTD90+g4=
+  bucket: dh4
+  skip_cleanup: true
+  local_dir: app/build/outputs/apk/debug
+  upload-dir: weather_radar
+  on:
+    all_branches: true
+    condition: "$TRAVIS_PULL_REQUEST = false"
+
