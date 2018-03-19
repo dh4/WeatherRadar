@@ -66,7 +66,7 @@
     <string name="image_size_title">Image Resolution</string>
     <string name="image_size_summary">Larger resolutions will take longer to load and use more data, but appear more crisp</string>
     <string name="custom_resolution_title">Custom Resolution</string>
-    <string name="custom_resolution_summary">Choose number of pixels between 100 and 4096</string>
+    <string name="custom_resolution_summary">Can be anywhere between 100 and 4096 pixels</string>
     <string name="custom_resolution_error">Please enter a value between 100 and 4096</string>
     <string name="distance_units_title">Distance Units</string>
     <string name="animation_speed_title">Animation Speed</string>
