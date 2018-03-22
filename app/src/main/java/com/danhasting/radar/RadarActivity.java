@@ -53,12 +53,11 @@ import com.x5.template.providers.AndroidTemplates;
 
 public class RadarActivity extends MainActivity {
 
+    private String source;
     private String type;
     private String location;
     private Boolean loop;
     private Boolean enhanced;
-    private Boolean mosaic;
-    private Boolean wunderground;
     private int distance;
 
     private String radarName;
@@ -86,23 +85,23 @@ public class RadarActivity extends MainActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
+        source = intent.getStringExtra("source");
         type = intent.getStringExtra("type");
         location = intent.getStringExtra("location");
         loop = intent.getBooleanExtra("loop", false);
         enhanced = intent.getBooleanExtra("enhanced", false);
-        mosaic = intent.getBooleanExtra("mosaic", false);
-        wunderground = intent.getBooleanExtra("wunderground", false);
         distance = intent.getIntExtra("distance", 50);
 
 
+        if (source == null) source = "nws";
         if (type == null) type = "";
         if (location == null) location = "";
 
 
-        if (wunderground && !settings.getBoolean("api_key_activated", false)) {
-            inflateNeedKeyView();
-            return;
-        }
+//        if (source.equals("wunderground") && !settings.getBoolean("api_key_activated", false)) {
+//            inflateNeedKeyView();
+//            return;
+//        }
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
@@ -118,10 +117,10 @@ public class RadarActivity extends MainActivity {
 
         navigationView = findViewById(R.id.nav_view);
 
-        if (wunderground) {
+        if (source.equals("wunderground")) {
             radarName = intent.getStringExtra("name");
             if (radarName == null) radarName = getString(R.string.wunderground_title);
-        } else if (mosaic) {
+        } else if (source.equals("mosaic")) {
             int index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(location);
             radarName = getResources().getStringArray(R.array.mosaic_names)[index];
         } else {
@@ -148,9 +147,9 @@ public class RadarActivity extends MainActivity {
 
         if (enhanced) {
             radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
-        } else if (mosaic) {
+        } else if (source.equals("mosaic")) {
             radarWebView.loadData(displayMosaicImage(location, loop), "text/html", null);
-        } else if (wunderground) {
+        } else if (source.equals("wunderground")) {
             // We dynamically set the size for wunderground images, so wait for the layout to load
             final ViewTreeObserver observer = radarWebView.getViewTreeObserver();
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -175,8 +174,8 @@ public class RadarActivity extends MainActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (!wunderground || settings.getBoolean("api_key_activated", false)) {
-            if (!refreshed && !(loop && mosaic)) { // Mosaic loops are large, don't auto-refresh
+        if (!source.equals("wunderground") || settings.getBoolean("api_key_activated", false)) {
+            if (!refreshed && !(loop && source.equals("mosaic"))) { // Mosaic loops are large, don't auto-refresh
                 radarWebView.reload();
                 scheduleRefresh();
             }
@@ -221,8 +220,8 @@ public class RadarActivity extends MainActivity {
         addFavorite = menu.findItem(R.id.action_add_favorite);
         removeFavorite = menu.findItem(R.id.action_remove_favorite);
 
-        List<Favorite> favorites = settingsDB.favoriteDao().findByData(location, type, loop,
-                enhanced, mosaic, wunderground, distance);
+        List<Favorite> favorites = settingsDB.favoriteDao().findByData(
+                source, location, type, loop, enhanced, distance);
 
         if (favorites.size() > 0) {
             addFavorite.setVisible(false);
@@ -281,13 +280,12 @@ public class RadarActivity extends MainActivity {
                     input.setError(getString(R.string.already_exists_error));
                 } else {
                     Favorite favorite = new Favorite();
+                    favorite.setSource(source);
                     favorite.setName(input.getText().toString());
                     favorite.setLocation(location);
                     favorite.setType(type);
                     favorite.setLoop(loop);
                     favorite.setEnhanced(enhanced);
-                    favorite.setMosaic(mosaic);
-                    favorite.setWunderground(wunderground);
                     favorite.setDistance(distance);
                     settingsDB.favoriteDao().insertAll(favorite);
 
@@ -306,7 +304,7 @@ public class RadarActivity extends MainActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == DialogInterface.BUTTON_POSITIVE) {
                     List<Favorite> favorites = settingsDB.favoriteDao()
-                            .findByData(location, type, loop, enhanced, mosaic, wunderground, distance);
+                            .findByData(source, location, type, loop, enhanced, distance);
 
                     for (Favorite favorite : favorites) {
                         settingsDB.favoriteDao().delete(favorite);
@@ -442,7 +440,7 @@ public class RadarActivity extends MainActivity {
 
         Chunk html = theme.makeChunk("lite_radar");
         html.set("url", url);
-        if (!wunderground)
+        if (!source.equals("wunderground"))
             html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
 
         return html.toString();

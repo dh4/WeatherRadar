@@ -225,6 +225,9 @@ public class SettingsActivity extends PreferenceActivity {
         }
 
         private void checkApiKeyStatus(SharedPreferences settings, Boolean failed) {
+            // Check to make sure user is still in settings
+            if (!isAdded()) return;
+
             EditTextPreference apiKey = (EditTextPreference)findPreference("api_key");
             CheckBoxPreference timeLabel = (CheckBoxPreference)findPreference("show_time_label");
             CheckBoxPreference snow = (CheckBoxPreference)findPreference("show_snow_mix");

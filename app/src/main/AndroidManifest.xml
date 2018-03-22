@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectActivity" />
-        <activity android:name=".ChooserActivity" />
         <activity android:name=".RadarActivity" />
         <activity
             android:name=".SettingsActivity"

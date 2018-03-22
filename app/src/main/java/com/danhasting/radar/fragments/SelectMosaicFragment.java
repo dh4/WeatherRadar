@@ -18,8 +18,8 @@
  */
 package com.danhasting.radar.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -32,19 +32,21 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.danhasting.radar.R;
-import com.danhasting.radar.RadarActivity;
-
 import java.util.Arrays;
 
 public class SelectMosaicFragment extends Fragment {
 
     private View view;
-    private SharedPreferences settings;
+    OnMosaicSelectedListener callback;
+
+    public interface OnMosaicSelectedListener {
+        void onMosaicSelected(String location, Boolean loop);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_select_mosaic, container, false);
-        settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         Spinner mosaicSpinner = view.findViewById(R.id.mosaicSpinner);
         ArrayAdapter<CharSequence> mosaicAdapter = ArrayAdapter.createFromResource(
@@ -69,25 +71,25 @@ public class SelectMosaicFragment extends Fragment {
         return view;
     }
 
-    private void viewMosaic() {
-        Intent radarIntent = new Intent(getActivity(), RadarActivity.class);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
+        try {
+            callback = (OnMosaicSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnMosaicSelectedListener");
+        }
+    }
+
+    private void viewMosaic() {
         Spinner mosaicSpinner = view.findViewById(R.id.mosaicSpinner);
         Switch loopSwitch = view.findViewById(R.id.loopSwitch);
 
         String mosaic = getResources().getStringArray(R.array.mosaic_values)[mosaicSpinner.getSelectedItemPosition()];
         Boolean loop = loopSwitch.isChecked();
 
-        radarIntent.putExtra("location", mosaic);
-        radarIntent.putExtra("loop", loop);
-        radarIntent.putExtra("mosaic", true);
-
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("last_mosaic", mosaic);
-        editor.putBoolean("last_mosaic_loop", loop);
-        editor.apply();
-
-        startActivity(radarIntent);
+        callback.onMosaicSelected(mosaic, loop);
     }
 }
 

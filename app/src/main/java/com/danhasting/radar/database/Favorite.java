@@ -48,17 +48,13 @@ public class Favorite {
     @NonNull
     private Boolean enhanced = false;
 
-    @ColumnInfo(name = "mosaic")
-    @NonNull
-    private Boolean mosaic = false;
-
-    @ColumnInfo(name = "wunderground")
-    @NonNull
-    private Boolean wunderground = false;
-
     @ColumnInfo(name = "distance")
     @NonNull
     private Integer distance = 50;
+
+    @ColumnInfo(name = "source")
+    @NonNull
+    private String source = "";
 
     public int getUid() {
         return uid;
@@ -114,30 +110,21 @@ public class Favorite {
     }
 
     @NonNull
-    public Boolean getMosaic() {
-        return mosaic;
-    }
-
-    public void setMosaic(@NonNull Boolean mosaic) {
-        this.mosaic = mosaic;
-    }
-
-    @NonNull
-    public Boolean getWunderground() {
-        return wunderground;
-    }
-
-    public void setWunderground(@NonNull Boolean wunderground) {
-        this.wunderground = wunderground;
-    }
-
-    @NonNull
     public Integer getDistance() {
         return distance;
     }
 
     public void setDistance(@NonNull Integer distance) {
         this.distance = distance;
+    }
+
+    @NonNull
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(@NonNull String source) {
+        this.source = source;
     }
 }
 

@@ -16,54 +16,67 @@
  * You should have received a copy of the GNU General Public License
  * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.danhasting.radar;
+package com.danhasting.radar.fragments;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.danhasting.radar.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 
-public class ChooserActivity extends MainActivity {
+public class ChooserFragment extends Fragment {
+
+    private View view;
+    OnChooserSelectedListener callback;
+
+    public interface OnChooserSelectedListener {
+        void onChooserSelected(String name, String location, Boolean loop, int distance);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_chooser, drawerLayout, false);
-            drawerLayout.addView(contentView, 0);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_chooser, container, false);
+        return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            callback = (OnChooserSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnChooserSelectedListener");
         }
+    }
 
-        setTitle(R.string.chooser_title);
-
-        ListView chooserList = findViewById(R.id.chooser_list);
+    public void populateList(final TreeMap<String, String> options, final Boolean loop, final int distance) {
+        ListView chooserList = view.findViewById(R.id.chooser_list);
         final ArrayList<String> optionNames = new ArrayList<>();
 
-        Intent intent = getIntent();
-        @SuppressWarnings("unchecked") final HashMap<String, String> optionsHash =
-                (HashMap<String, String>) intent.getSerializableExtra("location_options");
-        final Boolean loop = intent.getBooleanExtra("loop", false);
-        final int distance = intent.getIntExtra("distance", 50);
-
-        for (Map.Entry<String, String> option : optionsHash.entrySet())
+        for (Map.Entry<String, String> option : options.entrySet())
             optionNames.add(option.getKey().replace(",","  ,"));
 
         Collections.sort(optionNames, String.CASE_INSENSITIVE_ORDER);
         for (int i = 0; i < optionNames.size(); i++)
             optionNames.set(i, optionNames.get(i).replace("  ,",","));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, optionNames);
         chooserList.setAdapter(adapter);
 
@@ -71,22 +84,10 @@ public class ChooserActivity extends MainActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String name = optionNames.get(position);
-                String location = optionsHash.get(name);
-
-                Intent radarIntent = new Intent(ChooserActivity.this, RadarActivity.class);
-                radarIntent.putExtra("location", location);
-                radarIntent.putExtra("name", name);
-                radarIntent.putExtra("loop", loop);
-                radarIntent.putExtra("distance", distance);
-                radarIntent.putExtra("wunderground", true);
-
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("last_wunderground", name);
-                editor.putBoolean("last_wunderground_loop", loop);
-                editor.apply();
-
-                ChooserActivity.this.startActivity(radarIntent);
+                String location = options.get(name);
+                callback.onChooserSelected(name, location, loop, distance);
             }
         });
     }
 }
+

@@ -21,7 +21,6 @@ package com.danhasting.radar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -32,7 +31,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -224,47 +222,15 @@ public class MainActivity extends AppCompatActivity
 
     private void startFavoriteView(Favorite favorite) {
         Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+        radarIntent.putExtra("source", favorite.getSource());
         radarIntent.putExtra("location", favorite.getLocation());
         radarIntent.putExtra("type", favorite.getType());
         radarIntent.putExtra("loop", favorite.getLoop());
         radarIntent.putExtra("enhanced", favorite.getEnhanced());
-        radarIntent.putExtra("mosaic", favorite.getMosaic());
-        radarIntent.putExtra("wunderground", favorite.getWunderground());
         radarIntent.putExtra("distance", favorite.getDistance());
         radarIntent.putExtra("favorite", true);
         radarIntent.putExtra("name", favorite.getName());
         radarIntent.putExtra("favoriteID", favorite.getUid());
         MainActivity.this.startActivity(radarIntent);
-    }
-
-    void inflateNeedKeyView() {
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.wunderground_key_missing, drawerLayout, false);
-            drawerLayout.addView(contentView, 0);
-        }
-
-        Button needKey = findViewById(R.id.needKeyButton);
-        needKey.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent browser= new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.wunderground.com/weather/api/"));
-                startActivity(browser);
-            }
-
-        });
-
-        Button openSettings = findViewById(R.id.openSettingsButton);
-        openSettings.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivityForResult(settingsIntent, 1);
-            }
-
-        });
     }
 }

@@ -18,8 +18,8 @@
  */
 package com.danhasting.radar.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,26 +33,29 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.danhasting.radar.R;
-import com.danhasting.radar.RadarActivity;
 
 import java.util.Arrays;
 
 public class SelectNWSFragment extends Fragment {
 
     private View view;
-    private SharedPreferences settings;
+    OnNWSSelectedListener callback;
+
+    public interface OnNWSSelectedListener {
+        void onNWSSelected(String location, String type, Boolean loop, Boolean enhanced);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_select_nws, container, false);
-        settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
         ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(
                 getActivity(), R.array.type_names, android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(typeAdapter);
 
-        String type = settings.getString("last_type","");
+        String type = settings.getString("last_nws_type","");
         int index = Arrays.asList(getResources().getStringArray(R.array.type_values)).indexOf(type);
         typeSpinner.setSelection(index);
 
@@ -61,15 +64,15 @@ public class SelectNWSFragment extends Fragment {
                 getActivity(), R.array.location_names, android.R.layout.simple_spinner_dropdown_item);
         locationSpinner.setAdapter(locationAdapter);
 
-        String location = settings.getString("last_location","");
+        String location = settings.getString("last_nws_location","");
         index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
         locationSpinner.setSelection(index);
 
         final Switch loopSwitch = view.findViewById(R.id.loopSwitch);
-        loopSwitch.setChecked(settings.getBoolean("last_loop",false));
+        loopSwitch.setChecked(settings.getBoolean("last_nws_loop",false));
 
         Switch enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
-        if (settings.getBoolean("last_enhanced",false)) {
+        if (settings.getBoolean("last_nws_enhanced",false)) {
             enhancedSwitch.setChecked(true);
             loopSwitch.setEnabled(false);
         }
@@ -95,9 +98,19 @@ public class SelectNWSFragment extends Fragment {
         return view;
     }
 
-    private void viewRadar() {
-        Intent radarIntent = new Intent(getActivity(), RadarActivity.class);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
+        try {
+            callback = (OnNWSSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnNWSSelectedListener");
+        }
+    }
+
+
+    private void viewRadar() {
         Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
         Spinner locationSpinner = view.findViewById(R.id.locationSpinner);
         Switch loopSwitch = view.findViewById(R.id.loopSwitch);
@@ -110,18 +123,6 @@ public class SelectNWSFragment extends Fragment {
 
         if (enhanced) loop = false;
 
-        radarIntent.putExtra("type", type);
-        radarIntent.putExtra("location", location);
-        radarIntent.putExtra("loop", loop);
-        radarIntent.putExtra("enhanced", enhanced);
-
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("last_location", location);
-        editor.putString("last_type", type);
-        editor.putBoolean("last_loop", loop);
-        editor.putBoolean("last_enhanced", enhanced);
-        editor.apply();
-
-        startActivity(radarIntent);
+        callback.onNWSSelected(location, type, loop, enhanced);
     }
 }

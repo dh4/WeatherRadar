@@ -18,8 +18,8 @@
  */
 package com.danhasting.radar.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -31,23 +31,10 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.danhasting.radar.ChooserActivity;
 import com.danhasting.radar.R;
-import com.danhasting.radar.RadarActivity;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.TreeMap;
-
-import cz.msebera.android.httpclient.Header;
 
 public class SelectWundergroundFragment extends Fragment {
 
@@ -57,6 +44,12 @@ public class SelectWundergroundFragment extends Fragment {
     private Button viewButton;
 
     private SharedPreferences settings;
+
+    OnWundergroundSelectedListener callback;
+
+    public interface OnWundergroundSelectedListener {
+        void onWundergroundSelected(String location, Boolean loop, int distance);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,10 +107,26 @@ public class SelectWundergroundFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            callback = (OnWundergroundSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnWundergroundSelectedListener");
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        if (settings.getBoolean("api_key_activated", false) && viewButton != null) {
+        if (settings.getBoolean("api_key_activated", false))
+            enableButton();
+    }
+
+    public void enableButton() {
+        if(viewButton != null) {
             viewButton.setText(R.string.view_wunderground_image);
             viewButton.setEnabled(true);
         }
@@ -166,78 +175,7 @@ public class SelectWundergroundFragment extends Fragment {
         final Boolean loop = loopSwitch.isChecked();
         final int distance = Integer.parseInt(radiusNumber.getText().toString());
 
-        RequestParams params = new RequestParams();
-        params.put("query", location);
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        String autocompleteURL = "https://autocomplete.wunderground.com/aq";
-
-        client.get(autocompleteURL, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int status, Header[] headers, JSONObject json) {
-                TreeMap<String, String> options = new TreeMap<>();
-
-                try {
-                    String resultsString = json.getString("RESULTS");
-                    JSONArray results = new JSONArray(resultsString);
-                    for (int i = 0; i < results.length(); i++) {
-                        JSONObject row = results.getJSONObject(i);
-                        options.put(row.getString("name"), row.getString("zmw"));
-                    }
-
-                    if (options.size() > 1) {
-                        Intent chooserIntent = new Intent(getActivity(), ChooserActivity.class);
-                        chooserIntent.putExtra("location_options", options);
-                        chooserIntent.putExtra("loop", loop);
-                        chooserIntent.putExtra("distance", distance);
-                        chooserIntent.putExtra("wunderground", true);
-
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("last_wunderground", location);
-                        editor.putBoolean("last_wunderground_loop", loop);
-                        editor.putInt("last_wunderground_distance", distance);
-                        editor.apply();
-
-                        startActivity(chooserIntent);
-                    } else if (options.size() == 1) {
-                        Intent radarIntent = new Intent(getActivity(), RadarActivity.class);
-                        radarIntent.putExtra("location", options.firstEntry().getValue());
-                        radarIntent.putExtra("name", options.firstEntry().getKey());
-                        radarIntent.putExtra("loop", loop);
-                        radarIntent.putExtra("distance", distance);
-                        radarIntent.putExtra("wunderground", true);
-
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("last_wunderground", options.firstEntry().getKey());
-                        editor.putBoolean("last_wunderground_loop", loop);
-                        editor.putInt("last_wunderground_distance", distance);
-                        editor.apply();
-
-                        startActivity(radarIntent);
-                    } else {
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                R.string.no_results_error, Toast.LENGTH_LONG).show();
-                        viewButton.setText(R.string.view_wunderground_image);
-                        viewButton.setEnabled(true);
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            R.string.connection_error, Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                    viewButton.setText(R.string.view_wunderground_image);
-                    viewButton.setEnabled(true);
-                }
-            }
-
-            @Override
-            public void onFailure(int status, Header[] h, Throwable t, JSONObject e) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        R.string.connection_error, Toast.LENGTH_LONG).show();
-                viewButton.setText(R.string.view_wunderground_image);
-                viewButton.setEnabled(true);
-            }
-
-        });
+        callback.onWundergroundSelected(location, loop, distance);
     }
 }
 
