@@ -16,60 +16,64 @@
  * You should have received a copy of the GNU General Public License
  * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.danhasting.radar;
+package com.danhasting.radar.fragments;
 
-import android.content.Context;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
 
+import com.danhasting.radar.R;
+import com.danhasting.radar.RadarActivity;
+
 import java.util.Arrays;
 
-public class SelectMosaicActivity extends MainActivity {
+public class SelectMosaicFragment extends Fragment {
+
+    private View view;
+    private SharedPreferences settings;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_select_mosaic, mDrawerLayout, false);
-            mDrawerLayout.addView(contentView, 0);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_select_mosaic, container, false);
+        settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        setTitle(R.string.select_mosaic_image);
-
-        Spinner mosaicSpinner = findViewById(R.id.mosaicSpinner);
+        Spinner mosaicSpinner = view.findViewById(R.id.mosaicSpinner);
         ArrayAdapter<CharSequence> mosaicAdapter = ArrayAdapter.createFromResource(
-                this, R.array.mosaic_names, android.R.layout.simple_spinner_dropdown_item);
+                getActivity(), R.array.mosaic_names, android.R.layout.simple_spinner_dropdown_item);
         mosaicSpinner.setAdapter(mosaicAdapter);
 
         String mosaic = settings.getString("last_mosaic","");
         int index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(mosaic);
         mosaicSpinner.setSelection(index);
 
-        final Switch loopSwitch = findViewById(R.id.loopSwitch);
+        final Switch loopSwitch = view.findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_mosaic_loop",false));
 
-        Button viewButton = findViewById(R.id.viewButton);
+        Button viewButton = view.findViewById(R.id.viewButton);
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 viewMosaic();
             }
         });
+
+        return view;
     }
 
     private void viewMosaic() {
-        Intent radarIntent = new Intent(SelectMosaicActivity.this, RadarActivity.class);
+        Intent radarIntent = new Intent(getActivity(), RadarActivity.class);
 
-        Spinner mosaicSpinner = findViewById(R.id.mosaicSpinner);
-        Switch loopSwitch = findViewById(R.id.loopSwitch);
+        Spinner mosaicSpinner = view.findViewById(R.id.mosaicSpinner);
+        Switch loopSwitch = view.findViewById(R.id.loopSwitch);
 
         String mosaic = getResources().getStringArray(R.array.mosaic_values)[mosaicSpinner.getSelectedItemPosition()];
         Boolean loop = loopSwitch.isChecked();
@@ -83,7 +87,7 @@ public class SelectMosaicActivity extends MainActivity {
         editor.putBoolean("last_mosaic_loop", loop);
         editor.apply();
 
-        SelectMosaicActivity.this.startActivity(radarIntent);
+        startActivity(radarIntent);
     }
 }
 

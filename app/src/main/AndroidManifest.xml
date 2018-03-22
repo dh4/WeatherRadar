@@ -19,9 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectNWSActivity" />
-        <activity android:name=".SelectMosaicActivity" />
-        <activity android:name=".SelectWundergroundActivity" />
+        <activity android:name=".SelectActivity" />
         <activity android:name=".ChooserActivity" />
         <activity android:name=".RadarActivity" />
         <activity

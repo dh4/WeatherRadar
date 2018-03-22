@@ -32,6 +32,8 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.danhasting.radar.database.AppDatabase;
+import com.danhasting.radar.database.Favorite;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 

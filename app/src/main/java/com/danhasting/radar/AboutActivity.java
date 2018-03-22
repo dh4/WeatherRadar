@@ -34,8 +34,8 @@ public class AboutActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_about, mDrawerLayout, false);
-            mDrawerLayout.addView(contentView, 0);
+            View contentView = inflater.inflate(R.layout.activity_about, drawerLayout, false);
+            drawerLayout.addView(contentView, 0);
         }
 
         setTitle(R.string.about);

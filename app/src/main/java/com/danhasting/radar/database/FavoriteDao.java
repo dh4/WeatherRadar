@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.danhasting.radar;
+package com.danhasting.radar.database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

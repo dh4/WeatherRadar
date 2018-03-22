@@ -41,12 +41,15 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
+import com.danhasting.radar.database.AppDatabase;
+import com.danhasting.radar.database.Favorite;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout mDrawerLayout;
+    DrawerLayout drawerLayout;
     SharedPreferences settings;
     AppDatabase settingsDB;
 
@@ -74,8 +77,8 @@ public class MainActivity extends AppCompatActivity
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
 
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDrawerLayout.closeDrawers();
+                drawerLayout.closeDrawers();
                 Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivityForResult(settingsIntent, 1);
             }
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         aboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDrawerLayout.closeDrawers();
+                drawerLayout.closeDrawers();
                 if (!classNameEquals("AboutActivity")) {
                     Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
                     startActivity(aboutIntent);
@@ -131,20 +134,27 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
-        mDrawerLayout.closeDrawers();
+        drawerLayout.closeDrawers();
 
         int id = menuItem.getItemId();
 
-        if (id == R.id.nav_select && !classNameEquals("SelectNWSActivity")) {
-            Intent selectIntent = new Intent(MainActivity.this, SelectNWSActivity.class);
-            MainActivity.this.startActivity(selectIntent);
-        } else if (id == R.id.nav_mosaic && !classNameEquals("SelectMosaicActivity")) {
-            Intent mosaicIntent = new Intent(MainActivity.this, SelectMosaicActivity.class);
-            MainActivity.this.startActivity(mosaicIntent);
-        } else if (id == R.id.nav_wunderground && !classNameEquals("SelectWundergroundActivity")) {
-            Intent wIntent = new Intent(MainActivity.this, SelectWundergroundActivity.class);
-            MainActivity.this.startActivity(wIntent);
-        } else if (id != currentFavorite) {
+        if (!classNameEquals("SelectActivity")) {
+            Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+
+            if (id == R.id.nav_nws)
+                selectIntent.putExtra("selection", "nws");
+            else if (id == R.id.nav_mosaic)
+                selectIntent.putExtra("selection", "mosaic");
+            else if (id == R.id.nav_wunderground)
+                selectIntent.putExtra("selection", "wunderground");
+
+            if (selectIntent.hasExtra("selection")) {
+                MainActivity.this.startActivity(selectIntent);
+                return true;
+            }
+        }
+
+        if (id != currentFavorite) {
             Favorite favorite = settingsDB.favoriteDao().loadById(id);
             if (favorite != null) startFavoriteView(favorite);
         }
@@ -164,7 +174,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -202,12 +212,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startFormView() {
-        Intent selectIntent;
+        Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
 
         if (settings.getBoolean("api_key_activated", false))
-            selectIntent = new Intent(MainActivity.this, SelectWundergroundActivity.class);
+            selectIntent.putExtra("selection", "wunderground");
         else
-            selectIntent = new Intent(MainActivity.this, SelectNWSActivity.class);
+            selectIntent.putExtra("selection", "nws");
 
         MainActivity.this.startActivity(selectIntent);
     }
@@ -230,8 +240,8 @@ public class MainActivity extends AppCompatActivity
     void inflateNeedKeyView() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.wunderground_key_missing, mDrawerLayout, false);
-            mDrawerLayout.addView(contentView, 0);
+            View contentView = inflater.inflate(R.layout.wunderground_key_missing, drawerLayout, false);
+            drawerLayout.addView(contentView, 0);
         }
 
         Button needKey = findViewById(R.id.needKeyButton);

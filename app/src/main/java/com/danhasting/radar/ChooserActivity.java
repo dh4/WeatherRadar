@@ -41,8 +41,8 @@ public class ChooserActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_chooser, mDrawerLayout, false);
-            mDrawerLayout.addView(contentView, 0);
+            View contentView = inflater.inflate(R.layout.activity_chooser, drawerLayout, false);
+            drawerLayout.addView(contentView, 0);
         }
 
         setTitle(R.string.chooser_title);

@@ -16,22 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.danhasting.radar;
+package com.danhasting.radar.views;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.support.v7.widget.AppCompatEditText;
+import android.util.AttributeSet;
+import android.view.KeyEvent;
 
-@Database(entities = {Favorite.class}, version = 1)
-public abstract class AppDatabase extends RoomDatabase {
-    public abstract FavoriteDao favoriteDao();
-    private static AppDatabase INSTANCE;
+public class EditTextDefocus extends AppCompatEditText {
 
-    public static AppDatabase getAppDatabase(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "user-database").allowMainThreadQueries().build();
-        }
-        return INSTANCE;
+    public EditTextDefocus(Context context) {
+        super(context);
+    }
+
+    public EditTextDefocus(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public EditTextDefocus(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+            clearFocus();
+        return super.dispatchKeyEvent(event);
     }
 }

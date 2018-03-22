@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.danhasting.radar.database.Favorite;
 import com.x5.template.Chunk;
 import com.x5.template.Theme;
 import com.x5.template.providers.AndroidTemplates;
@@ -105,8 +106,8 @@ public class RadarActivity extends MainActivity {
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_radar, mDrawerLayout, false);
-            mDrawerLayout.addView(contentView, 0);
+            View contentView = inflater.inflate(R.layout.activity_radar, drawerLayout, false);
+            drawerLayout.addView(contentView, 0);
         }
 
         ActionBar actionBar = getSupportActionBar();
