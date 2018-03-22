@@ -39,7 +39,7 @@ import java.util.Arrays;
 public class SelectNWSFragment extends Fragment {
 
     private View view;
-    OnNWSSelectedListener callback;
+    private OnNWSSelectedListener callback;
 
     public interface OnNWSSelectedListener {
         void onNWSSelected(String location, String type, Boolean loop, Boolean enhanced);

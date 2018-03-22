@@ -19,7 +19,6 @@
 package com.danhasting.radar;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -158,8 +157,8 @@ public class SelectActivity extends MainActivity
         chooserFragment.populateList(options, loop, distance);
     }
 
-    public void onSelected(String source, String name, String location, String type,
-                           Boolean loop, Boolean enhanced, int distance) {
+    private void onSelected(String source, String name, String location, String type,
+                            Boolean loop, Boolean enhanced, int distance) {
         Intent radarIntent = new Intent(SelectActivity.this, RadarActivity.class);
 
         if (name == null) name = location;

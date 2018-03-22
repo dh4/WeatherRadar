@@ -45,7 +45,7 @@ public class SelectWundergroundFragment extends Fragment {
 
     private SharedPreferences settings;
 
-    OnWundergroundSelectedListener callback;
+    private OnWundergroundSelectedListener callback;
 
     public interface OnWundergroundSelectedListener {
         void onWundergroundSelected(String location, Boolean loop, int distance);

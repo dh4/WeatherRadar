@@ -37,7 +37,7 @@ import java.util.Arrays;
 public class SelectMosaicFragment extends Fragment {
 
     private View view;
-    OnMosaicSelectedListener callback;
+    private OnMosaicSelectedListener callback;
 
     public interface OnMosaicSelectedListener {
         void onMosaicSelected(String location, Boolean loop);

@@ -117,15 +117,20 @@ public class RadarActivity extends MainActivity {
 
         navigationView = findViewById(R.id.nav_view);
 
-        if (source.equals("wunderground")) {
-            radarName = intent.getStringExtra("name");
-            if (radarName == null) radarName = getString(R.string.wunderground_title);
-        } else if (source.equals("mosaic")) {
-            int index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(location);
-            radarName = getResources().getStringArray(R.array.mosaic_names)[index];
-        } else {
-            int index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
-            radarName = getResources().getStringArray(R.array.location_names)[index];
+        int index;
+        switch (source) {
+            case "wunderground":
+                radarName = intent.getStringExtra("name");
+                if (radarName == null) radarName = getString(R.string.wunderground_title);
+                break;
+            case "mosaic":
+                index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(location);
+                radarName = getResources().getStringArray(R.array.mosaic_names)[index];
+                break;
+            case "nws":
+                index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
+                radarName = getResources().getStringArray(R.array.location_names)[index];
+                break;
         }
 
         if (intent.getBooleanExtra("favorite", false)) {
@@ -133,7 +138,9 @@ public class RadarActivity extends MainActivity {
             currentFavorite = intent.getIntExtra("favoriteID", -1);
         } else
             radarName = radarName.replaceAll("[^/]+/ ", "");
-        setTitle(radarName);
+
+        if (radarName != null)
+            setTitle(radarName);
 
         radarWebView = findViewById(R.id.radarWebView);
         radarWebView.getSettings().setLoadWithOverviewMode(true);
@@ -249,7 +256,7 @@ public class RadarActivity extends MainActivity {
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText(radarName);
+        if (radarName != null) input.setText(radarName);
         builder.setView(input);
 
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {

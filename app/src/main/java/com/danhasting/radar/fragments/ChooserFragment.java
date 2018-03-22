@@ -20,9 +20,6 @@ package com.danhasting.radar.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +39,7 @@ import java.util.TreeMap;
 public class ChooserFragment extends Fragment {
 
     private View view;
-    OnChooserSelectedListener callback;
+    private OnChooserSelectedListener callback;
 
     public interface OnChooserSelectedListener {
         void onChooserSelected(String name, String location, Boolean loop, int distance);
@@ -76,7 +73,7 @@ public class ChooserFragment extends Fragment {
         for (int i = 0; i < optionNames.size(); i++)
             optionNames.set(i, optionNames.get(i).replace("  ,",","));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, optionNames);
         chooserList.setAdapter(adapter);
 
