@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.danhasting.radar.R;
-import com.danhasting.radar.SettingsActivity;
 
 public class NeedKeyFragment extends Fragment {
 
