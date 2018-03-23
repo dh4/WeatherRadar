@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="layout_max_width">
+        <item name="android:layout_width">600dp</item>
+        <item name="android:layout_gravity">top|center_horizontal</item>
+    </style>
+
+</resources>
