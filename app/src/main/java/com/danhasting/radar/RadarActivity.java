@@ -18,12 +18,10 @@
  */
 package com.danhasting.radar;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -34,22 +32,18 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.EditText;
+
+import com.danhasting.radar.database.Favorite;
+import com.danhasting.radar.fragments.NeedKeyFragment;
+import com.danhasting.radar.fragments.RadarFragment;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import com.danhasting.radar.database.Favorite;
-import com.x5.template.Chunk;
-import com.x5.template.Theme;
-import com.x5.template.providers.AndroidTemplates;
 
 public class RadarActivity extends MainActivity {
 
@@ -61,18 +55,19 @@ public class RadarActivity extends MainActivity {
     private int distance;
 
     private String radarName;
+    private Boolean needKey;
+
+    private NavigationView navigationView;
 
     private MenuItem addFavorite;
     private MenuItem removeFavorite;
-    private NavigationView navigationView;
-
-    private WebView radarWebView;
 
     private Timer timer;
-    private Boolean refreshed;
+    private Boolean refreshed = true;
+
+    private RadarFragment radarFragment;
 
     @Override
-    @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(Bundle savedInstanceState) {
         Boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("show_fullscreen", false);
@@ -83,6 +78,13 @@ public class RadarActivity extends MainActivity {
         }
 
         super.onCreate(savedInstanceState);
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (inflater != null) {
+            View contentView = inflater.inflate(R.layout.activity_radar, drawerLayout, false);
+            drawerLayout.addView(contentView, 0);
+        }
+
+        navigationView = findViewById(R.id.nav_view);
 
         Intent intent = getIntent();
         source = intent.getStringExtra("source");
@@ -93,20 +95,17 @@ public class RadarActivity extends MainActivity {
         distance = intent.getIntExtra("distance", 50);
 
 
-        if (source == null) source = "nws";
-        if (type == null) type = "";
-        if (location == null) location = "";
-
-
-//        if (source.equals("wunderground") && !settings.getBoolean("api_key_activated", false)) {
-//            inflateNeedKeyView();
-//            return;
-//        }
-
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_radar, drawerLayout, false);
-            drawerLayout.addView(contentView, 0);
+        needKey = source.equals("wunderground") && !settings.getBoolean("api_key_activated", false);
+        if (needKey) {
+            NeedKeyFragment needKeyFragment = new NeedKeyFragment();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, needKeyFragment).commit();
+            return;
+        } else {
+            radarFragment = new RadarFragment();
+            radarFragment.setArguments(intent.getExtras());
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, radarFragment).commit();
         }
 
         ActionBar actionBar = getSupportActionBar();
@@ -114,8 +113,6 @@ public class RadarActivity extends MainActivity {
             getSupportActionBar().hide();
             findViewById(R.id.radarLayout).setPadding(0, 0, 0, 0);
         }
-
-        navigationView = findViewById(R.id.nav_view);
 
         int index;
         switch (source) {
@@ -142,39 +139,6 @@ public class RadarActivity extends MainActivity {
         if (radarName != null)
             setTitle(radarName);
 
-        radarWebView = findViewById(R.id.radarWebView);
-        radarWebView.getSettings().setLoadWithOverviewMode(true);
-        radarWebView.getSettings().setUseWideViewPort(true);
-        radarWebView.getSettings().setBuiltInZoomControls(true);
-        radarWebView.getSettings().setDisplayZoomControls(false);
-        radarWebView.getSettings().setJavaScriptEnabled(true);
-        radarWebView.getSettings().setDomStorageEnabled(true);
-        radarWebView.getSettings().setSupportZoom(true);
-        registerForContextMenu(radarWebView);
-
-        if (enhanced) {
-            radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
-        } else if (source.equals("mosaic")) {
-            radarWebView.loadData(displayMosaicImage(location, loop), "text/html", null);
-        } else if (source.equals("wunderground")) {
-            // We dynamically set the size for wunderground images, so wait for the layout to load
-            final ViewTreeObserver observer = radarWebView.getViewTreeObserver();
-            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    radarWebView.loadData(displayWundergroundImage(location, loop, distance),
-                            "text/html", null);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                        radarWebView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    else
-                        radarWebView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-            });
-        } else {
-            radarWebView.loadData(displayLiteImage(location, type, loop), "text/html", null);
-        }
-
         scheduleRefresh();
     }
 
@@ -183,7 +147,7 @@ public class RadarActivity extends MainActivity {
         super.onResume();
         if (!source.equals("wunderground") || settings.getBoolean("api_key_activated", false)) {
             if (!refreshed && !(loop && source.equals("mosaic"))) { // Mosaic loops are large, don't auto-refresh
-                radarWebView.reload();
+                if (radarFragment != null) radarFragment.refreshRadar();
                 scheduleRefresh();
             }
         }
@@ -226,6 +190,7 @@ public class RadarActivity extends MainActivity {
 
         addFavorite = menu.findItem(R.id.action_add_favorite);
         removeFavorite = menu.findItem(R.id.action_remove_favorite);
+        MenuItem refresh = menu.findItem(R.id.action_refresh);
 
         List<Favorite> favorites = settingsDB.favoriteDao().findByData(
                 source, location, type, loop, enhanced, distance);
@@ -236,6 +201,9 @@ public class RadarActivity extends MainActivity {
         } else {
             removeFavorite.setVisible(false);
         }
+
+        if (needKey)
+            refresh.setVisible(false);
     }
 
     private void itemSelected(MenuItem item) {
@@ -333,14 +301,14 @@ public class RadarActivity extends MainActivity {
 
     private void refreshRadar() {
         if (!refreshed) {
-            radarWebView.reload();
+            if (radarFragment != null) radarFragment.refreshRadar();
             scheduleRefresh();
         } else {
             DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_POSITIVE) {
-                        radarWebView.reload();
+                        if (radarFragment != null) radarFragment.refreshRadar();
                         scheduleRefresh();
                     }
                 }
@@ -369,128 +337,5 @@ public class RadarActivity extends MainActivity {
                 refreshed = false;
             }
         }, 1000 * 60 * 5, 1000 * 60 * 5);
-    }
-
-    private String displayMosaicImage(String mosaic, Boolean loop) {
-        String url = "https://radar.weather.gov/Conus/";
-        if (loop) {
-            if (mosaic.equals("latest")) {
-                url += "Loop/NatLoop.gif";
-            } else {
-                url += "Loop/" + mosaic + "_loop.gif";
-            }
-        } else {
-            url += "RadarImg/"+mosaic+".gif";
-        }
-
-        return displayRadar(url);
-    }
-
-    private String displayLiteImage(String loc, String type, Boolean loop) {
-        String url = "https://radar.weather.gov/lite/"+type+"/";
-        if (loop) {
-            url += loc+"_loop.gif";
-        } else {
-            url += loc+"_0.png";
-        }
-
-        return displayRadar(url);
-    }
-
-    private String displayWundergroundImage(String loc, Boolean loop, int distance) {
-        String apiKey = settings.getString("api_key","");
-        int time_label = settings.getBoolean("show_time_label", true) ? 1 : 0;
-        int snow = settings.getBoolean("show_snow_mix", true) ? 1 : 0;
-        int smooth = settings.getBoolean("smoothing", true) ? 1 : 0;
-        int noclutter = settings.getBoolean("noclutter", false) ? 1 : 0;
-        String animateText = "radar";
-        if (loop) animateText = "animatedradar";
-
-        String defaultRes = getString(R.string.image_resolution_default);
-
-        String units = settings.getString("distance_units", getString(R.string.distance_unit_default));
-        String speed = settings.getString("animation_speed", getString(R.string.animation_speed_default));
-        String res = settings.getString("image_resolution", defaultRes);
-        String frames = settings.getString("animation_frames", getString(R.string.animation_frames_default));
-
-        if (res.equals("custom"))
-            res = settings.getString("custom_resolution", defaultRes);
-        if (!res.matches("\\d+"))
-            res = defaultRes;
-
-        int width = radarWebView.getWidth();
-        int height = radarWebView.getHeight();
-
-        int imageWidth = Integer.parseInt(res);
-        int imageHeight = Integer.parseInt(res);
-
-        if (width > height) {
-            Float aspect = (float)width / height;
-            imageWidth = Math.round(imageHeight * aspect);
-        } else {
-            Float aspect = (float)height / width;
-            imageHeight = Math.round(imageWidth * aspect);
-        }
-
-        String url = "https://api.wunderground.com/api/%s/%s/q/%s.gif" +
-                "?width=%s&height=%s&newmaps=1&radius=%s&radunits=%s&smooth=%s&delay=%s&num=%s" +
-                "&rainsnow=%s&noclutter=%s&timelabel=%s&timelabel.y=15&timelabel.x=5";
-        url = String.format(url, apiKey, animateText, loc, imageWidth, imageHeight,
-                distance, units, smooth, speed, frames, snow, noclutter, time_label);
-
-        return displayRadar(url);
-    }
-
-    private String displayRadar(String url) {
-        AndroidTemplates loader = new AndroidTemplates(getBaseContext());
-        Theme theme = new Theme(loader);
-
-        Chunk html = theme.makeChunk("lite_radar");
-        html.set("url", url);
-        if (!source.equals("wunderground"))
-            html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
-
-        return html.toString();
-    }
-
-    private String displayEnhancedRadar(String location, String type) {
-        AndroidTemplates loader = new AndroidTemplates(getBaseContext());
-        Theme theme = new Theme(loader);
-
-        Chunk html = theme.makeChunk("enhanced_radar");
-        html.set("location", location);
-        html.set("type", type);
-        html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
-
-        if (type.equals("N0Z"))
-            html.set("distance", "Long");
-        else
-            html.set("distance", "Short");
-
-        String[] layers;
-        Set<String> layersSet = settings.getStringSet("enhanced_layers", null);
-        if (layersSet != null)
-            layers = layersSet.toArray(new String[] {});
-        else
-            layers = getResources().getStringArray(R.array.enhanced_layer_default);
-
-        if (Arrays.asList(layers).contains("0"))
-            html.set("image0", "true");
-        if (Arrays.asList(layers).contains("1"))
-            html.set("image1", "true");
-        if (Arrays.asList(layers).contains("2"))
-            html.set("image2", "true");
-        if (Arrays.asList(layers).contains("3"))
-            html.set("image3", "true");
-        if (Arrays.asList(layers).contains("4"))
-            html.set("image4", "true");
-        if (Arrays.asList(layers).contains("5"))
-            html.set("image5", "true");
-        if (Arrays.asList(layers).contains("6"))
-            html.set("image6", "true");
-        if (Arrays.asList(layers).contains("7"))
-            html.set("image7", "true");
-
-        return html.toString();
     }
 }
