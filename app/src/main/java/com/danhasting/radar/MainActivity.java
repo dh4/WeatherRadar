@@ -41,11 +41,13 @@ import android.widget.Button;
 
 import com.danhasting.radar.database.AppDatabase;
 import com.danhasting.radar.database.Favorite;
+import com.danhasting.radar.fragments.NeedKeyFragment;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        NeedKeyFragment.OnOpenSettingsListener {
 
     DrawerLayout drawerLayout;
     SharedPreferences settings;
@@ -232,5 +234,10 @@ public class MainActivity extends AppCompatActivity
         radarIntent.putExtra("name", favorite.getName());
         radarIntent.putExtra("favoriteID", favorite.getUid());
         MainActivity.this.startActivity(radarIntent);
+    }
+
+    public void openSettings() {
+        Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivityForResult(settingsIntent, 1);
     }
 }

@@ -18,6 +18,7 @@
  */
 package com.danhasting.radar.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -31,6 +32,12 @@ import com.danhasting.radar.R;
 import com.danhasting.radar.SettingsActivity;
 
 public class NeedKeyFragment extends Fragment {
+
+    private OnOpenSettingsListener callback;
+
+    public interface OnOpenSettingsListener {
+        void openSettings();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,12 +60,23 @@ public class NeedKeyFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-                startActivityForResult(settingsIntent, 1);
+                if (callback != null)
+                    callback.openSettings();
             }
 
         });
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            callback = (OnOpenSettingsListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnOpenSettingsListener");
+        }
     }
 }
