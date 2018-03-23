@@ -197,7 +197,8 @@ public class RadarActivity extends MainActivity {
 
         if (favorites.size() > 0) {
             addFavorite.setVisible(false);
-            currentFavorite = favorites.get(0).getUid();
+            //Don't set the currentFavorite if NeedKeyFragment is showing so user can refresh
+            if (!needKey) currentFavorite = favorites.get(0).getUid();
         } else {
             removeFavorite.setVisible(false);
         }
