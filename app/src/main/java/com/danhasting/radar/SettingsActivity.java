@@ -118,7 +118,7 @@ public class SettingsActivity extends PreferenceActivity {
                 }
             });
 
-            checkApiKeyStatus(settings, false);
+            checkApiKeyStatus(settings, false, false);
 
             final EditTextPreference apiKeyEditText = (EditTextPreference) findPreference("api_key");
             final Context context = getActivity().getApplicationContext();
@@ -133,7 +133,7 @@ public class SettingsActivity extends PreferenceActivity {
                         editor.putBoolean("api_key_activated", false);
                         editor.apply();
 
-                        checkApiKeyStatus(settings, false);
+                        checkApiKeyStatus(settings, false, false);
                     } else {
                         AsyncHttpClient client = new AsyncHttpClient();
                         String testURL = String.format("https://api.wunderground.com/api/%s/" +
@@ -157,7 +157,7 @@ public class SettingsActivity extends PreferenceActivity {
                                         Toast.makeText(context, R.string.api_key_activated,
                                                 Toast.LENGTH_LONG).show();
 
-                                        checkApiKeyStatus(settings, false);
+                                        checkApiKeyStatus(settings, false, true);
                                     }
                                 } catch (JSONException e) {
                                     Toast.makeText(context, R.string.api_key_failed,
@@ -167,7 +167,7 @@ public class SettingsActivity extends PreferenceActivity {
                                     editor.putBoolean("api_key_activated", false);
                                     editor.apply();
 
-                                    checkApiKeyStatus(settings, true);
+                                    checkApiKeyStatus(settings, true, true);
                                 }
                             }
 
@@ -224,9 +224,9 @@ public class SettingsActivity extends PreferenceActivity {
                 custom.setEnabled(false);
         }
 
-        private void checkApiKeyStatus(SharedPreferences settings, Boolean failed) {
+        private void checkApiKeyStatus(SharedPreferences settings, Boolean failed, Boolean async) {
             // Check to make sure user is still in settings
-            if (!isAdded()) return;
+            if (async && !isAdded()) return;
 
             EditTextPreference apiKey = (EditTextPreference)findPreference("api_key");
             CheckBoxPreference timeLabel = (CheckBoxPreference)findPreference("show_time_label");

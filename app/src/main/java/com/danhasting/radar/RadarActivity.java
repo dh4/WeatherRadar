@@ -94,6 +94,10 @@ public class RadarActivity extends MainActivity {
         enhanced = intent.getBooleanExtra("enhanced", false);
         distance = intent.getIntExtra("distance", 50);
 
+        if (source == null) source = "nws";
+        if (type == null) type = "";
+        if (location == null) location = "";
+
 
         needKey = source.equals("wunderground") && !settings.getBoolean("api_key_activated", false);
         if (needKey) {
