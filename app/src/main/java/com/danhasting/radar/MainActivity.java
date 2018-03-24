@@ -256,18 +256,28 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void run() {
                     AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                    Favorite favorite = database.favoriteDao().loadById(favoriteID);
-                    if (favorite != null)
-                        startFavoriteView(favorite);
-                    else
-                        startFormView();
+                    final Favorite favorite = database.favoriteDao().loadById(favoriteID);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (favorite != null)
+                                startFavoriteView(favorite);
+                            else
+                                startFormView();
+
+                            if (classNameEquals("MainActivity"))
+                                finish();
+                        }
+                    });
                 }
             });
-        } else
+        } else {
             startFormView();
 
-        if (classNameEquals("MainActivity"))
-            this.finish();
+            if (classNameEquals("MainActivity"))
+                finish();
+        }
     }
 
     private void startFormView() {
