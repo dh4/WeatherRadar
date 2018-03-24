@@ -155,6 +155,20 @@ public class RadarActivity extends MainActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Bundle extras = intent.getExtras();
+
+        if (extras != null) {
+            Intent newIntent = new Intent(this, RadarActivity.class);
+            newIntent.putExtras(extras);
+            startActivity(newIntent);
+            finish();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (source != Source.WUNDERGROUND || settings.getBoolean("api_key_activated", false)) {

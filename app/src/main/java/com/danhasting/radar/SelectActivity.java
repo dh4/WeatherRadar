@@ -70,6 +70,14 @@ public class SelectActivity extends MainActivity
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Source selection = (Source) intent.getSerializableExtra("selection");
+        if (selection != null) launchSelectionFragment(selection);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         int id = menuItem.getItemId();
 

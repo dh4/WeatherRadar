@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity
                 drawerLayout.closeDrawers();
                 if (!classNameEquals("AboutActivity")) {
                     Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                    aboutIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(aboutIntent);
                 }
             }
@@ -162,6 +163,7 @@ public class MainActivity extends AppCompatActivity
 
         if (!classNameEquals("SelectActivity")) {
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+            selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             if (id == R.id.nav_nws)
                 selectIntent.putExtra("selection", Source.NWS);
@@ -282,6 +284,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startFormView() {
         Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+        selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         if (settings.getBoolean("api_key_activated", false))
             selectIntent.putExtra("selection", Source.WUNDERGROUND);
@@ -293,6 +296,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startFavoriteView(Favorite favorite) {
         Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+
         radarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
         radarIntent.putExtra("location", favorite.getLocation());
         radarIntent.putExtra("type", favorite.getType());
