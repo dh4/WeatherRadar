@@ -101,4 +101,9 @@
     <string name="wunderground_line2">Weather Underground API:\n<a>www.wunderground.com/api</a></string>
     <string name="wunderground_powered_by">Powered by Weather Underground</string>
 
+    <!-- Welcome Dialog -->
+    <string name="welcome_dismiss">OK, Got it!</string>
+    <string name="welcome_more">Learn More</string>
+    <string name="welcome_header">Welcome!</string>
+    <string name="welcome_text">Weather Radar provides access to doppler radar images from Weather Underground and the United States National Weather Service.\n\nFor the Weather Underground source, you will need to sign up for a free API key from their website.\n\n</string>
 </resources>

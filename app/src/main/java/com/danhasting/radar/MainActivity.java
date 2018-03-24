@@ -18,7 +18,9 @@
  */
 package com.danhasting.radar;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -131,6 +133,13 @@ public class MainActivity extends AppCompatActivity
 
         if (classNameEquals("MainActivity"))
             startDefaultView();
+        else if (settings.getBoolean("first_run", true)) {
+            firstRunWelcome();
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("first_run", false);
+            editor.apply();
+        }
     }
 
     @Override
@@ -183,6 +192,29 @@ public class MainActivity extends AppCompatActivity
 
     private boolean classNameEquals(String name) {
         return this.getClass().getSimpleName().equals(name);
+    }
+
+    private void firstRunWelcome() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.welcome_header));
+        builder.setMessage(getString(R.string.welcome_text));
+
+        builder.setPositiveButton(R.string.welcome_more, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(aboutIntent);
+            }
+        });
+        builder.setNegativeButton(R.string.welcome_dismiss, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     void populateFavorites(Menu menu) {
