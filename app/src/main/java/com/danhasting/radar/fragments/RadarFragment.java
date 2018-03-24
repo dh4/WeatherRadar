@@ -147,7 +147,7 @@ public class RadarFragment extends Fragment {
         int time_label = settings.getBoolean("show_time_label", true) ? 1 : 0;
         int snow = settings.getBoolean("show_snow_mix", true) ? 1 : 0;
         int smooth = settings.getBoolean("smoothing", true) ? 1 : 0;
-        int noclutter = settings.getBoolean("noclutter", false) ? 1 : 0;
+        int noclutter = settings.getBoolean("noclutter", true) ? 1 : 0;
         String animateText = "radar";
         if (loop) animateText = "animatedradar";
 

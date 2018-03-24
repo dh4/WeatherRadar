@@ -108,7 +108,7 @@
 
         <CheckBoxPreference
             android:title="@string/noclutter_title"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:summary="@string/noclutter_summary"
             android:key="noclutter" />
 
