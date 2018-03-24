@@ -37,6 +37,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.danhasting.radar.database.Favorite;
+import com.danhasting.radar.database.Source;
 import com.danhasting.radar.fragments.NeedKeyFragment;
 import com.danhasting.radar.fragments.RadarFragment;
 
@@ -47,7 +48,7 @@ import java.util.TimerTask;
 
 public class RadarActivity extends MainActivity {
 
-    private String source;
+    private Source source;
     private String type;
     private String location;
     private Boolean loop;
@@ -87,19 +88,19 @@ public class RadarActivity extends MainActivity {
         navigationView = findViewById(R.id.nav_view);
 
         Intent intent = getIntent();
-        source = intent.getStringExtra("source");
+        source = (Source) intent.getSerializableExtra("source");
         type = intent.getStringExtra("type");
         location = intent.getStringExtra("location");
         loop = intent.getBooleanExtra("loop", false);
         enhanced = intent.getBooleanExtra("enhanced", false);
         distance = intent.getIntExtra("distance", 50);
 
-        if (source == null) source = "nws";
+        if (source == null) source = Source.NWS;
         if (type == null) type = "";
         if (location == null) location = "";
 
 
-        needKey = source.equals("wunderground") && !settings.getBoolean("api_key_activated", false);
+        needKey = source == Source.WUNDERGROUND && !settings.getBoolean("api_key_activated", false);
         if (needKey) {
             NeedKeyFragment needKeyFragment = new NeedKeyFragment();
             getFragmentManager().beginTransaction()
@@ -120,15 +121,15 @@ public class RadarActivity extends MainActivity {
 
         int index;
         switch (source) {
-            case "wunderground":
+            case WUNDERGROUND:
                 radarName = intent.getStringExtra("name");
                 if (radarName == null) radarName = getString(R.string.wunderground_title);
                 break;
-            case "mosaic":
+            case MOSAIC:
                 index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(location);
                 radarName = getResources().getStringArray(R.array.mosaic_names)[index];
                 break;
-            case "nws":
+            case NWS:
                 index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
                 radarName = getResources().getStringArray(R.array.location_names)[index];
                 break;
@@ -149,8 +150,8 @@ public class RadarActivity extends MainActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (!source.equals("wunderground") || settings.getBoolean("api_key_activated", false)) {
-            if (!refreshed && !(loop && source.equals("mosaic"))) { // Mosaic loops are large, don't auto-refresh
+        if (source != Source.WUNDERGROUND || settings.getBoolean("api_key_activated", false)) {
+            if (!refreshed && !(loop && source == Source.MOSAIC)) { // Mosaic loops are large, don't auto-refresh
                 if (radarFragment != null) radarFragment.refreshRadar();
                 scheduleRefresh();
             }
@@ -197,7 +198,7 @@ public class RadarActivity extends MainActivity {
         MenuItem refresh = menu.findItem(R.id.action_refresh);
 
         List<Favorite> favorites = settingsDB.favoriteDao().findByData(
-                source, location, type, loop, enhanced, distance);
+                source.getInt(), location, type, loop, enhanced, distance);
 
         if (favorites.size() > 0) {
             addFavorite.setVisible(false);
@@ -260,7 +261,7 @@ public class RadarActivity extends MainActivity {
                     input.setError(getString(R.string.already_exists_error));
                 } else {
                     Favorite favorite = new Favorite();
-                    favorite.setSource(source);
+                    favorite.setSource(source.getInt());
                     favorite.setName(input.getText().toString());
                     favorite.setLocation(location);
                     favorite.setType(type);
@@ -284,7 +285,7 @@ public class RadarActivity extends MainActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == DialogInterface.BUTTON_POSITIVE) {
                     List<Favorite> favorites = settingsDB.favoriteDao()
-                            .findByData(source, location, type, loop, enhanced, distance);
+                            .findByData(source.getInt(), location, type, loop, enhanced, distance);
 
                     for (Favorite favorite : favorites) {
                         settingsDB.favoriteDao().delete(favorite);

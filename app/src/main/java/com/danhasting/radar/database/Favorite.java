@@ -54,7 +54,7 @@ public class Favorite {
 
     @ColumnInfo(name = "source")
     @NonNull
-    private String source = "";
+    private Integer source = 0;
 
     public int getUid() {
         return uid;
@@ -119,11 +119,11 @@ public class Favorite {
     }
 
     @NonNull
-    public String getSource() {
+    public Integer getSource() {
         return source;
     }
 
-    public void setSource(@NonNull String source) {
+    public void setSource(@NonNull Integer source) {
         this.source = source;
     }
 }

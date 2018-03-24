@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.danhasting.radar.database.Source;
 import com.danhasting.radar.fragments.ChooserFragment;
 import com.danhasting.radar.fragments.NeedKeyFragment;
 import com.danhasting.radar.fragments.SelectNWSFragment;
@@ -52,7 +53,7 @@ public class SelectActivity extends MainActivity
             SelectWundergroundFragment.OnWundergroundSelectedListener,
             ChooserFragment.OnChooserSelectedListener {
 
-    private String currentSelection = "";
+    private Source currentSelection = Source.NWS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class SelectActivity extends MainActivity
         }
 
         Intent intent = getIntent();
-        String selection = intent.getStringExtra("selection");
+        Source selection = (Source) intent.getSerializableExtra("selection");
         if (selection != null) launchSelectionFragment(selection);
     }
 
@@ -73,11 +74,11 @@ public class SelectActivity extends MainActivity
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_nws)
-            launchSelectionFragment("nws");
+            launchSelectionFragment(Source.NWS);
         else if (id == R.id.nav_mosaic)
-            launchSelectionFragment("mosaic");
+            launchSelectionFragment(Source.MOSAIC);
         else if (id == R.id.nav_wunderground)
-            launchSelectionFragment("wunderground");
+            launchSelectionFragment(Source.WUNDERGROUND);
 
         super.onNavigationItemSelected(menuItem);
         return true;
@@ -98,14 +99,14 @@ public class SelectActivity extends MainActivity
 
         Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
         if (fragment instanceof ChooserFragment)
-            launchSelectionFragment("wunderground");
+            launchSelectionFragment(Source.WUNDERGROUND);
     }
 
-    private void launchSelectionFragment(String selection, Boolean force) {
+    private void launchSelectionFragment(Source selection, Boolean force) {
         Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
 
         switch (selection) {
-            case "nws":
+            case NWS:
                 if (!(fragment instanceof SelectNWSFragment) || force) {
                     setTitle(R.string.select_radar_image);
                     SelectNWSFragment nwsFragment = new SelectNWSFragment();
@@ -114,7 +115,7 @@ public class SelectActivity extends MainActivity
                 }
                 break;
 
-            case "mosaic":
+            case MOSAIC:
                 if (!(fragment instanceof SelectMosaicFragment) || force) {
                     setTitle(R.string.select_mosaic_image);
                     SelectMosaicFragment mosaicFragment = new SelectMosaicFragment();
@@ -123,7 +124,7 @@ public class SelectActivity extends MainActivity
                 }
                 break;
 
-            case "wunderground":
+            case WUNDERGROUND:
                 if (!settings.getBoolean("api_key_activated", false)) {
                     setTitle(R.string.select_wunderground_image);
                     NeedKeyFragment needKeyFragment = new NeedKeyFragment();
@@ -143,7 +144,7 @@ public class SelectActivity extends MainActivity
         currentSelection = selection;
     }
 
-    private void launchSelectionFragment(String selection) {
+    private void launchSelectionFragment(Source selection) {
         launchSelectionFragment(selection, false);
     }
 
@@ -157,7 +158,7 @@ public class SelectActivity extends MainActivity
         chooserFragment.populateList(options, loop, distance);
     }
 
-    private void onSelected(String source, String name, String location, String type,
+    private void onSelected(Source source, String name, String location, String type,
                             Boolean loop, Boolean enhanced, int distance) {
         Intent radarIntent = new Intent(SelectActivity.this, RadarActivity.class);
 
@@ -182,7 +183,7 @@ public class SelectActivity extends MainActivity
         editor.putBoolean("last_nws_enhanced", enhanced);
         editor.apply();
 
-        onSelected("nws", null, location, type, loop, enhanced, 50);
+        onSelected(Source.NWS, null, location, type, loop, enhanced, 50);
     }
 
     public void onMosaicSelected(String location, Boolean loop) {
@@ -191,7 +192,7 @@ public class SelectActivity extends MainActivity
         editor.putBoolean("last_mosaic_loop", loop);
         editor.apply();
 
-        onSelected("mosaic", null, location, null, loop, false, 50);
+        onSelected(Source.MOSAIC, null, location, null, loop, false, 50);
     }
 
     public void onWundergroundSelected(final String location, final Boolean loop, final int distance) {
@@ -226,7 +227,7 @@ public class SelectActivity extends MainActivity
                         editor.putInt("last_wunderground_distance", distance);
                         editor.apply();
                     } else if (options.size() == 1) {
-                        onSelected("wunderground", options.firstEntry().getKey(),
+                        onSelected(Source.WUNDERGROUND, options.firstEntry().getKey(),
                                 options.firstEntry().getValue(), "", loop, false, distance);
 
                         SharedPreferences.Editor editor = settings.edit();
@@ -263,6 +264,6 @@ public class SelectActivity extends MainActivity
         editor.putBoolean("last_wunderground_loop", loop);
         editor.apply();
 
-        onSelected("wunderground", name, location, null, loop, false, distance);
+        onSelected(Source.WUNDERGROUND, name, location, null, loop, false, distance);
     }
 }

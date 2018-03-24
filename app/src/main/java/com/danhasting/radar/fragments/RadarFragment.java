@@ -34,13 +34,14 @@ import java.util.Arrays;
 import java.util.Set;
 
 import com.danhasting.radar.R;
+import com.danhasting.radar.database.Source;
 import com.x5.template.Chunk;
 import com.x5.template.Theme;
 import com.x5.template.providers.AndroidTemplates;
 
 public class RadarFragment extends Fragment {
 
-    private String source;
+    private Source source;
     private String location;
     private Boolean loop;
     private int distance;
@@ -74,22 +75,22 @@ public class RadarFragment extends Fragment {
         Bundle bundle = getArguments();
 
         if (bundle != null) {
-            source = bundle.getString("source");
+            source = (Source) bundle.getSerializable("source");
             location = bundle.getString("location");
             loop = bundle.getBoolean("loop", false);
             distance = bundle.getInt("distance", 50);
             String type = bundle.getString("type");
             Boolean enhanced = bundle.getBoolean("enhanced", false);
 
-            if (source == null) source = "nws";
+            if (source == null) source = Source.NWS;
             if (type == null) type = "";
             if (location == null) location = "";
 
             if (enhanced) {
                 radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
-            } else if (source.equals("mosaic")) {
+            } else if (source == Source.MOSAIC) {
                 radarWebView.loadData(displayMosaicImage(location, loop), "text/html", null);
-            } else if (source.equals("wunderground")) {
+            } else if (source == Source.WUNDERGROUND) {
                 // We dynamically set the size for wunderground images, so wait for the layout to load
                 final ViewTreeObserver observer = radarWebView.getViewTreeObserver();
                 observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -191,7 +192,7 @@ public class RadarFragment extends Fragment {
 
         Chunk html = theme.makeChunk("lite_radar");
         html.set("url", url);
-        if (source != null && !source.equals("wunderground"))
+        if (source != null && source != Source.WUNDERGROUND)
             html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
 
         return html.toString();

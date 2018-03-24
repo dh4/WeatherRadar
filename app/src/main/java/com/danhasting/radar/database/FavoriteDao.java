@@ -34,8 +34,8 @@ public interface FavoriteDao {
     Favorite loadById(int uid);
 
     @Query("SELECT * FROM favorite WHERE location LIKE :location AND type LIKE :type AND " +
-            "loop = :loop AND enhanced = :enhanced AND distance = :distance AND source LIKE :source")
-    List<Favorite> findByData(String source, String location, String type, Boolean loop,
+            "loop = :loop AND enhanced = :enhanced AND distance = :distance AND source = :source")
+    List<Favorite> findByData(int source, String location, String type, Boolean loop,
                               Boolean enhanced, Integer distance);
 
     @Query("SELECT * FROM favorite WHERE name LIKE :name LIMIT 1")

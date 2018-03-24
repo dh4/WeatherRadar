@@ -41,6 +41,7 @@ import android.widget.Button;
 
 import com.danhasting.radar.database.AppDatabase;
 import com.danhasting.radar.database.Favorite;
+import com.danhasting.radar.database.Source;
 import com.danhasting.radar.fragments.NeedKeyFragment;
 
 import java.util.List;
@@ -142,11 +143,11 @@ public class MainActivity extends AppCompatActivity
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
 
             if (id == R.id.nav_nws)
-                selectIntent.putExtra("selection", "nws");
+                selectIntent.putExtra("selection", Source.NWS);
             else if (id == R.id.nav_mosaic)
-                selectIntent.putExtra("selection", "mosaic");
+                selectIntent.putExtra("selection", Source.MOSAIC);
             else if (id == R.id.nav_wunderground)
-                selectIntent.putExtra("selection", "wunderground");
+                selectIntent.putExtra("selection", Source.WUNDERGROUND);
 
             if (selectIntent.hasExtra("selection")) {
                 MainActivity.this.startActivity(selectIntent);
@@ -215,16 +216,16 @@ public class MainActivity extends AppCompatActivity
         Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
 
         if (settings.getBoolean("api_key_activated", false))
-            selectIntent.putExtra("selection", "wunderground");
+            selectIntent.putExtra("selection", Source.WUNDERGROUND);
         else
-            selectIntent.putExtra("selection", "nws");
+            selectIntent.putExtra("selection", Source.NWS);
 
         MainActivity.this.startActivity(selectIntent);
     }
 
     private void startFavoriteView(Favorite favorite) {
         Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
-        radarIntent.putExtra("source", favorite.getSource());
+        radarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
         radarIntent.putExtra("location", favorite.getLocation());
         radarIntent.putExtra("type", favorite.getType());
         radarIntent.putExtra("loop", favorite.getLoop());
