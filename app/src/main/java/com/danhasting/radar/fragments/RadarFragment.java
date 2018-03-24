@@ -177,7 +177,7 @@ public class RadarFragment extends Fragment {
             imageHeight = Math.round(imageWidth * aspect);
         }
 
-        String url = "https://api.wunderground.com/api/%s/%s/q/%s.gif" +
+        String url = "https://api.wunderground.com/api/%s/%s/q/zmw:%s.gif" +
                 "?width=%s&height=%s&newmaps=1&radius=%s&radunits=%s&smooth=%s&delay=%s&num=%s" +
                 "&rainsnow=%s&noclutter=%s&timelabel=%s&timelabel.y=15&timelabel.x=5";
         url = String.format(url, apiKey, animateText, loc, imageWidth, imageHeight,
