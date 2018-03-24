@@ -148,14 +148,14 @@ public class SelectActivity extends MainActivity
         launchSelectionFragment(selection, false);
     }
 
-    private void launchChooser(TreeMap<String, String> options, Boolean loop, int distance) {
+    private void launchChooser(TreeMap<String, String> options, String type, Boolean loop, int distance) {
         setTitle(R.string.chooser_title);
         ChooserFragment chooserFragment = new ChooserFragment();
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, chooserFragment).commit();
         getFragmentManager().executePendingTransactions();
 
-        chooserFragment.populateList(options, loop, distance);
+        chooserFragment.populateList(options, type, loop, distance);
     }
 
     private void onSelected(Source source, String name, String location, String type,
@@ -195,7 +195,8 @@ public class SelectActivity extends MainActivity
         onSelected(Source.MOSAIC, null, location, null, loop, false, 50);
     }
 
-    public void onWundergroundSelected(final String location, final Boolean loop, final int distance) {
+    public void onWundergroundSelected(final String location, final String type,
+                                       final Boolean loop, final int distance) {
         final SelectWundergroundFragment fragment = (SelectWundergroundFragment)
                 getFragmentManager().findFragmentById(R.id.fragment_container);
 
@@ -219,19 +220,21 @@ public class SelectActivity extends MainActivity
                     }
 
                     if (options.size() > 1) {
-                        launchChooser(options, loop, distance);
+                        launchChooser(options, type, loop, distance);
 
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString("last_wunderground", location);
+                        editor.putString("last_wunderground_type", type);
                         editor.putBoolean("last_wunderground_loop", loop);
                         editor.putInt("last_wunderground_distance", distance);
                         editor.apply();
                     } else if (options.size() == 1) {
                         onSelected(Source.WUNDERGROUND, options.firstEntry().getKey(),
-                                options.firstEntry().getValue(), "", loop, false, distance);
+                                options.firstEntry().getValue(), type, loop, false, distance);
 
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString("last_wunderground", options.firstEntry().getKey());
+                        editor.putString("last_wunderground_type", type);
                         editor.putBoolean("last_wunderground_loop", loop);
                         editor.putInt("last_wunderground_distance", distance);
                         editor.apply();
@@ -258,12 +261,13 @@ public class SelectActivity extends MainActivity
         });
     }
 
-    public void onChooserSelected(String name, String location, Boolean loop, int distance) {
+    public void onChooserSelected(String name, String location, String type, Boolean loop, int distance) {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("last_wunderground", name);
+        editor.putString("last_wunderground_type", type);
         editor.putBoolean("last_wunderground_loop", loop);
         editor.apply();
 
-        onSelected(Source.WUNDERGROUND, name, location, null, loop, false, distance);
+        onSelected(Source.WUNDERGROUND, name, location, type, loop, false, distance);
     }
 }

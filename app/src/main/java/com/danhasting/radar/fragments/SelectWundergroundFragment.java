@@ -26,9 +26,11 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -39,6 +41,7 @@ import java.util.Arrays;
 public class SelectWundergroundFragment extends Fragment {
 
     private EditText locationEditText;
+    private Spinner typeSpinner;
     private Switch loopSwitch;
     private TextView radiusNumber;
     private Button viewButton;
@@ -48,7 +51,7 @@ public class SelectWundergroundFragment extends Fragment {
     private OnWundergroundSelectedListener callback;
 
     public interface OnWundergroundSelectedListener {
-        void onWundergroundSelected(String location, Boolean loop, int distance);
+        void onWundergroundSelected(String location, String type, Boolean loop, int distance);
     }
 
     @Override
@@ -58,6 +61,16 @@ public class SelectWundergroundFragment extends Fragment {
 
         locationEditText = view.findViewById(R.id.wunderground_location);
         locationEditText.setText(settings.getString("last_wunderground", ""));
+
+        typeSpinner = view.findViewById(R.id.wundergroundTypeSpinner);
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.wunderground_type_names, android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(typeAdapter);
+
+        String type = settings.getString("last_wunderground_type", getString(R.string.wunderground_type_default));
+        int typeIndex = Arrays.asList(getResources()
+                .getStringArray(R.array.wunderground_type_values)).indexOf(type);
+        typeSpinner.setSelection(typeIndex);
 
         loopSwitch = view.findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_wunderground_loop", false));
@@ -171,11 +184,14 @@ public class SelectWundergroundFragment extends Fragment {
     }
 
     private void viewWunderground() {
-        final String location = locationEditText.getText().toString();
-        final Boolean loop = loopSwitch.isChecked();
-        final int distance = Integer.parseInt(radiusNumber.getText().toString());
+        String location = locationEditText.getText().toString();
+        Boolean loop = loopSwitch.isChecked();
+        int distance = Integer.parseInt(radiusNumber.getText().toString());
 
-        callback.onWundergroundSelected(location, loop, distance);
+        String type = getResources().getStringArray(R.array.wunderground_type_values)
+                [typeSpinner.getSelectedItemPosition()];
+
+        callback.onWundergroundSelected(location, type, loop, distance);
     }
 }
 

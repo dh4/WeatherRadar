@@ -43,6 +43,7 @@ public class RadarFragment extends Fragment {
 
     private Source source;
     private String location;
+    private String type;
     private Boolean loop;
     private int distance;
 
@@ -79,7 +80,7 @@ public class RadarFragment extends Fragment {
             location = bundle.getString("location");
             loop = bundle.getBoolean("loop", false);
             distance = bundle.getInt("distance", 50);
-            String type = bundle.getString("type");
+            type = bundle.getString("type");
             Boolean enhanced = bundle.getBoolean("enhanced", false);
 
             if (source == null) source = Source.NWS;
@@ -96,7 +97,7 @@ public class RadarFragment extends Fragment {
                 observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        radarWebView.loadData(displayWundergroundImage(location, loop, distance),
+                        radarWebView.loadData(displayWundergroundImage(location, type, loop, distance),
                                 "text/html", null);
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
@@ -142,14 +143,22 @@ public class RadarFragment extends Fragment {
         return displayRadar(url);
     }
 
-    private String displayWundergroundImage(String loc, Boolean loop, int distance) {
+    private String displayWundergroundImage(String loc, String type, Boolean loop, int distance) {
         String apiKey = settings.getString("api_key","");
         int time_label = settings.getBoolean("show_time_label", true) ? 1 : 0;
         int snow = settings.getBoolean("show_snow_mix", true) ? 1 : 0;
         int smooth = settings.getBoolean("smoothing", true) ? 1 : 0;
         int noclutter = settings.getBoolean("noclutter", true) ? 1 : 0;
+
         String animateText = "radar";
-        if (loop) animateText = "animatedradar";
+
+        if (type.equals("satellite") && loop)
+            animateText = "animatedsatellite";
+        else if (type.equals("satellite"))
+            animateText = "satellite";
+        else if (loop)
+            animateText = "animatedradar";
+
 
         String defaultRes = getString(R.string.image_resolution_default);
 
@@ -157,6 +166,7 @@ public class RadarFragment extends Fragment {
         String speed = settings.getString("animation_speed", getString(R.string.animation_speed_default));
         String res = settings.getString("image_resolution", defaultRes);
         String frames = settings.getString("animation_frames", getString(R.string.animation_frames_default));
+        String satellite = settings.getString("satellite_key", getString(R.string.satellite_key_default));
 
         if (res.equals("custom"))
             res = settings.getString("custom_resolution", defaultRes);
@@ -182,6 +192,9 @@ public class RadarFragment extends Fragment {
                 "&rainsnow=%s&noclutter=%s&timelabel=%s&timelabel.y=15&timelabel.x=5";
         url = String.format(url, apiKey, animateText, loc, imageWidth, imageHeight,
                 distance, units, smooth, speed, frames, snow, noclutter, time_label);
+
+        if (type.equals("satellite"))
+            url += String.format("&borders=1&key=%s", satellite);
 
         return displayRadar(url);
     }

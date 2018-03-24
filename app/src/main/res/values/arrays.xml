@@ -401,6 +401,17 @@
         <item>7</item>
     </string-array>
 
+    <array name="wunderground_type_names">
+        <item>Radar</item>
+        <item>Satellite</item>
+    </array>
+
+    <array name="wunderground_type_values">
+        <item>radar</item>
+        <item>satellite</item>
+    </array>
+    <string name="wunderground_type_default">radar</string>
+
     <array name="animation_speed_names">
         <item>Very Slow</item>
         <item>Slow</item>
@@ -466,4 +477,15 @@
         <item>km</item>
     </array>
     <string name="distance_unit_default">nm</string>
+
+    <array name="satellite_key_names">
+        <item>Visible Satellite</item>
+        <item>Infrared Satellite</item>
+    </array>
+
+    <array name="satellite_key_values">
+        <item>sat_vis</item>
+        <item>sat_ir4</item>
+    </array>
+    <string name="satellite_key_default">sat_vis</string>
 </resources>

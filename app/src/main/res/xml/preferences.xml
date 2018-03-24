@@ -80,6 +80,13 @@
             android:title="@string/distance_units_title" />
 
         <ListPreference
+            android:defaultValue="@string/satellite_key_default"
+            android:entries="@array/satellite_key_names"
+            android:entryValues="@array/satellite_key_values"
+            android:key="satellite_key"
+            android:title="@string/satellite_key_title" />
+
+        <ListPreference
             android:defaultValue="@string/animation_speed_default"
             android:entries="@array/animation_speed_names"
             android:entryValues="@array/animation_speed_values"

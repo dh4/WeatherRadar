@@ -75,6 +75,7 @@
     <string name="custom_resolution_summary">Can be anywhere between 100 and 4096 pixels</string>
     <string name="custom_resolution_error">Please enter a value between 100 and 4096</string>
     <string name="distance_units_title">Distance Units</string>
+    <string name="satellite_key_title">Satellite Type</string>
     <string name="animation_speed_title">Animation Speed</string>
     <string name="animation_frames_title">Animation Frames</string>
     <string name="animation_frames_summary">Adding frames will slow down loading and use more data, but show a longer history</string>

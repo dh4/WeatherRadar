@@ -42,7 +42,7 @@ public class ChooserFragment extends Fragment {
     private OnChooserSelectedListener callback;
 
     public interface OnChooserSelectedListener {
-        void onChooserSelected(String name, String location, Boolean loop, int distance);
+        void onChooserSelected(String name, String location, String type, Boolean loop, int distance);
     }
 
     @Override
@@ -62,7 +62,8 @@ public class ChooserFragment extends Fragment {
         }
     }
 
-    public void populateList(final TreeMap<String, String> options, final Boolean loop, final int distance) {
+    public void populateList(final TreeMap<String, String> options, final String type,
+                             final Boolean loop, final int distance) {
         ListView chooserList = view.findViewById(R.id.chooser_list);
         final ArrayList<String> optionNames = new ArrayList<>();
 
@@ -82,7 +83,7 @@ public class ChooserFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String name = optionNames.get(position);
                 String location = options.get(name);
-                callback.onChooserSelected(name, location, loop, distance);
+                callback.onChooserSelected(name, location, type, loop, distance);
             }
         });
     }
