@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectActivity" />
-        <activity android:name=".RadarActivity" />
+        <activity
+            android:name=".RadarActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SettingsActivity"
             android:theme="@style/SettingsTheme" />
