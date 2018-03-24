@@ -55,6 +55,7 @@ public class RadarActivity extends MainActivity {
     private Boolean enhanced;
     private int distance;
 
+    private String sourceName;
     private String radarName;
     private Boolean needKey;
 
@@ -62,6 +63,10 @@ public class RadarActivity extends MainActivity {
 
     private MenuItem addFavorite;
     private MenuItem removeFavorite;
+
+    private MenuItem contextAddFavorite;
+    private MenuItem contextRemoveFavorite;
+    private MenuItem contextEditFavorite;
 
     private Timer timer;
     private Boolean refreshed = true;
@@ -122,16 +127,19 @@ public class RadarActivity extends MainActivity {
         int index;
         switch (source) {
             case WUNDERGROUND:
-                radarName = intent.getStringExtra("name");
-                if (radarName == null) radarName = getString(R.string.wunderground_title);
+                sourceName = intent.getStringExtra("name");
+                if (sourceName == null) sourceName = getString(R.string.wunderground_title);
                 break;
             case MOSAIC:
-                index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(location);
-                radarName = getResources().getStringArray(R.array.mosaic_names)[index];
+                index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values))
+                        .indexOf(location);
+                sourceName = getResources().getStringArray(R.array.mosaic_names)[index];
                 break;
             case NWS:
-                index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
-                radarName = getResources().getStringArray(R.array.location_names)[index];
+                index = Arrays.asList(getResources().getStringArray(R.array.location_values))
+                        .indexOf(location);
+                sourceName = getResources().getStringArray(R.array.location_names)[index];
+                sourceName = sourceName.replaceAll("[^/]+/ ", "");
                 break;
         }
 
@@ -139,7 +147,7 @@ public class RadarActivity extends MainActivity {
             radarName = intent.getStringExtra("name");
             currentFavorite = intent.getIntExtra("favoriteID", -1);
         } else
-            radarName = radarName.replaceAll("[^/]+/ ", "");
+            radarName = sourceName;
 
         if (radarName != null)
             setTitle(radarName);
@@ -151,7 +159,8 @@ public class RadarActivity extends MainActivity {
     public void onResume() {
         super.onResume();
         if (source != Source.WUNDERGROUND || settings.getBoolean("api_key_activated", false)) {
-            if (!refreshed && !(loop && source == Source.MOSAIC)) { // Mosaic loops are large, don't auto-refresh
+            // Mosaic loops are large, don't auto-refresh
+            if (!refreshed && !(loop && source == Source.MOSAIC)) {
                 if (radarFragment != null) radarFragment.refreshRadar();
                 scheduleRefresh();
             }
@@ -168,7 +177,7 @@ public class RadarActivity extends MainActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        initializeMenu(menu);
+        initializeMenu(menu, true);
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
@@ -190,64 +199,103 @@ public class RadarActivity extends MainActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeMenu(Menu menu) {
+    private void initializeMenu(Menu menu, Boolean contextMenu) {
         getMenuInflater().inflate(R.menu.radar_actions, menu);
 
-        addFavorite = menu.findItem(R.id.action_add_favorite);
-        removeFavorite = menu.findItem(R.id.action_remove_favorite);
+        if (contextMenu) {
+            contextAddFavorite = menu.findItem(R.id.action_add_favorite);
+            contextRemoveFavorite = menu.findItem(R.id.action_remove_favorite);
+            contextEditFavorite = menu.findItem(R.id.action_edit_favorite);
+        } else {
+            addFavorite = menu.findItem(R.id.action_add_favorite);
+            removeFavorite = menu.findItem(R.id.action_remove_favorite);
+            MenuItem editFavorite = menu.findItem(R.id.action_edit_favorite);
+            editFavorite.setVisible(false);
+        }
         MenuItem refresh = menu.findItem(R.id.action_refresh);
 
         List<Favorite> favorites = settingsDB.favoriteDao().findByData(
                 source.getInt(), location, type, loop, enhanced, distance);
 
         if (favorites.size() > 0) {
-            addFavorite.setVisible(false);
+            if (contextMenu)
+                hideItem(contextAddFavorite);
+            else
+                hideItem(addFavorite);
+
             //Don't set the currentFavorite if NeedKeyFragment is showing so user can refresh
-            if (!needKey) currentFavorite = favorites.get(0).getUid();
+            if (!needKey)
+                currentFavorite = favorites.get(0).getUid();
         } else {
-            removeFavorite.setVisible(false);
+            if (contextMenu) {
+                hideItem(contextRemoveFavorite);
+                hideItem(contextEditFavorite);
+            } else
+                hideItem(removeFavorite);
         }
 
         if (needKey)
             refresh.setVisible(false);
     }
 
+    private void initializeMenu(Menu menu) {
+        initializeMenu(menu, false);
+    }
+
+    private void hideItem(MenuItem item) {
+        if (item != null) item.setVisible(false);
+    }
+
+    private void showItem(MenuItem item) {
+        if (item != null) item.setVisible(true);
+    }
+
     private void itemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_add_favorite) {
+        if (id == R.id.action_add_favorite)
             addFavoriteDialog();
-        } else if (id == R.id.action_remove_favorite) {
+        else if (id == R.id.action_remove_favorite)
             removeFavoriteDialog();
-        } else if (id == R.id.action_refresh) {
+        else if (id == R.id.action_edit_favorite)
+            editFavoriteDialog();
+        else if (id == R.id.action_refresh)
             refreshRadar();
-        }
     }
 
-    private void addFavoriteDialog() {
+    private AlertDialog favoriteDialog(String title, String button) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Favorite");
+        builder.setTitle(title);
 
-        final EditText input = new EditText(this);
+        EditText input = new EditText(this);
+        input.setId(R.id.dialog_input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         if (radarName != null) input.setText(radarName);
         builder.setView(input);
 
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing as we will override below
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
 
-        final AlertDialog dialog = builder.create();
+        AlertDialog dialog = builder.create();
         dialog.show();
+
+        return dialog;
+    }
+
+    private void addFavoriteDialog() {
+        final AlertDialog dialog = favoriteDialog(getString(R.string.action_add_favorite),
+                getString(R.string.button_add));
+        final EditText input = dialog.findViewById(R.id.dialog_input);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,7 +310,7 @@ public class RadarActivity extends MainActivity {
                 } else {
                     Favorite favorite = new Favorite();
                     favorite.setSource(source.getInt());
-                    favorite.setName(input.getText().toString());
+                    favorite.setName(name);
                     favorite.setLocation(location);
                     favorite.setType(type);
                     favorite.setLoop(loop);
@@ -270,9 +318,48 @@ public class RadarActivity extends MainActivity {
                     favorite.setDistance(distance);
                     settingsDB.favoriteDao().insertAll(favorite);
 
-                    addFavorite.setVisible(false);
-                    removeFavorite.setVisible(true);
+                    hideItem(addFavorite);
+                    hideItem(contextAddFavorite);
+                    showItem(removeFavorite);
+                    showItem(contextRemoveFavorite);
+                    showItem(contextEditFavorite);
+
+                    radarName = name;
+                    setTitle(radarName);
                     populateFavorites(navigationView.getMenu());
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void editFavoriteDialog() {
+        final AlertDialog dialog = favoriteDialog(getString(R.string.action_edit_favorite),
+                getString(R.string.button_edit));
+        final EditText input = dialog.findViewById(R.id.dialog_input);
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                String name = input.getText().toString();
+                Favorite exists = settingsDB.favoriteDao().findByName(name);
+                if (name.equals("")) {
+                    input.setError(getString(R.string.empty_name_error));
+                } else if (exists != null) {
+                    input.setError(getString(R.string.already_exists_error));
+                } else {
+                    Favorite favorite = settingsDB.favoriteDao().findByName(radarName);
+
+                    if (favorite != null) {
+                        favorite.setName(name);
+                        settingsDB.favoriteDao().updateFavorites(favorite);
+
+                        radarName = name;
+                        setTitle(radarName);
+                        populateFavorites(navigationView.getMenu());
+                    }
+
                     dialog.dismiss();
                 }
             }
@@ -291,8 +378,14 @@ public class RadarActivity extends MainActivity {
                         settingsDB.favoriteDao().delete(favorite);
                     }
 
-                    addFavorite.setVisible(true);
-                    removeFavorite.setVisible(false);
+                    showItem(addFavorite);
+                    showItem(contextAddFavorite);
+                    hideItem(removeFavorite);
+                    hideItem(contextRemoveFavorite);
+                    hideItem(contextEditFavorite);
+
+                    radarName = sourceName;
+                    setTitle(radarName);
                     populateFavorites(navigationView.getMenu());
                 }
             }
@@ -300,8 +393,8 @@ public class RadarActivity extends MainActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.confirm_favorite_removal)
-                .setPositiveButton("Yes", dialogListener)
-                .setNegativeButton("No", dialogListener)
+                .setPositiveButton(getString(R.string.button_yes), dialogListener)
+                .setNegativeButton(getString(R.string.button_no), dialogListener)
                 .show();
     }
 
@@ -322,8 +415,8 @@ public class RadarActivity extends MainActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.confirm_refresh)
-                    .setPositiveButton("Yes", dialogListener)
-                    .setNegativeButton("No", dialogListener)
+                    .setPositiveButton(getString(R.string.button_yes), dialogListener)
+                    .setNegativeButton(getString(R.string.button_no), dialogListener)
                     .show();
         }
     }

@@ -16,4 +16,9 @@
         android:title="@string/action_remove_favorite"
         android:icon="@drawable/ic_star"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_edit_favorite"
+        android:title="@string/action_edit_favorite"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="ifRoom" />
 </menu>

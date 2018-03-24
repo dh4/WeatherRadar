@@ -19,11 +19,17 @@
     <!-- Toolbar menu -->
     <string name="action_add_favorite">Add Favorite</string>
     <string name="action_remove_favorite">Remove Favorite</string>
+    <string name="action_edit_favorite">Edit Favorite</string>
     <string name="action_refresh">Refresh</string>
     <string name="empty_name_error">Please give your favorite a name</string>
     <string name="already_exists_error">A favorite with this name already exists</string>
     <string name="confirm_favorite_removal">Are you sure you want to remove this favorite?</string>
     <string name="confirm_refresh">Image is less than 5 minutes old. Still refresh?</string>
+    <string name="button_add">Add</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
 
     <!-- Forms -->
     <string name="view_radar_image">View Radar Image</string>
