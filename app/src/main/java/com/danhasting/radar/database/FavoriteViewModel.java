@@ -18,21 +18,25 @@
  */
 package com.danhasting.radar.database;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
-import android.content.Context;
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
+import android.support.annotation.NonNull;
 
-@Database(entities = {Favorite.class}, version = 1)
-public abstract class AppDatabase extends RoomDatabase {
-    public abstract FavoriteDao favoriteDao();
-    private static AppDatabase INSTANCE;
+import java.util.List;
 
-    public static AppDatabase getAppDatabase(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class,
-                    "com.danhasting.radar.database").build();
-        }
-        return INSTANCE;
+public class FavoriteViewModel extends AndroidViewModel {
+
+    private final LiveData<List<Favorite>> favorites;
+
+
+    public FavoriteViewModel(@NonNull Application application) {
+        super(application);
+
+        favorites = AppDatabase.getAppDatabase(this.getApplication()).favoriteDao().getAll();
+    }
+
+    public LiveData<List<Favorite>> getFavorites() {
+        return favorites;
     }
 }

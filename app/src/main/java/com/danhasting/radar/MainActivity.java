@@ -19,6 +19,8 @@
 package com.danhasting.radar;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +28,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -43,10 +46,13 @@ import android.widget.Button;
 
 import com.danhasting.radar.database.AppDatabase;
 import com.danhasting.radar.database.Favorite;
+import com.danhasting.radar.database.FavoriteViewModel;
 import com.danhasting.radar.database.Source;
 import com.danhasting.radar.fragments.NeedKeyFragment;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -54,7 +60,6 @@ public class MainActivity extends AppCompatActivity
 
     DrawerLayout drawerLayout;
     SharedPreferences settings;
-    AppDatabase settingsDB;
 
     Integer currentFavorite = -1;
 
@@ -64,7 +69,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
-        settingsDB = AppDatabase.getAppDatabase(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,9 +109,17 @@ public class MainActivity extends AppCompatActivity
             public void onDrawerStateChanged(int newState) {}
         });
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        populateFavorites(navigationView.getMenu());
+
+        FavoriteViewModel viewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+        viewModel.getFavorites().observe(this, new Observer<List<Favorite>>() {
+            @Override
+            public void onChanged(@Nullable List<Favorite> favorites) {
+                populateFavorites(navigationView.getMenu(), favorites);
+            }
+        });
+
 
         Button settingsButton = navigationView.getHeaderView(0).findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +158,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         drawerLayout.closeDrawers();
 
-        int id = menuItem.getItemId();
+        final int id = menuItem.getItemId();
 
         if (!classNameEquals("SelectActivity")) {
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
@@ -165,8 +177,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id != currentFavorite) {
-            Favorite favorite = settingsDB.favoriteDao().loadById(id);
-            if (favorite != null) startFavoriteView(favorite);
+            ExecutorService service =  Executors.newSingleThreadExecutor();
+            service.submit(new Runnable() {
+                @Override
+                public void run() {
+                    AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+                    Favorite favorite = database.favoriteDao().loadById(id);
+                    if (favorite != null) startFavoriteView(favorite);
+                }
+            });
         }
 
         return true;
@@ -217,10 +236,9 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
     }
 
-    void populateFavorites(Menu menu) {
+    private void populateFavorites(Menu menu, List<Favorite> favorites) {
         SubMenu favMenu = menu.findItem(R.id.nav_favorites).getSubMenu();
         favMenu.clear();
-        List<Favorite> favorites = settingsDB.favoriteDao().getAll();
 
         int i = 0;
         for (Favorite favorite : favorites) {
@@ -231,12 +249,20 @@ public class MainActivity extends AppCompatActivity
 
     private void startDefaultView() {
         if (settings.getBoolean("show_favorite", false)) {
-            int favoriteID = Integer.parseInt(settings.getString("default_favorite","0"));
-            Favorite favorite = settingsDB.favoriteDao().loadById(favoriteID);
-            if (favorite != null)
-                startFavoriteView(favorite);
-            else
-                startFormView();
+            final int favoriteID = Integer.parseInt(settings.getString("default_favorite","0"));
+
+            ExecutorService service =  Executors.newSingleThreadExecutor();
+            service.submit(new Runnable() {
+                @Override
+                public void run() {
+                    AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+                    Favorite favorite = database.favoriteDao().loadById(favoriteID);
+                    if (favorite != null)
+                        startFavoriteView(favorite);
+                    else
+                        startFormView();
+                }
+            });
         } else
             startFormView();
 

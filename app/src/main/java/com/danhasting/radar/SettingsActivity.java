@@ -42,6 +42,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class SettingsActivity extends PreferenceActivity {
@@ -84,28 +86,34 @@ public class SettingsActivity extends PreferenceActivity {
             final ListPreference selectedFavorite = (ListPreference) findPreference("default_favorite");
             final CheckBoxPreference showFavorite = (CheckBoxPreference) findPreference("show_favorite");
 
-            AppDatabase settingsDB = AppDatabase.getAppDatabase(getActivity());
-            List<Favorite> favorites = settingsDB.favoriteDao().getAll();
+            ExecutorService service =  Executors.newSingleThreadExecutor();
+            service.submit(new Runnable() {
+                @Override
+                public void run() {
+                    AppDatabase database = AppDatabase.getAppDatabase(getActivity());
+                    List<Favorite> favorites = database.favoriteDao().getList();
 
-            if (favorites.size() == 0) {
-                selectedFavorite.setEnabled(false);
-                showFavorite.setEnabled(false);
-                showFavorite.setChecked(false);
-            }
+                    if (favorites.size() == 0) {
+                        selectedFavorite.setEnabled(false);
+                        showFavorite.setEnabled(false);
+                        showFavorite.setChecked(false);
+                    }
 
-            ArrayList<String> names = new ArrayList<>();
-            ArrayList<String> values = new ArrayList<>();
+                    ArrayList<String> names = new ArrayList<>();
+                    ArrayList<String> values = new ArrayList<>();
 
-            for (Favorite favorite : favorites) {
-                names.add(favorite.getName());
-                values.add(String.valueOf(favorite.getUid()));
-            }
+                    for (Favorite favorite : favorites) {
+                        names.add(favorite.getName());
+                        values.add(String.valueOf(favorite.getUid()));
+                    }
 
-            CharSequence[] n = names.toArray(new CharSequence[names.size()]);
-            CharSequence[] v = values.toArray(new CharSequence[values.size()]);
+                    CharSequence[] n = names.toArray(new CharSequence[names.size()]);
+                    CharSequence[] v = values.toArray(new CharSequence[values.size()]);
 
-            selectedFavorite.setEntries(n);
-            selectedFavorite.setEntryValues(v);
+                    selectedFavorite.setEntries(n);
+                    selectedFavorite.setEntryValues(v);
+                }
+            });
 
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
             selectedFavorite.setEnabled(settings.getBoolean("show_favorite", false));
