@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +42,8 @@ import com.danhasting.radar.fragments.NeedKeyFragment;
 import com.danhasting.radar.fragments.RadarFragment;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -71,6 +72,8 @@ public class RadarActivity extends MainActivity {
 
     private Timer timer;
     private Boolean refreshed = true;
+    private Boolean paused = false;
+    private Date lastPause;
 
     private RadarFragment radarFragment;
 
@@ -171,13 +174,33 @@ public class RadarActivity extends MainActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        paused = false;
+
+        if (lastPause != null) {
+            Date now = Calendar.getInstance().getTime();
+            long seconds = (now.getTime() - lastPause.getTime()) / 1000;
+
+            if (seconds > 60 * 5)
+                refreshed = false;
+        }
+
         if (source != Source.WUNDERGROUND || settings.getBoolean("api_key_activated", false)) {
             // Mosaic loops are large, don't auto-refresh
             if (!refreshed && !(loop && source == Source.MOSAIC)) {
-                if (radarFragment != null) radarFragment.refreshRadar();
-                scheduleRefresh();
+                if (settings.getBoolean("auto_refresh", false)) {
+                    if (radarFragment != null) radarFragment.refreshRadar();
+                    scheduleRefresh();
+                }
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        paused = true;
+        lastPause = Calendar.getInstance().getTime();
     }
 
     @Override
@@ -345,7 +368,6 @@ public class RadarActivity extends MainActivity {
                                 }
                             });
                         } else {
-                            Log.e("TEST", "TEST2");
                             Favorite favorite = new Favorite();
                             favorite.setSource(source.getInt());
                             favorite.setName(name);
@@ -513,11 +535,21 @@ public class RadarActivity extends MainActivity {
         timer = new Timer();
         refreshed = true;
 
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 refreshed = false;
+
+                if (settings.getBoolean("auto_refresh", false) && !paused) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (radarFragment != null) radarFragment.refreshRadar();
+                            scheduleRefresh();
+                        }
+                    });
+                }
             }
-        }, 1000 * 60 * 5, 1000 * 60 * 5);
+        }, 1000 * 60 * 5);
     }
 }

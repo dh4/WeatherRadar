@@ -18,6 +18,12 @@
             android:enabled="false" />
 
         <CheckBoxPreference
+            android:title="@string/auto_refresh_title"
+            android:defaultValue="false"
+            android:summary="@string/auto_refresh_summary"
+            android:key="auto_refresh" />
+
+        <CheckBoxPreference
             android:title="@string/show_fullscreen_title"
             android:defaultValue="false"
             android:summary="@string/show_fullscreen_summary"
