@@ -245,7 +245,6 @@ public class SettingsActivity extends PreferenceActivity {
             ListPreference speed = (ListPreference)findPreference("animation_speed");
             ListPreference frames = (ListPreference)findPreference("animation_frames");
             ListPreference units = (ListPreference)findPreference("distance_units");
-            ListPreference satellite = (ListPreference)findPreference("satellite_key");
             EditTextPreference custom = (EditTextPreference)findPreference("custom_resolution");
 
             String resCurrent = settings.getString("image_resolution",
@@ -265,7 +264,6 @@ public class SettingsActivity extends PreferenceActivity {
                 speed.setEnabled(true);
                 frames.setEnabled(true);
                 units.setEnabled(true);
-                satellite.setEnabled(true);
 
                 if (resCurrent.equals("custom"))
                     custom.setEnabled(true);
@@ -283,7 +281,6 @@ public class SettingsActivity extends PreferenceActivity {
                 speed.setEnabled(false);
                 frames.setEnabled(false);
                 units.setEnabled(false);
-                satellite.setEnabled(false);
                 custom.setEnabled(false);
             }
         }

@@ -152,9 +152,9 @@ public class RadarFragment extends Fragment {
 
         String animateText = "radar";
 
-        if (type.equals("satellite") && loop)
+        if (type.startsWith("sat_") && loop)
             animateText = "animatedsatellite";
-        else if (type.equals("satellite"))
+        else if (type.startsWith("sat_"))
             animateText = "satellite";
         else if (loop)
             animateText = "animatedradar";
@@ -166,7 +166,6 @@ public class RadarFragment extends Fragment {
         String speed = settings.getString("animation_speed", getString(R.string.animation_speed_default));
         String res = settings.getString("image_resolution", defaultRes);
         String frames = settings.getString("animation_frames", getString(R.string.animation_frames_default));
-        String satellite = settings.getString("satellite_key", getString(R.string.satellite_key_default));
 
         if (res.equals("custom"))
             res = settings.getString("custom_resolution", defaultRes);
@@ -193,8 +192,8 @@ public class RadarFragment extends Fragment {
         url = String.format(url, apiKey, animateText, loc, imageWidth, imageHeight,
                 distance, units, smooth, speed, frames, snow, noclutter, time_label);
 
-        if (type.equals("satellite"))
-            url += String.format("&borders=1&key=%s", satellite);
+        if (type.startsWith("sat_"))
+            url += String.format("&borders=1&key=%s", type);
 
         return displayRadar(url);
     }
