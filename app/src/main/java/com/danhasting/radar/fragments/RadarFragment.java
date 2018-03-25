@@ -186,10 +186,14 @@ public class RadarFragment extends Fragment {
             imageHeight = Math.round(imageWidth * aspect);
         }
 
-        String url = "https://api.wunderground.com/api/%s/%s/q/zmw:%s.gif" +
+        String format = "png";
+        if (loop)
+            format = "gif";
+
+        String url = "https://api.wunderground.com/api/%s/%s/q/zmw:%s.%s" +
                 "?width=%s&height=%s&newmaps=1&radius=%s&radunits=%s&smooth=%s&delay=%s&num=%s" +
                 "&rainsnow=%s&noclutter=%s&timelabel=%s&timelabel.y=15&timelabel.x=5";
-        url = String.format(url, apiKey, animateText, loc, imageWidth, imageHeight,
+        url = String.format(url, apiKey, animateText, loc, format, imageWidth, imageHeight,
                 distance, units, smooth, speed, frames, snow, noclutter, time_label);
 
         if (type.startsWith("sat_"))
