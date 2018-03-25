@@ -58,7 +58,7 @@
     <string name="default_favorite_title">Favorite to Show</string>
     <string name="default_favorite_summary">Select the favorite radar to show</string>
     <string name="auto_refresh_title">Auto Refresh</string>
-    <string name="auto_refresh_summary">Refresh radar images if it\'s been over five minutes. This will use more data.</string>
+    <string name="auto_refresh_summary">When to automatically refresh radar images. Enabling this will use more data.</string>
     <string name="show_maximized_title">Show Maximized</string>
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
     <string name="show_fullscreen_title">Show Fullscreen</string>

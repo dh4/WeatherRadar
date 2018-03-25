@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -187,11 +188,9 @@ public class RadarActivity extends MainActivity {
 
         if (source != Source.WUNDERGROUND || settings.getBoolean("api_key_activated", false)) {
             // Mosaic loops are large, don't auto-refresh
-            if (!refreshed && !(loop && source == Source.MOSAIC)) {
-                if (settings.getBoolean("auto_refresh", false)) {
-                    if (radarFragment != null) radarFragment.refreshRadar();
-                    scheduleRefresh();
-                }
+            if (!refreshed && !(loop && source == Source.MOSAIC) && autoRefresh()) {
+                if (radarFragment != null) radarFragment.refreshRadar();
+                scheduleRefresh();
             }
         }
     }
@@ -526,6 +525,19 @@ public class RadarActivity extends MainActivity {
         }
     }
 
+    private Boolean autoRefresh() {
+        String refresh = settings.getString("auto_refresh",
+                getString(R.string.auto_refresh_default));
+        Boolean wifi = false;
+
+        ConnectivityManager manager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager != null)
+            wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
+
+        return (refresh.equals("always") || (refresh.equals("wifi") && wifi));
+    }
+
     private void scheduleRefresh() {
         if (timer != null) {
             timer.cancel();
@@ -540,7 +552,7 @@ public class RadarActivity extends MainActivity {
             public void run() {
                 refreshed = false;
 
-                if (settings.getBoolean("auto_refresh", false) && !paused) {
+                if (autoRefresh() && !paused) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

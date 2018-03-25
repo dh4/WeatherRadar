@@ -479,4 +479,17 @@
         <item>km</item>
     </array>
     <string name="distance_unit_default">nm</string>
+
+    <array name="auto_refresh_names">
+        <item>Never</item>
+        <item>Wi-Fi Only</item>
+        <item>Always</item>
+    </array>
+
+    <array name="auto_refresh_values">
+        <item>never</item>
+        <item>wifi</item>
+        <item>always</item>
+    </array>
+    <string name="auto_refresh_default">never</string>
 </resources>

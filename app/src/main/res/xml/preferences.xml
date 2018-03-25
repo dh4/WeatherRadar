@@ -17,9 +17,11 @@
             android:defaultValue="1"
             android:enabled="false" />
 
-        <CheckBoxPreference
+        <ListPreference
             android:title="@string/auto_refresh_title"
-            android:defaultValue="false"
+            android:defaultValue="@string/auto_refresh_default"
+            android:entries="@array/auto_refresh_names"
+            android:entryValues="@array/auto_refresh_values"
             android:summary="@string/auto_refresh_summary"
             android:key="auto_refresh" />
 
