@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +45,50 @@ public class AboutActivity extends MainActivity {
         String versionName = String.format("%s %s", getText(R.string.version),
                 BuildConfig.VERSION_NAME);
         version.setText(versionName);
+
+        Button donateButton = findViewById(R.id.donate_button);
+        donateButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://dh4.github.io/donate/"));
+                startActivity(intent);
+            }
+        });
+
+        Button githubButton = findViewById(R.id.github_button);
+        githubButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://github.com/dh4/WeatherRadar"));
+                startActivity(intent);
+            }
+        });
+
+        Button issueButton = findViewById(R.id.issue_button);
+        issueButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://github.com/dh4/WeatherRadar/issues"));
+                startActivity(intent);
+            }
+        });
+
+        Button contactButton = findViewById(R.id.contact_button);
+        contactButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://dh4.github.io/contact/"));
+                startActivity(intent);
+            }
+        });
 
         ImageView wundergroundImage = findViewById(R.id.wunderground_image);
         wundergroundImage.setOnClickListener(new View.OnClickListener(){
