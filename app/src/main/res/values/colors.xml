@@ -5,4 +5,5 @@
     <color name="radarBackground">#333333</color>
     <color name="buttonBackground">#DDDDDD</color>
     <color name="buttonText">#000000</color>
+    <color name="recentsTopBar">#EEEEEE</color>
 </resources>

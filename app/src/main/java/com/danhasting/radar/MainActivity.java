@@ -18,6 +18,7 @@
  */
 package com.danhasting.radar;
 
+import android.app.ActivityManager.TaskDescription;
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -25,6 +26,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -66,6 +69,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set color of the top bar on the recents screen
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
+            TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
+                    getResources().getColor(R.color.recentsTopBar));
+            setTaskDescription(taskDesc);
+        }
+
         setContentView(R.layout.activity_main);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);

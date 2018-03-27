@@ -18,9 +18,13 @@
  */
 package com.danhasting.radar;
 
+import android.app.ActivityManager.TaskDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -51,6 +55,15 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set color of the top bar on the recents screen
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
+            TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
+                    getResources().getColor(R.color.recentsTopBar));
+            setTaskDescription(taskDesc);
+        }
+
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         setTitle(R.string.nav_settings);
         if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
