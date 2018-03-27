@@ -2,5 +2,7 @@
 <resources>
     <color name="colorPrimary">#1e89f6</color>
     <color name="colorPrimaryDark">#1871c9</color>
-    <color name="colorNavHeader">#1e89f6</color>
+    <color name="radarBackground">#333333</color>
+    <color name="buttonBackground">#DDDDDD</color>
+    <color name="buttonText">#000000</color>
 </resources>
