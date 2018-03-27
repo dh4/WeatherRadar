@@ -254,25 +254,37 @@ public class RadarActivity extends MainActivity {
             @Override
             public void run() {
                 AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                List<Favorite> favorites = database.favoriteDao().findByData(
+                final List<Favorite> favorites = database.favoriteDao().findByData(
                         source.getInt(), location, type, loop, enhanced, distance);
 
-                if (favorites.size() > 0) {
-                    if (contextMenu)
-                        hideItem(contextAddFavorite);
-                    else
-                        hideItem(addFavorite);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (favorites.size() > 0) {
+                            if (contextMenu) {
+                                hideItem(contextAddFavorite);
+                                showItem(contextRemoveFavorite);
+                                showItem(contextEditFavorite);
+                            } else {
+                                hideItem(addFavorite);
+                                showItem(removeFavorite);
+                            }
 
-                    //Don't set the currentFavorite if NeedKeyFragment is showing so user can refresh
-                    if (!needKey)
-                        currentFavorite = favorites.get(0).getUid();
-                } else {
-                    if (contextMenu) {
-                        hideItem(contextRemoveFavorite);
-                        hideItem(contextEditFavorite);
-                    } else
-                        hideItem(removeFavorite);
-                }
+                            //Don't set currentFavorite if NeedKeyFragment showing so user can refresh
+                            if (!needKey)
+                                currentFavorite = favorites.get(0).getUid();
+                        } else {
+                            if (contextMenu) {
+                                hideItem(contextRemoveFavorite);
+                                hideItem(contextEditFavorite);
+                                showItem(contextAddFavorite);
+                            } else {
+                                hideItem(removeFavorite);
+                                showItem(addFavorite);
+                            }
+                        }
+                    }
+                });
             }
         });
 

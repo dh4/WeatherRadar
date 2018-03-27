@@ -10,15 +10,18 @@
         android:id="@+id/action_add_favorite"
         android:title="@string/action_add_favorite"
         android:icon="@drawable/ic_star_border"
+        android:visible="false"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_remove_favorite"
         android:title="@string/action_remove_favorite"
         android:icon="@drawable/ic_star"
+        android:visible="false"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_edit_favorite"
         android:title="@string/action_edit_favorite"
         android:icon="@drawable/ic_edit"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>
