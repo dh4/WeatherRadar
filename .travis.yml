@@ -11,10 +11,12 @@ android:
 before_install:
 - yes | sdkmanager "platforms;android-27"
 before_script:
+- sed -i "s/app_icon/app_icon_devel/g" app/src/main/AndroidManifest.xml
+- sed -i "s/com.danhasting.radar/com.danhasting.radar.devel/g" app/build.gradle
 - sed -i "s/versionName \"\([0-9\.]\+\)\"/versionName \"\1~git:${TRAVIS_COMMIT:0:7}\"/g" app/build.gradle
 before_deploy:
 - mkdir app/build/outputs/apk/debug/$TRAVIS_BRANCH/
-- mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/$TRAVIS_BRANCH/com.danhasting.radar_latest-debug.apk
+- mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/$TRAVIS_BRANCH/com.danhasting.radar.devel.apk
 deploy:
   provider: s3
   access_key_id:
