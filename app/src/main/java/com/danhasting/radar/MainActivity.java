@@ -128,7 +128,8 @@ public class MainActivity extends AppCompatActivity
         viewModel.getFavorites().observe(this, new Observer<List<Favorite>>() {
             @Override
             public void onChanged(@Nullable List<Favorite> favorites) {
-                populateFavorites(navigationView.getMenu(), favorites);
+                if (favorites != null)
+                    populateFavorites(navigationView.getMenu(), favorites);
             }
         });
 
@@ -177,12 +178,17 @@ public class MainActivity extends AppCompatActivity
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
             selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-            if (id == R.id.nav_nws)
-                selectIntent.putExtra("selection", Source.NWS);
-            else if (id == R.id.nav_mosaic)
-                selectIntent.putExtra("selection", Source.MOSAIC);
-            else if (id == R.id.nav_wunderground)
-                selectIntent.putExtra("selection", Source.WUNDERGROUND);
+            switch (id) {
+                case R.id.nav_nws:
+                    selectIntent.putExtra("selection", Source.NWS);
+                    break;
+                case R.id.nav_mosaic:
+                    selectIntent.putExtra("selection", Source.MOSAIC);
+                    break;
+                case R.id.nav_wunderground:
+                    selectIntent.putExtra("selection", Source.WUNDERGROUND);
+                    break;
+            }
 
             if (selectIntent.hasExtra("selection")) {
                 MainActivity.this.startActivity(selectIntent);

@@ -81,12 +81,17 @@ public class SelectActivity extends MainActivity
     public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         int id = menuItem.getItemId();
 
-        if (id == R.id.nav_nws)
-            launchSelectionFragment(Source.NWS);
-        else if (id == R.id.nav_mosaic)
-            launchSelectionFragment(Source.MOSAIC);
-        else if (id == R.id.nav_wunderground)
-            launchSelectionFragment(Source.WUNDERGROUND);
+        switch (id) {
+            case R.id.nav_nws:
+                launchSelectionFragment(Source.NWS);
+                break;
+            case R.id.nav_mosaic:
+                launchSelectionFragment(Source.MOSAIC);
+                break;
+            case R.id.nav_wunderground:
+                launchSelectionFragment(Source.WUNDERGROUND);
+                break;
+        }
 
         super.onNavigationItemSelected(menuItem);
         return true;
