@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -545,15 +544,9 @@ public class RadarActivity extends MainActivity {
 
     private Boolean autoRefresh() {
         String refresh = settings.getString("auto_refresh",
-                getString(R.string.auto_refresh_default));
-        Boolean wifi = false;
+                getString(R.string.wifi_toggle_default));
 
-        ConnectivityManager manager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (manager != null)
-            wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
-
-        return (refresh.equals("always") || (refresh.equals("wifi") && wifi));
+        return (refresh.equals("always") || (refresh.equals("wifi") && onWifi()));
     }
 
     private void scheduleRefresh() {

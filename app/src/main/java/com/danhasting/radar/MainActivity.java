@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -268,7 +269,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startDefaultView() {
-        if (settings.getBoolean("show_favorite", false)) {
+        String show = settings.getString("show_favorite", getString(R.string.wifi_toggle_default));
+
+        if (show.equals("always") || (show.equals("wifi") && onWifi())) {
             final int favoriteID = Integer.parseInt(settings.getString("default_favorite","0"));
 
             ExecutorService service =  Executors.newSingleThreadExecutor();
@@ -330,5 +333,10 @@ public class MainActivity extends AppCompatActivity
     public void openSettings() {
         Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivityForResult(settingsIntent, 1);
+    }
+
+    Boolean onWifi() {
+        ConnectivityManager m = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return m != null && m.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
     }
 }

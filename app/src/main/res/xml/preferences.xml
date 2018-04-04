@@ -4,9 +4,11 @@
     android:paddingTop="?android:attr/actionBarSize">
 
     <PreferenceCategory android:title="@string/general_title">
-        <CheckBoxPreference
+        <ListPreference
             android:title="@string/show_favorite_title"
-            android:defaultValue="false"
+            android:defaultValue="@string/wifi_toggle_default"
+            android:entries="@array/wifi_toggle_names"
+            android:entryValues="@array/wifi_toggle_values"
             android:summary="@string/show_favorite_summary"
             android:key="show_favorite" />
 
@@ -19,9 +21,9 @@
 
         <ListPreference
             android:title="@string/auto_refresh_title"
-            android:defaultValue="@string/auto_refresh_default"
-            android:entries="@array/auto_refresh_names"
-            android:entryValues="@array/auto_refresh_values"
+            android:defaultValue="@string/wifi_toggle_default"
+            android:entries="@array/wifi_toggle_names"
+            android:entryValues="@array/wifi_toggle_values"
             android:summary="@string/auto_refresh_summary"
             android:key="auto_refresh" />
 

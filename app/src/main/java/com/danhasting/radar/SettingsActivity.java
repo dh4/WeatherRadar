@@ -97,7 +97,7 @@ public class SettingsActivity extends PreferenceActivity {
             addPreferencesFromResource(R.xml.preferences);
 
             final ListPreference selectedFavorite = (ListPreference) findPreference("default_favorite");
-            final CheckBoxPreference showFavorite = (CheckBoxPreference) findPreference("show_favorite");
+            final ListPreference showFavorite = (ListPreference) findPreference("show_favorite");
 
             ExecutorService service =  Executors.newSingleThreadExecutor();
             service.submit(new Runnable() {
@@ -109,7 +109,7 @@ public class SettingsActivity extends PreferenceActivity {
                     if (favorites.size() == 0) {
                         selectedFavorite.setEnabled(false);
                         showFavorite.setEnabled(false);
-                        showFavorite.setChecked(false);
+                        showFavorite.setEnabled(false);
                     }
 
                     ArrayList<String> names = new ArrayList<>();
@@ -129,12 +129,14 @@ public class SettingsActivity extends PreferenceActivity {
             });
 
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            selectedFavorite.setEnabled(settings.getBoolean("show_favorite", false));
+            final String showDefault = getString(R.string.wifi_toggle_default);
+            selectedFavorite.setEnabled(!settings.getString("show_favorite", showDefault)
+                    .equals(showDefault));
 
             showFavorite.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    selectedFavorite.setEnabled(!settings.getBoolean("show_favorite", false));
+                    selectedFavorite.setEnabled(!o.toString().equals(showDefault));
                     return true;
                 }
             });

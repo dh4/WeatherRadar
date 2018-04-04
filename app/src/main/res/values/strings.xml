@@ -54,7 +54,7 @@
     <string name="nws_title">National Weather Service</string>
     <string name="wunderground_title">Weather Underground</string>
     <string name="show_favorite_title">Show Favorite on Startup</string>
-    <string name="show_favorite_summary">Show a saved radar instead of the default view when the application starts.</string>
+    <string name="show_favorite_summary">When to show a saved radar instead of the default view on application startup.</string>
     <string name="default_favorite_title">Favorite to Show</string>
     <string name="default_favorite_summary">Select the favorite radar to show</string>
     <string name="auto_refresh_title">Auto Refresh</string>
