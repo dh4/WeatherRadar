@@ -82,6 +82,12 @@
             android:inputType="number"
             android:singleLine="true" />
 
+        <CheckBoxPreference
+            android:title="@string/lower_resolution_title"
+            android:defaultValue="false"
+            android:summary="@string/lower_resolution_summary"
+            android:key="lower_resolution" />
+
         <ListPreference
             android:defaultValue="@string/distance_unit_default"
             android:entries="@array/distance_unit_names"

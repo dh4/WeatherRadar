@@ -20,7 +20,9 @@ package com.danhasting.radar.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -97,6 +99,9 @@ public class RadarFragment extends Fragment {
                 observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
+                        if (!isAdded())
+                            return;
+
                         radarWebView.loadData(displayWundergroundImage(location, type, loop, distance),
                                 "text/html", null);
 
@@ -166,11 +171,15 @@ public class RadarFragment extends Fragment {
         String speed = settings.getString("animation_speed", getString(R.string.animation_speed_default));
         String res = settings.getString("image_resolution", defaultRes);
         String frames = settings.getString("animation_frames", getString(R.string.animation_frames_default));
+        Boolean lower = settings.getBoolean("lower_resolution", false);
 
         if (res.equals("custom"))
             res = settings.getString("custom_resolution", defaultRes);
         if (!res.matches("\\d+"))
             res = defaultRes;
+
+        if (lower && !onWifi())
+            res = Long.toString(Math.round(Integer.parseInt(res) * 0.667));
 
         int width = radarWebView.getWidth();
         int height = radarWebView.getHeight();
@@ -253,5 +262,11 @@ public class RadarFragment extends Fragment {
             html.set("image7", "true");
 
         return html.toString();
+    }
+
+    private Boolean onWifi() {
+        ConnectivityManager m = (ConnectivityManager) getActivity()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        return m != null && m.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
     }
 }

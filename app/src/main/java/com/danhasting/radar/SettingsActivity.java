@@ -261,6 +261,7 @@ public class SettingsActivity extends PreferenceActivity {
             ListPreference frames = (ListPreference)findPreference("animation_frames");
             ListPreference units = (ListPreference)findPreference("distance_units");
             EditTextPreference custom = (EditTextPreference)findPreference("custom_resolution");
+            CheckBoxPreference lower = (CheckBoxPreference)findPreference("lower_resolution");
 
             String resCurrent = settings.getString("image_resolution",
                     getString(R.string.image_resolution_default));
@@ -279,6 +280,7 @@ public class SettingsActivity extends PreferenceActivity {
                 speed.setEnabled(true);
                 frames.setEnabled(true);
                 units.setEnabled(true);
+                lower.setEnabled(true);
 
                 if (resCurrent.equals("custom"))
                     custom.setEnabled(true);
@@ -297,6 +299,7 @@ public class SettingsActivity extends PreferenceActivity {
                 frames.setEnabled(false);
                 units.setEnabled(false);
                 custom.setEnabled(false);
+                lower.setEnabled(false);
             }
         }
     }
