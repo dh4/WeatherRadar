@@ -451,7 +451,7 @@
     <string name="animation_frames_default">5</string>
 
     <array name="image_resolution_names">
-        <item>Very Small (240p)</item>
+        <item>Very Small (320p)</item>
         <item>Small (480p)</item>
         <item>Medium (720p)</item>
         <item>Large (1080p)</item>
@@ -460,7 +460,7 @@
     </array>
 
     <string-array name="image_resolution_values">
-        <item>240</item>
+        <item>320</item>
         <item>480</item>
         <item>720</item>
         <item>1080</item>

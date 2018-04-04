@@ -260,6 +260,9 @@ public class RadarActivity extends MainActivity {
                     @Override
                     public void run() {
                         if (favorites.size() > 0) {
+                            radarName = favorites.get(0).getName();
+                            setTitle(radarName);
+
                             if (contextMenu) {
                                 hideItem(contextAddFavorite);
                                 showItem(contextRemoveFavorite);
