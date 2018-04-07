@@ -209,9 +209,6 @@ public class RadarFragment extends Fragment {
         }
 
         String format = "png";
-        if (loop)
-            format = "gif";
-
         String url = "https://api.wunderground.com/api/%s/%s/q/zmw:%s.%s" +
                 "?width=%s&height=%s&newmaps=1&radius=%s&radunits=%s&smooth=%s&delay=%s&num=%s" +
                 "&rainsnow=%s&noclutter=%s&timelabel=%s&timelabel.y=15&timelabel.x=5";
