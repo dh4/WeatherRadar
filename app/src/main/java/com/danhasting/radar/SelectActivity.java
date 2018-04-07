@@ -113,6 +113,10 @@ public class SelectActivity extends MainActivity
         Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
         if (fragment instanceof ChooserFragment)
             launchSelectionFragment(Source.WUNDERGROUND);
+
+        Boolean needKey = !settings.getBoolean("api_key_activated", false);
+        if (fragment instanceof SelectWundergroundFragment && needKey)
+            launchSelectionFragment(Source.WUNDERGROUND);
     }
 
     private void launchSelectionFragment(Source selection, Boolean force) {

@@ -89,7 +89,7 @@ public class NeedKeyFragment extends Fragment {
             public void onClick(View view) {
                 int used = settings.getInt("test_used", 0);
 
-                if (used >= limit)
+                if (settings.getBoolean("is_test_limit", false) && used >= limit)
                     Toast.makeText(getActivity().getApplicationContext(),
                             getString(R.string.passed_limit_error), Toast.LENGTH_LONG).show();
                 else if (callback != null)
