@@ -50,6 +50,27 @@
                 android:paddingRight="30dp"
                 android:text="@string/open_settings_button" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/test_wunderground" />
+
+            <Button
+                android:id="@+id/testWundergroundButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@string/test_wunderground_button" />
+
         </LinearLayout>
     </ScrollView>
 

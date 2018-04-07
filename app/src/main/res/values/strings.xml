@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Weather Radar</string>
+    <string name="test_api_key">f6031a37e8b4fb5a</string>
 
     <!-- Activity Headers -->
     <string name="select_radar_image">National Weather Service</string>
@@ -48,6 +49,8 @@
     <string name="need_key_text">This requires a free API Key</string>
     <string name="need_key_button">Get Key from Weather Underground</string>
     <string name="open_settings_button">Open Settings</string>
+    <string name="test_wunderground">Or, you can test Weather Underground images below. Please do not continue to use this, as the built-in API key is rate limited and shared between all users.</string>
+    <string name="test_wunderground_button">Test Weather Underground Images</string>
 
     <!-- Preferences -->
     <string name="general_title">General</string>
@@ -92,7 +95,7 @@
     <!-- About -->
     <string name="version">Version:</string>
     <string name="copyright">Copyright © 2018, Dan Hasting</string>
-    <string name="donate">I\'ve provided Weather Radar free of charge and without ads in the hope you\'ll find it useful. If you do, please consider donating:</string>
+    <string name="donate">Weather Radar is pay what you want software. I dislike advertisements and I imagine you do as well so I\'ve distributed it without them. Instead I ask that if you find the application useful, please help support it using the button below:</string>
     <string name="donate_button">Donate</string>
     <string name="license_line1">Weather Radar is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</string>
     <string name="license_line2">Weather Radar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</string>
@@ -113,5 +116,11 @@
     <string name="welcome_dismiss">OK, Got it!</string>
     <string name="welcome_more">Learn More</string>
     <string name="welcome_header">Welcome!</string>
-    <string name="welcome_text">Weather Radar provides access to doppler radar images from Weather Underground and the United States National Weather Service.\n\nFor the Weather Underground source, you will need to sign up for a free API key from their website.\n\nIf you are outside the United States, tap Learn More below for information on what data is available for your location.\n</string>
+    <string name="welcome_text">Weather Radar provides access to doppler radar images from Weather Underground and the United States National Weather Service.\n\nIf you are outside the United States, tap Learn More below for information on what data is available for your location.\n\nWeather Radar is pay what you want software. If you find it useful, please help support it using the link on the about page.\n</string>
+
+    <!-- Wunderground Test Dialog -->
+    <string name="test_dismiss">OK</string>
+    <string name="test_get_key">Get a Key</string>
+    <string name="test_header">Warning</string>
+    <string name="test_text">You are using the test API key. Please do not continue to use this, as the built-in API key is rate limited and shared between all users (if this feature is not working, that is most likely why). You can get your own key for free.</string>
 </resources>

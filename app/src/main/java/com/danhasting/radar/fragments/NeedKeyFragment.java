@@ -37,6 +37,7 @@ public class NeedKeyFragment extends Fragment {
 
     public interface OnOpenSettingsListener {
         void openSettings();
+        void testWunderground();
     }
 
     @Override
@@ -62,6 +63,17 @@ public class NeedKeyFragment extends Fragment {
             public void onClick(View view) {
                 if (callback != null)
                     callback.openSettings();
+            }
+
+        });
+
+        Button testWunderground = view.findViewById(R.id.testWundergroundButton);
+        testWunderground.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if (callback != null)
+                    callback.testWunderground();
             }
 
         });

@@ -145,8 +145,16 @@ public class RadarFragment extends Fragment {
         return displayRadar(url);
     }
 
+    private String getApiKey() {
+        String apiKey = getString(R.string.test_api_key);
+        if (settings.getBoolean("api_key_activated", false))
+            apiKey = settings.getString("api_key","");
+        return apiKey;
+    }
+
     private String displayWundergroundImage(String loc, String type, Boolean loop, int distance) {
-        String apiKey = settings.getString("api_key","");
+        String apiKey = getApiKey();
+
         int time_label = settings.getBoolean("show_time_label", true) ? 1 : 0;
         int snow = settings.getBoolean("show_snow_mix", true) ? 1 : 0;
         int smooth = settings.getBoolean("smoothing", true) ? 1 : 0;

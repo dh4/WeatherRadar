@@ -283,4 +283,12 @@ public class SelectActivity extends MainActivity
 
         onSelected(Source.WUNDERGROUND, name, location, type, loop, false, distance);
     }
+
+    @Override
+    public void testWunderground() {
+        setTitle(R.string.select_wunderground_image);
+        SelectWundergroundFragment wundergroundFragment = new SelectWundergroundFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, wundergroundFragment).commit();
+    }
 }

@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -38,7 +39,6 @@ import android.widget.EditText;
 import com.danhasting.radar.database.AppDatabase;
 import com.danhasting.radar.database.Favorite;
 import com.danhasting.radar.database.Source;
-import com.danhasting.radar.fragments.NeedKeyFragment;
 import com.danhasting.radar.fragments.RadarFragment;
 
 import java.util.Arrays;
@@ -61,7 +61,7 @@ public class RadarActivity extends MainActivity {
 
     private String sourceName;
     private String radarName;
-    private Boolean needKey;
+    private Boolean needKey = true;
 
     private MenuItem addFavorite;
     private MenuItem removeFavorite;
@@ -109,16 +109,33 @@ public class RadarActivity extends MainActivity {
 
         needKey = source == Source.WUNDERGROUND && !settings.getBoolean("api_key_activated", false);
         if (needKey) {
-            NeedKeyFragment needKeyFragment = new NeedKeyFragment();
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, needKeyFragment).commit();
-            return;
-        } else {
-            radarFragment = new RadarFragment();
-            radarFragment.setArguments(intent.getExtras());
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, radarFragment).commit();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.test_header));
+            builder.setMessage(getString(R.string.test_text));
+
+            builder.setPositiveButton(R.string.test_get_key, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent browser = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://www.wunderground.com/weather/api/"));
+                    startActivity(browser);
+                }
+            });
+            builder.setNegativeButton(R.string.test_dismiss, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
+
+        radarFragment = new RadarFragment();
+        radarFragment.setArguments(intent.getExtras());
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, radarFragment).commit();
 
         ActionBar actionBar = getSupportActionBar();
         if (fullscreen && actionBar != null) {
@@ -185,12 +202,10 @@ public class RadarActivity extends MainActivity {
                 refreshed = false;
         }
 
-        if (source != Source.WUNDERGROUND || settings.getBoolean("api_key_activated", false)) {
-            // Mosaic loops are large, don't auto-refresh
-            if (!refreshed && !(loop && source == Source.MOSAIC) && autoRefresh()) {
-                if (radarFragment != null) radarFragment.refreshRadar();
-                scheduleRefresh();
-            }
+        // Mosaic loops are large, don't auto-refresh
+        if (!needKey && !refreshed && !(loop && source == Source.MOSAIC) && autoRefresh()) {
+            if (radarFragment != null) radarFragment.refreshRadar();
+            scheduleRefresh();
         }
     }
 
@@ -205,7 +220,7 @@ public class RadarActivity extends MainActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data.getBooleanExtra("from_settings", false))
+        if (data.getBooleanExtra("from_settings", false) && !needKey)
             recreate();
     }
 
@@ -248,6 +263,12 @@ public class RadarActivity extends MainActivity {
         }
         MenuItem refresh = menu.findItem(R.id.action_refresh);
 
+        // Don't allow user to add a favorite or refresh if they are using the test api key
+        if (needKey) {
+            refresh.setVisible(false);
+            return;
+        }
+
         ExecutorService service =  Executors.newSingleThreadExecutor();
         service.submit(new Runnable() {
             @Override
@@ -289,9 +310,6 @@ public class RadarActivity extends MainActivity {
                 });
             }
         });
-
-        if (needKey)
-            refresh.setVisible(false);
     }
 
     private void initializeMenu(Menu menu) {
@@ -570,7 +588,7 @@ public class RadarActivity extends MainActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (radarFragment != null) radarFragment.refreshRadar();
+                            if (!needKey && radarFragment != null) radarFragment.refreshRadar();
                             scheduleRefresh();
                         }
                     });

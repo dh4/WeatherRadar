@@ -338,6 +338,8 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(settingsIntent, 1);
     }
 
+    public void testWunderground() {}
+
     Boolean onWifi() {
         ConnectivityManager m = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (m != null) {
