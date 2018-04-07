@@ -29,11 +29,13 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
             TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
-                    getResources().getColor(R.color.recentsTopBar));
+                    ContextCompat.getColor(getApplicationContext(), R.color.recentsTopBar));
             setTaskDescription(taskDesc);
         }
 
@@ -94,7 +96,8 @@ public class MainActivity extends AppCompatActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),
+                    R.color.colorPrimaryDark));
         }
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -337,6 +340,10 @@ public class MainActivity extends AppCompatActivity
 
     Boolean onWifi() {
         ConnectivityManager m = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return m != null && m.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
+        if (m != null) {
+            NetworkInfo netInfo = m.getActiveNetworkInfo();
+            return netInfo.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+        return false;
     }
 }

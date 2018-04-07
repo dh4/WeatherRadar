@@ -23,7 +23,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.os.Build;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -105,10 +105,7 @@ public class RadarFragment extends Fragment {
                         radarWebView.loadData(displayWundergroundImage(location, type, loop, distance),
                                 "text/html", null);
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                            radarWebView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        else
-                            radarWebView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        radarWebView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
             } else {
@@ -267,6 +264,10 @@ public class RadarFragment extends Fragment {
     private Boolean onWifi() {
         ConnectivityManager m = (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        return m != null && m.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
+        if (m != null) {
+            NetworkInfo netInfo = m.getActiveNetworkInfo();
+            return netInfo.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+        return false;
     }
 }

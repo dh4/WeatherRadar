@@ -20,6 +20,7 @@ package com.danhasting.radar.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -99,6 +100,18 @@ public class SelectNWSFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            callback = (OnNWSSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnNWSSelectedListener");
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
@@ -108,7 +121,6 @@ public class SelectNWSFragment extends Fragment {
             throw new ClassCastException(activity.toString() + " must implement OnNWSSelectedListener");
         }
     }
-
 
     private void viewRadar() {
         Spinner typeSpinner = view.findViewById(R.id.typeSpinner);

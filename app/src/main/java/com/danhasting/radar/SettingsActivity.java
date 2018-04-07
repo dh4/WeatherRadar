@@ -33,6 +33,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public class SettingsActivity extends PreferenceActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
             TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
-                    getResources().getColor(R.color.recentsTopBar));
+                    ContextCompat.getColor(getApplicationContext(), R.color.recentsTopBar));
             setTaskDescription(taskDesc);
         }
 
