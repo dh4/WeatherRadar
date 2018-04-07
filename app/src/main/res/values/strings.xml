@@ -44,6 +44,7 @@
     <string name="location_placeholder">City, State or Zip Code</string>
     <string name="radius_text">Distance</string>
     <string name="loading">Loading&#8230;</string>
+    <string name="empty_location_error">Please enter a location</string>
     <string name="connection_error">An error occurred connecting to Weather Underground. Please check your network settings.</string>
     <string name="no_results_error">No results found. Please modify your location search.</string>
     <string name="need_key_text">This requires a free API Key</string>

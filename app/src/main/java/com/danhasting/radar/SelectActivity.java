@@ -165,7 +165,7 @@ public class SelectActivity extends MainActivity
         setTitle(R.string.chooser_title);
         ChooserFragment chooserFragment = new ChooserFragment();
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, chooserFragment).commit();
+                .replace(R.id.fragment_container, chooserFragment).addToBackStack(null).commit();
         getFragmentManager().executePendingTransactions();
 
         chooserFragment.populateList(options, type, loop, distance);

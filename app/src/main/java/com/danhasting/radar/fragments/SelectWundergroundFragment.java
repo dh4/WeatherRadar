@@ -110,8 +110,6 @@ public class SelectWundergroundFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 viewWunderground();
-                viewButton.setText(R.string.loading);
-                viewButton.setEnabled(false);
             }
         });
 
@@ -200,7 +198,12 @@ public class SelectWundergroundFragment extends Fragment {
         String type = getResources().getStringArray(R.array.wunderground_type_values)
                 [typeSpinner.getSelectedItemPosition()];
 
-        callback.onWundergroundSelected(location, type, loop, distance);
+        if (!location.equals("")) {
+            callback.onWundergroundSelected(location, type, loop, distance);
+            viewButton.setText(R.string.loading);
+            viewButton.setEnabled(false);
+        } else
+            locationEditText.setError(getString(R.string.empty_location_error));
     }
 }
 
