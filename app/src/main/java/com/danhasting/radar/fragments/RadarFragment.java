@@ -147,7 +147,15 @@ public class RadarFragment extends Fragment {
 
     private String getApiKey() {
         String apiKey = getString(R.string.test_api_key);
-        if (settings.getBoolean("api_key_activated", false))
+
+        int built_in_test = getResources().getIdentifier("built_in_test_key","string",
+                getActivity().getPackageName());
+        if (built_in_test != 0 && !getString(built_in_test).equals(""))
+            apiKey = getString(built_in_test);
+
+        if (settings.getBoolean("is_built_in_key", false))
+            apiKey = settings.getString("built_in_key","");
+        else if (settings.getBoolean("api_key_activated", false))
             apiKey = settings.getString("api_key","");
         return apiKey;
     }

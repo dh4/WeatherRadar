@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Weather Radar</string>
     <string name="test_api_key">f6031a37e8b4fb5a</string>
 
@@ -51,7 +51,9 @@
     <string name="need_key_button">Get Key from Weather Underground</string>
     <string name="open_settings_button">Open Settings</string>
     <string name="test_wunderground">Or, you can test Weather Underground images below. Please do not continue to use this, as the built-in API key is rate limited and shared between all users.</string>
+    <string name="test_wunderground_limit" tools:ignore="PluralsCandidate">Or, you can test Weather Underground images below. You have used %1$d of %2$d free uses of this feature.</string>
     <string name="test_wunderground_button">Test Weather Underground Images</string>
+    <string name="passed_limit_error">You have used all your free uses of this feature. Please get a free API key above!</string>
 
     <!-- Preferences -->
     <string name="general_title">General</string>
@@ -124,4 +126,5 @@
     <string name="test_get_key">Get a Key</string>
     <string name="test_header">Warning</string>
     <string name="test_text">You are using the test API key. Please do not continue to use this, as the built-in API key is rate limited and shared between all users (if this feature is not working, that is most likely why). You can get your own key for free.</string>
+    <string name="test_text_limited" tools:ignore="PluralsCandidate">You are using the test API key and have used %1$d of %2$d free uses. To fully enable this feature, you can get your own key for free.</string>
 </resources>

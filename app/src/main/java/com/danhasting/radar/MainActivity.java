@@ -161,6 +161,30 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        int built_in_key = getResources().getIdentifier("built_in_key","string", getPackageName());
+        int test_limit = getResources().getIdentifier("test_limit","string", getPackageName());
+
+        SharedPreferences.Editor keyEditor = settings.edit();
+
+        if (built_in_key != 0 && !getString(built_in_key).equals("")) {
+            keyEditor.putBoolean("is_built_in_key", true);
+            keyEditor.putBoolean("api_key_activated", true);
+            keyEditor.putString("built_in_key", getString(built_in_key));
+        } else {
+            keyEditor.putBoolean("is_built_in_key", false);
+            if (settings.getString("api_key","").equals(""))
+                keyEditor.putBoolean("api_key_activated", false);
+        }
+
+        if (test_limit != 0 && getString(test_limit).matches("\\d+")) {
+            keyEditor.putBoolean("is_test_limit", true);
+            keyEditor.putInt("test_limit", Integer.parseInt(getString(test_limit)));
+        } else {
+            keyEditor.putBoolean("is_test_limit", false);
+        }
+
+        keyEditor.apply();
+
         if (classNameEquals("MainActivity"))
             startDefaultView();
         else if (settings.getBoolean("first_run", true)) {

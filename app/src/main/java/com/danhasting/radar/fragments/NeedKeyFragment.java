@@ -22,12 +22,16 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.danhasting.radar.R;
 
@@ -67,12 +71,28 @@ public class NeedKeyFragment extends Fragment {
 
         });
 
+        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final Boolean limited = settings.getBoolean("is_test_limit", false);
+        final int limit = settings.getInt("test_limit", 5);
+
+        if (limited) {
+            int used = settings.getInt("test_used", 0);
+            TextView wundergroundTest = view.findViewById(R.id.testWunderground);
+            wundergroundTest.setText(String.format(getString(R.string.test_wunderground_limit),
+                    used, limit));
+        }
+
         Button testWunderground = view.findViewById(R.id.testWundergroundButton);
         testWunderground.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                if (callback != null)
+                int used = settings.getInt("test_used", 0);
+
+                if (used >= limit)
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            getString(R.string.passed_limit_error), Toast.LENGTH_LONG).show();
+                else if (callback != null)
                     callback.testWunderground();
             }
 

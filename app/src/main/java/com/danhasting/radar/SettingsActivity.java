@@ -31,6 +31,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
@@ -91,6 +92,9 @@ public class SettingsActivity extends PreferenceActivity {
 
     public static class SettingsFragment extends PreferenceFragment
     {
+        private SharedPreferences settings;
+        private Context context;
+
         @Override
         public void onCreate(final Bundle savedInstanceState)
         {
@@ -129,7 +133,7 @@ public class SettingsActivity extends PreferenceActivity {
                 }
             });
 
-            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
             final String showDefault = getString(R.string.wifi_toggle_default);
             selectedFavorite.setEnabled(!settings.getString("show_favorite", showDefault)
                     .equals(showDefault));
@@ -144,9 +148,44 @@ public class SettingsActivity extends PreferenceActivity {
 
             checkApiKeyStatus(settings, false, false);
 
-            final EditTextPreference apiKeyEditText = (EditTextPreference) findPreference("api_key");
-            final Context context = getActivity().getApplicationContext();
+            EditTextPreference apiKeyEditText = (EditTextPreference) findPreference("api_key");
+            context = getActivity().getApplicationContext();
+            if (apiKeyEditText != null)
+                initializeApiKeyEditText(apiKeyEditText);
 
+            final ListPreference resEdit = (ListPreference) findPreference("image_resolution");
+            final EditTextPreference custom = (EditTextPreference)findPreference("custom_resolution");
+            checkResolution(settings.getString("image_resolution",
+                    getString(R.string.image_resolution_default)), custom);
+
+            resEdit.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    checkResolution(o.toString(), custom);
+                    return true;
+                }
+            });
+
+            custom.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    String newValue = o.toString();
+
+                    if (newValue.matches("\\d+")) {
+                        int value = Integer.parseInt(newValue);
+
+                        if (value >= 100 && value <= 4096)
+                            return true;
+                    }
+
+                    Toast.makeText(context, getString(R.string.custom_resolution_error),
+                            Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            });
+        }
+
+        private void initializeApiKeyEditText(EditTextPreference apiKeyEditText) {
             apiKeyEditText.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
@@ -208,37 +247,6 @@ public class SettingsActivity extends PreferenceActivity {
                     return true;
                 }
             });
-
-            final ListPreference resEdit = (ListPreference) findPreference("image_resolution");
-            final EditTextPreference custom = (EditTextPreference)findPreference("custom_resolution");
-            checkResolution(settings.getString("image_resolution",
-                    getString(R.string.image_resolution_default)), custom);
-
-            resEdit.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object o) {
-                    checkResolution(o.toString(), custom);
-                    return true;
-                }
-            });
-
-            custom.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                String newValue = o.toString();
-
-                if (newValue.matches("\\d+")) {
-                    int value = Integer.parseInt(newValue);
-
-                    if (value >= 100 && value <= 4096)
-                        return true;
-                }
-
-                Toast.makeText(context, getString(R.string.custom_resolution_error),
-                        Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
         }
 
         private void checkResolution(String resolution, EditTextPreference custom) {
@@ -285,6 +293,11 @@ public class SettingsActivity extends PreferenceActivity {
 
                 if (resCurrent.equals("custom"))
                     custom.setEnabled(true);
+
+                if (settings.getBoolean("is_built_in_key", false)) {
+                    PreferenceCategory c = (PreferenceCategory)findPreference("wunderground_category");
+                    c.removePreference(apiKey);
+                }
             } else {
                 if (failed || !currentKey.equals(""))
                     apiKey.setSummary(R.string.api_key_error);

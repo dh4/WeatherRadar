@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -109,9 +110,27 @@ public class RadarActivity extends MainActivity {
 
         needKey = source == Source.WUNDERGROUND && !settings.getBoolean("api_key_activated", false);
         if (needKey) {
+            Boolean limited = settings.getBoolean("is_test_limit", false);
+            int used = 0;
+            int limit = settings.getInt("test_limit", 5);
+            String message;
+
+            if (limited) {
+                used = settings.getInt("test_used", 0) + 1;
+
+                if (used <= limit) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putInt("test_used", used);
+                    editor.apply();
+                }
+
+                message = String.format(getString(R.string.test_text_limited), used, limit);
+            } else
+                message = getString(R.string.test_text);
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.test_header));
-            builder.setMessage(getString(R.string.test_text));
+            builder.setMessage(message);
 
             builder.setPositiveButton(R.string.test_get_key, new DialogInterface.OnClickListener() {
                 @Override
@@ -130,6 +149,9 @@ public class RadarActivity extends MainActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
+
+            if (limited && used > limit)
+                return;
         }
 
         radarFragment = new RadarFragment();

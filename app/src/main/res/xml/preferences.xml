@@ -51,7 +51,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/wunderground_title">
+    <PreferenceCategory
+        android:title="@string/wunderground_title"
+        android:key="wunderground_category">
         <EditTextPreference
             android:title="@string/api_key_title"
             android:key="api_key"
