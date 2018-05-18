@@ -98,7 +98,7 @@
     <!-- About -->
     <string name="version">Version:</string>
     <string name="copyright">Copyright © 2018, Dan Hasting</string>
-    <string name="donate">Weather Radar is pay what you want software. I dislike advertisements and I imagine you do as well so I\'ve distributed it without them. Instead I ask that if you find the application useful, please help support it using the button below:</string>
+    <string name="donate">Weather Radar is provided free of charge and with no advertisements. If you find it useful, please consider supporting my work.</string>
     <string name="donate_button">Donate</string>
     <string name="license_line1">Weather Radar is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</string>
     <string name="license_line2">Weather Radar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</string>
@@ -119,7 +119,7 @@
     <string name="welcome_dismiss">OK, Got it!</string>
     <string name="welcome_more">Learn More</string>
     <string name="welcome_header">Welcome!</string>
-    <string name="welcome_text">Weather Radar provides access to doppler radar images from Weather Underground and the United States National Weather Service.\n\nIf you are outside the United States, tap Learn More below for information on what data is available for your location.\n\nWeather Radar is pay what you want software. If you find it useful, please help support it using the link on the about page.\n</string>
+    <string name="welcome_text">Weather Radar provides access to doppler radar images from Weather Underground and the United States National Weather Service.\n\nIf you are outside the United States, tap Learn More below for information on what data is available for your location.\n</string>
 
     <!-- Wunderground Test Dialog -->
     <string name="test_dismiss">OK</string>
