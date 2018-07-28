@@ -1,6 +1,6 @@
 # Weather Radar [![Build Status](https://travis-ci.org/dh4/WeatherRadar.svg?branch=master)](https://travis-ci.org/dh4/WeatherRadar)
 
-<p align="center"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/app_icon_128.png" alt="Weather Radar" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/icon_128.png" alt="Weather Radar" /></p>
 
 Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service and Weather Underground's API.
 
@@ -14,16 +14,16 @@ I will work on integrating another source.
 
 ## Downloading
 
-<p><a href="https://play.google.com/store/apps/details?id=com.danhasting.radar"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/googleplay.png" alt="Get it on Google Play" /></a></p>
+<p><a href="https://f-droid.org/en/packages/com.danhasting.radar/"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/fdroid.png" alt="Get it on F-Droid" /></a> <a href="https://play.google.com/store/apps/details?id=com.danhasting.radar"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/googleplay.png" alt="Get it on Google Play" /></a></p>
 
 APKs are also available on the [releases](https://github.com/dh4/WeatherRadar/releases) page.
 
 ## Screenshots
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/screenshot1.png" alt="Screen Shot" width="250" />
-<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/screenshot2.png" alt="Screen Shot" width="250" />
-<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/screenshot3.png" alt="Screen Shot" width="250" />
+<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/metadata/en-US/images/phoneScreenshots/1.png" alt="Screen Shot" width="250" />
+<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/metadata/en-US/images/phoneScreenshots/2.png" alt="Screen Shot" width="250" />
+<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/metadata/en-US/images/phoneScreenshots/3.png" alt="Screen Shot" width="250" />
 </p>
 
 ## Support
