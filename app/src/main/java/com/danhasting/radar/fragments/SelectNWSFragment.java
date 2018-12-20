@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -56,7 +55,7 @@ public class SelectNWSFragment extends Fragment {
                 getActivity(), R.array.type_names, android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(typeAdapter);
 
-        String type = settings.getString("last_nws_type","");
+        String type = settings.getString("last_nws_type", "");
         int index = Arrays.asList(getResources().getStringArray(R.array.type_values)).indexOf(type);
         typeSpinner.setSelection(index);
 
@@ -65,36 +64,29 @@ public class SelectNWSFragment extends Fragment {
                 getActivity(), R.array.location_names, android.R.layout.simple_spinner_dropdown_item);
         locationSpinner.setAdapter(locationAdapter);
 
-        String location = settings.getString("last_nws_location","");
+        String location = settings.getString("last_nws_location", "");
         index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
         locationSpinner.setSelection(index);
 
         final Switch loopSwitch = view.findViewById(R.id.loopSwitch);
-        loopSwitch.setChecked(settings.getBoolean("last_nws_loop",false));
+        loopSwitch.setChecked(settings.getBoolean("last_nws_loop", false));
 
         Switch enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
-        if (settings.getBoolean("last_nws_enhanced",false)) {
+        if (settings.getBoolean("last_nws_enhanced", false)) {
             enhancedSwitch.setChecked(true);
             loopSwitch.setEnabled(false);
         }
 
-        enhancedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    loopSwitch.setEnabled(false);
-                } else {
-                    loopSwitch.setEnabled(true);
-                }
+        enhancedSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                loopSwitch.setEnabled(false);
+            } else {
+                loopSwitch.setEnabled(true);
             }
         });
 
         Button viewButton = view.findViewById(R.id.viewButton);
-        viewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewRadar();
-            }
-        });
+        viewButton.setOnClickListener(view -> viewRadar());
 
         return view;
     }

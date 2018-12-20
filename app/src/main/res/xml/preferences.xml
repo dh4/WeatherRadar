@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingTop="?android:attr/actionBarSize">
 
     <PreferenceCategory android:title="@string/general_title">
         <ListPreference
-            android:title="@string/show_favorite_title"
             android:defaultValue="@string/wifi_toggle_default"
             android:entries="@array/wifi_toggle_names"
             android:entryValues="@array/wifi_toggle_values"
+            android:key="show_favorite"
             android:summary="@string/show_favorite_summary"
-            android:key="show_favorite" />
+            android:title="@string/show_favorite_title" />
 
         <ListPreference
-            android:title="@string/default_favorite_title"
-            android:summary="@string/default_favorite_summary"
-            android:key="default_favorite"
             android:defaultValue="1"
-            android:enabled="false" />
+            android:enabled="false"
+            android:key="default_favorite"
+            android:summary="@string/default_favorite_summary"
+            android:title="@string/default_favorite_title" />
 
         <ListPreference
-            android:title="@string/auto_refresh_title"
             android:defaultValue="@string/wifi_toggle_default"
             android:entries="@array/wifi_toggle_names"
             android:entryValues="@array/wifi_toggle_values"
+            android:key="auto_refresh"
             android:summary="@string/auto_refresh_summary"
-            android:key="auto_refresh" />
+            android:title="@string/auto_refresh_title" />
 
         <CheckBoxPreference
-            android:title="@string/show_fullscreen_title"
             android:defaultValue="false"
+            android:key="show_fullscreen"
             android:summary="@string/show_fullscreen_summary"
-            android:key="show_fullscreen" />
+            android:title="@string/show_fullscreen_title" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/nws_title">
         <CheckBoxPreference
-            android:title="@string/show_maximized_title"
             android:defaultValue="false"
+            android:key="show_maximized"
             android:summary="@string/show_maximized_summary"
-            android:key="show_maximized" />
+            android:title="@string/show_maximized_title" />
 
         <MultiSelectListPreference
             android:defaultValue="@array/enhanced_layer_default"
@@ -52,43 +51,43 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/wunderground_title"
-        android:key="wunderground_category">
+        android:key="wunderground_category"
+        android:title="@string/wunderground_title">
         <EditTextPreference
-            android:title="@string/api_key_title"
             android:key="api_key"
-            android:summary="@string/api_key_summary"
             android:selectAllOnFocus="true"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:summary="@string/api_key_summary"
+            android:title="@string/api_key_title" />
 
         <CheckBoxPreference
-            android:title="@string/show_time_label_title"
             android:defaultValue="true"
+            android:key="show_time_label"
             android:summary="@string/show_time_label_summary"
-            android:key="show_time_label" />
+            android:title="@string/show_time_label_title" />
 
         <ListPreference
             android:defaultValue="@string/image_resolution_default"
             android:entries="@array/image_resolution_names"
             android:entryValues="@array/image_resolution_values"
             android:key="image_resolution"
-            android:title="@string/image_size_title"
-            android:summary="@string/image_size_summary" />
+            android:summary="@string/image_size_summary"
+            android:title="@string/image_size_title" />
 
         <EditTextPreference
             android:defaultValue="@string/image_resolution_default"
-            android:title="@string/custom_resolution_title"
-            android:key="custom_resolution"
-            android:summary="@string/custom_resolution_summary"
-            android:selectAllOnFocus="true"
             android:inputType="number"
-            android:singleLine="true" />
+            android:key="custom_resolution"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/custom_resolution_summary"
+            android:title="@string/custom_resolution_title" />
 
         <CheckBoxPreference
-            android:title="@string/lower_resolution_title"
             android:defaultValue="false"
+            android:key="lower_resolution"
             android:summary="@string/lower_resolution_summary"
-            android:key="lower_resolution" />
+            android:title="@string/lower_resolution_title" />
 
         <ListPreference
             android:defaultValue="@string/distance_unit_default"
@@ -109,26 +108,26 @@
             android:entries="@array/animation_frames"
             android:entryValues="@array/animation_frames"
             android:key="animation_frames"
-            android:title="@string/animation_frames_title"
-            android:summary="@string/animation_frames_summary" />
+            android:summary="@string/animation_frames_summary"
+            android:title="@string/animation_frames_title" />
 
         <CheckBoxPreference
-            android:title="@string/show_snow_mix_title"
             android:defaultValue="true"
+            android:key="show_snow_mix"
             android:summary="@string/show_snow_mix_summary"
-            android:key="show_snow_mix" />
+            android:title="@string/show_snow_mix_title" />
 
         <CheckBoxPreference
-            android:title="@string/smooth_title"
             android:defaultValue="true"
+            android:key="smoothing"
             android:summary="@string/smooth_summary"
-            android:key="smoothing" />
+            android:title="@string/smooth_title" />
 
         <CheckBoxPreference
-            android:title="@string/noclutter_title"
             android:defaultValue="true"
+            android:key="noclutter"
             android:summary="@string/noclutter_summary"
-            android:key="noclutter" />
+            android:title="@string/noclutter_title" />
 
     </PreferenceCategory>
 

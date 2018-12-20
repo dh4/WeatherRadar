@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -81,24 +80,20 @@ public class ChooserFragment extends Fragment {
         final ArrayList<String> optionNames = new ArrayList<>();
 
         for (Map.Entry<String, String> option : options.entrySet())
-            optionNames.add(option.getKey().replace(",","  ,"));
+            optionNames.add(option.getKey().replace(",", "  ,"));
 
         Collections.sort(optionNames, String.CASE_INSENSITIVE_ORDER);
         for (int i = 0; i < optionNames.size(); i++)
-            optionNames.set(i, optionNames.get(i).replace("  ,",","));
+            optionNames.set(i, optionNames.get(i).replace("  ,", ","));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, optionNames);
         chooserList.setAdapter(adapter);
 
-        chooserList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String name = optionNames.get(position);
-                String location = options.get(name);
-                callback.onChooserSelected(name, location, type, loop, distance);
-            }
+        chooserList.setOnItemClickListener((parent, view, position, id) -> {
+            String name = optionNames.get(position);
+            String location = options.get(name);
+            callback.onChooserSelected(name, location, type, loop, distance);
         });
     }
 }
-

@@ -1,11 +1,11 @@
 *.iml
 .gradle
-/local.properties
+local.properties
 .DS_Store
-/build
-/captures
+build
+captures
 .externalNativeBuild
-/.idea
-/gradle.properties
+.idea
+gradle.properties
 app/src/main/res/values/keys.xml
 app/release/

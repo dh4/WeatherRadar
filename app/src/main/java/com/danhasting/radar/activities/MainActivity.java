@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.danhasting.radar;
+package com.danhasting.radar.activities;
 
 import android.app.ActivityManager.TaskDescription;
 import android.app.AlertDialog;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -31,16 +29,15 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +47,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
+import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
 import com.danhasting.radar.database.Favorite;
 import com.danhasting.radar.database.FavoriteViewModel;
@@ -103,13 +101,14 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+            }
 
             @Override
             public void onDrawerOpened(@NonNull View drawerView) {
                 View view = getCurrentFocus();
                 if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
             }
@@ -122,47 +121,39 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onDrawerStateChanged(int newState) {}
+            public void onDrawerStateChanged(int newState) {
+            }
         });
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         FavoriteViewModel viewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
-        viewModel.getFavorites().observe(this, new Observer<List<Favorite>>() {
-            @Override
-            public void onChanged(@Nullable List<Favorite> favorites) {
-                if (favorites != null)
-                    populateFavorites(navigationView.getMenu(), favorites);
-            }
+        viewModel.getFavorites().observe(this, favorites -> {
+            if (favorites != null)
+                populateFavorites(navigationView.getMenu(), favorites);
         });
 
 
         Button settingsButton = navigationView.getHeaderView(0).findViewById(R.id.nav_settings);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.closeDrawers();
-                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivityForResult(settingsIntent, 1);
-            }
+        settingsButton.setOnClickListener(view -> {
+            drawerLayout.closeDrawers();
+            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivityForResult(settingsIntent, 1);
         });
 
         Button aboutButton = navigationView.getHeaderView(0).findViewById(R.id.nav_about);
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.closeDrawers();
-                if (!classNameEquals("AboutActivity")) {
-                    Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
-                    aboutIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(aboutIntent);
-                }
+        aboutButton.setOnClickListener(view -> {
+            drawerLayout.closeDrawers();
+            if (!classNameEquals("AboutActivity")) {
+                Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                aboutIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(aboutIntent);
             }
         });
 
-        int built_in_key = getResources().getIdentifier("built_in_key","string", getPackageName());
-        int test_limit = getResources().getIdentifier("test_limit","string", getPackageName());
+        int built_in_key = getResources().getIdentifier("built_in_key", "string", getPackageName());
+        int test_limit = getResources().getIdentifier("test_limit", "string", getPackageName());
 
         SharedPreferences.Editor keyEditor = settings.edit();
 
@@ -172,7 +163,7 @@ public class MainActivity extends AppCompatActivity
             keyEditor.putString("built_in_key", getString(built_in_key));
         } else {
             keyEditor.putBoolean("is_built_in_key", false);
-            if (settings.getString("api_key","").equals(""))
+            if (settings.getString("api_key", "").equals(""))
                 keyEditor.putBoolean("api_key_activated", false);
         }
 
@@ -225,14 +216,11 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id != currentFavorite) {
-            ExecutorService service =  Executors.newSingleThreadExecutor();
-            service.submit(new Runnable() {
-                @Override
-                public void run() {
-                    AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                    Favorite favorite = database.favoriteDao().loadById(id);
-                    if (favorite != null) startFavoriteView(favorite);
-                }
+            ExecutorService service = Executors.newSingleThreadExecutor();
+            service.submit(() -> {
+                AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+                Favorite favorite = database.favoriteDao().loadById(id);
+                if (favorite != null) startFavoriteView(favorite);
             });
         }
 
@@ -266,19 +254,11 @@ public class MainActivity extends AppCompatActivity
         builder.setTitle(getString(R.string.welcome_header));
         builder.setMessage(getString(R.string.welcome_text));
 
-        builder.setPositiveButton(R.string.welcome_more, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
-                startActivity(aboutIntent);
-            }
+        builder.setPositiveButton(R.string.welcome_more, (dialog, which) -> {
+            Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(aboutIntent);
         });
-        builder.setNegativeButton(R.string.welcome_dismiss, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.welcome_dismiss, (dialog, which) -> dialog.cancel());
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -299,28 +279,22 @@ public class MainActivity extends AppCompatActivity
         String show = settings.getString("show_favorite", getString(R.string.wifi_toggle_default));
 
         if (show.equals("always") || (show.equals("wifi") && onWifi())) {
-            final int favoriteID = Integer.parseInt(settings.getString("default_favorite","0"));
+            final int favoriteID = Integer.parseInt(settings.getString("default_favorite", "0"));
 
-            ExecutorService service =  Executors.newSingleThreadExecutor();
-            service.submit(new Runnable() {
-                @Override
-                public void run() {
-                    AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                    final Favorite favorite = database.favoriteDao().loadById(favoriteID);
+            ExecutorService service = Executors.newSingleThreadExecutor();
+            service.submit(() -> {
+                AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+                final Favorite favorite = database.favoriteDao().loadById(favoriteID);
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (favorite != null)
-                                startFavoriteView(favorite);
-                            else
-                                startFormView();
+                runOnUiThread(() -> {
+                    if (favorite != null)
+                        startFavoriteView(favorite);
+                    else
+                        startFormView();
 
-                            if (classNameEquals("MainActivity"))
-                                finish();
-                        }
-                    });
-                }
+                    if (classNameEquals("MainActivity"))
+                        finish();
+                });
             });
         } else {
             startFormView();
@@ -362,7 +336,8 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(settingsIntent, 1);
     }
 
-    public void testWunderground() {}
+    public void testWunderground() {
+    }
 
     Boolean onWifi() {
         ConnectivityManager m = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

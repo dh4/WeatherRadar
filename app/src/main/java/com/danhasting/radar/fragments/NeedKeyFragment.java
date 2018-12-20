@@ -41,6 +41,7 @@ public class NeedKeyFragment extends Fragment {
 
     public interface OnOpenSettingsListener {
         void openSettings();
+
         void testWunderground();
     }
 
@@ -49,26 +50,16 @@ public class NeedKeyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_key_missing, container, false);
 
         Button needKey = view.findViewById(R.id.needKeyButton);
-        needKey.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent browser = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.wunderground.com/weather/api/"));
-                startActivity(browser);
-            }
-
+        needKey.setOnClickListener(view1 -> {
+            Intent browser = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.wunderground.com/weather/api/"));
+            startActivity(browser);
         });
 
         Button openSettings = view.findViewById(R.id.openSettingsButton);
-        openSettings.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                if (callback != null)
-                    callback.openSettings();
-            }
-
+        openSettings.setOnClickListener(view12 -> {
+            if (callback != null)
+                callback.openSettings();
         });
 
         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -83,19 +74,14 @@ public class NeedKeyFragment extends Fragment {
         }
 
         Button testWunderground = view.findViewById(R.id.testWundergroundButton);
-        testWunderground.setOnClickListener(new View.OnClickListener() {
+        testWunderground.setOnClickListener(view13 -> {
+            int used = settings.getInt("test_used", 0);
 
-            @Override
-            public void onClick(View view) {
-                int used = settings.getInt("test_used", 0);
-
-                if (settings.getBoolean("is_test_limit", false) && used >= limit)
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            getString(R.string.passed_limit_error), Toast.LENGTH_LONG).show();
-                else if (callback != null)
-                    callback.testWunderground();
-            }
-
+            if (settings.getBoolean("is_test_limit", false) && used >= limit)
+                Toast.makeText(getActivity().getApplicationContext(),
+                        getString(R.string.passed_limit_error), Toast.LENGTH_LONG).show();
+            else if (callback != null)
+                callback.testWunderground();
         });
 
         return view;

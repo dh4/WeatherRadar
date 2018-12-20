@@ -1,22 +1,29 @@
 language: android
 android:
   components:
-  - tools
-  - platform-tools
-  - tools
-  - build-tools-26.0.2
-  - android-26
-  licenses:
-  - ".+"
+    - tools
+    - platform-tools
+    - tools
+    - build-tools-28.0.3
+    - android-28
+
+  license:
+    - android-sdk-license-.+
+    - android-sdk-preview-license-.+
+    - -.+
+
 before_install:
-- yes | sdkmanager "platforms;android-27"
+- yes | sdkmanager "platforms;android-28"
+
 before_script:
 - sed -i "s/app_icon/app_icon_devel/g" app/src/main/AndroidManifest.xml
 - sed -i "s/com.danhasting.radar/com.danhasting.radar.devel/g" app/build.gradle
 - sed -i "s/versionName \"\([0-9\.]\+\)\"/versionName \"\1~git:${TRAVIS_COMMIT:0:7}\"/g" app/build.gradle
+
 before_deploy:
 - mkdir app/build/outputs/apk/debug/$TRAVIS_BRANCH/
 - mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/$TRAVIS_BRANCH/com.danhasting.radar.devel.apk
+
 deploy:
   provider: s3
   access_key_id:

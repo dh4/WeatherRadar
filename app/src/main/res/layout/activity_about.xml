@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="?android:attr/actionBarSize"
-    tools:context="com.danhasting.radar.AboutActivity">
+    tools:context="com.danhasting.radar.activities.AboutActivity">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -23,10 +23,10 @@
                 android:contentDescription="@string/app_name"
                 android:cropToPadding="false"
                 android:gravity="center"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:paddingTop="20dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 app:srcCompat="@mipmap/app_icon" />
 
             <TextView
@@ -34,9 +34,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingBottom="3dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="3dp"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -45,17 +45,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingBottom="3dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp" />
+                android:paddingRight="15dp"
+                android:paddingBottom="3dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingBottom="30dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="30dp"
                 android:text="@string/copyright" />
 
             <TextView
@@ -67,77 +67,77 @@
 
             <Button
                 android:id="@+id/donate_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="@string/donate_button"
-                style="@style/Widget.AppCompat.Button.Borderless" />
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@string/donate_button" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/license_line1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/license_line2" />
 
             <Button
                 android:id="@+id/github_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="0dp"
                 android:gravity="center"
-                android:text="@string/github_button"
-                style="@style/Widget.AppCompat.Button.Borderless" />
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@string/github_button" />
 
             <Button
                 android:id="@+id/issue_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="0dp"
                 android:gravity="center"
-                android:text="@string/issue_button"
-                style="@style/Widget.AppCompat.Button.Borderless" />
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@string/issue_button" />
 
             <Button
                 android:id="@+id/contact_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginBottom="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="@string/contact_button"
-                style="@style/Widget.AppCompat.Button.Borderless" />
+                android:layout_marginBottom="30dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@string/contact_button" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:paddingTop="20dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/nws_header"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -145,63 +145,63 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/nws_line1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/nws_line2" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/nws_line3" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:paddingTop="20dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/wunderground_header"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/wunderground_line1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/wunderground_line2" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="10dp"
                 android:text="@string/wunderground_line3" />
 
             <ImageView
@@ -211,20 +211,20 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/wunderground_header"
                 android:cropToPadding="false"
-                android:paddingBottom="3dp"
-                android:paddingLeft="15dp"
-                android:paddingStart="15dp"
-                android:paddingRight="40dp"
-                android:paddingEnd="40dp"
                 android:maxWidth="300dp"
+                android:paddingStart="15dp"
+                android:paddingLeft="15dp"
+                android:paddingEnd="40dp"
+                android:paddingRight="40dp"
+                android:paddingBottom="3dp"
                 app:srcCompat="@mipmap/wunderground" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="15dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:paddingBottom="15dp"
                 android:text="@string/wunderground_powered_by" />
 
         </LinearLayout>

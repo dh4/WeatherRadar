@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.danhasting.radar;
+package com.danhasting.radar.activities;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -29,11 +29,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
 import com.danhasting.radar.fragments.ChooserFragment;
 import com.danhasting.radar.fragments.NeedKeyFragment;
-import com.danhasting.radar.fragments.SelectNWSFragment;
 import com.danhasting.radar.fragments.SelectMosaicFragment;
+import com.danhasting.radar.fragments.SelectNWSFragment;
 import com.danhasting.radar.fragments.SelectWundergroundFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -49,16 +50,16 @@ import cz.msebera.android.httpclient.Header;
 
 public class SelectActivity extends MainActivity
         implements SelectNWSFragment.OnNWSSelectedListener,
-            SelectMosaicFragment.OnMosaicSelectedListener,
-            SelectWundergroundFragment.OnWundergroundSelectedListener,
-            ChooserFragment.OnChooserSelectedListener {
+        SelectMosaicFragment.OnMosaicSelectedListener,
+        SelectWundergroundFragment.OnWundergroundSelectedListener,
+        ChooserFragment.OnChooserSelectedListener {
 
     private Source currentSelection = Source.NWS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
             View contentView = inflater.inflate(R.layout.activity_select, drawerLayout, false);
             drawerLayout.addView(contentView, 0);
