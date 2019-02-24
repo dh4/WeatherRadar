@@ -90,10 +90,12 @@ public class SelectWundergroundFragment extends Fragment {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         TextView radiusText = view.findViewById(R.id.radiusText);
@@ -106,12 +108,7 @@ public class SelectWundergroundFragment extends Fragment {
         radiusText.setText(newText);
 
         viewButton = view.findViewById(R.id.viewButton);
-        viewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewWunderground();
-            }
-        });
+        viewButton.setOnClickListener(view1 -> viewWunderground());
 
         return view;
     }
@@ -146,7 +143,7 @@ public class SelectWundergroundFragment extends Fragment {
     }
 
     public void enableButton() {
-        if(viewButton != null) {
+        if (viewButton != null) {
             viewButton.setText(R.string.view_wunderground_image);
             viewButton.setEnabled(true);
         }

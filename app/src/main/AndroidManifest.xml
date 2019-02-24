@@ -12,21 +12,21 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectActivity" />
+        <activity android:name=".activities.SelectActivity" />
         <activity
-            android:name=".RadarActivity"
+            android:name=".activities.RadarActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:theme="@style/SettingsTheme" />
-        <activity android:name=".AboutActivity" />
+        <activity android:name=".activities.AboutActivity" />
     </application>
 
 </manifest>

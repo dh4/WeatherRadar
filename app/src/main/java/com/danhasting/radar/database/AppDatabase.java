@@ -26,6 +26,7 @@ import android.content.Context;
 @Database(entities = {Favorite.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract FavoriteDao favoriteDao();
+
     private static AppDatabase INSTANCE;
 
     public static AppDatabase getAppDatabase(Context context) {

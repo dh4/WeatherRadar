@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_refresh"
-        android:title="@string/action_refresh"
         android:icon="@drawable/ic_refresh"
+        android:title="@string/action_refresh"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_add_favorite"
-        android:title="@string/action_add_favorite"
         android:icon="@drawable/ic_star_border"
+        android:title="@string/action_add_favorite"
         android:visible="false"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_remove_favorite"
-        android:title="@string/action_remove_favorite"
         android:icon="@drawable/ic_star"
+        android:title="@string/action_remove_favorite"
         android:visible="false"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_edit_favorite"
-        android:title="@string/action_edit_favorite"
         android:icon="@drawable/ic_edit"
+        android:title="@string/action_edit_favorite"
         android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>

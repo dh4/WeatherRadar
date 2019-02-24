@@ -19,9 +19,9 @@
 package com.danhasting.radar.database;
 
 public enum Source {
-    NWS             (0),
-    MOSAIC          (1),
-    WUNDERGROUND    (2);
+    NWS(0),
+    MOSAIC(1),
+    WUNDERGROUND(2);
 
     private final int sourceInt;
 
@@ -34,6 +34,7 @@ public enum Source {
     }
 
     private static Source[] values = null;
+
     public static Source fromInt(int sourceInt) {
         if (Source.values == null)
             Source.values = Source.values();

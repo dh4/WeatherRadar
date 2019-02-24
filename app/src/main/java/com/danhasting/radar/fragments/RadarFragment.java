@@ -32,14 +32,14 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 
-import java.util.Arrays;
-import java.util.Set;
-
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
 import com.x5.template.Chunk;
 import com.x5.template.Theme;
 import com.x5.template.providers.AndroidTemplates;
+
+import java.util.Arrays;
+import java.util.Set;
 
 public class RadarFragment extends Fragment {
 
@@ -128,18 +128,18 @@ public class RadarFragment extends Fragment {
                 url += "Loop/" + mosaic + "_loop.gif";
             }
         } else {
-            url += "RadarImg/"+mosaic+".gif";
+            url += "RadarImg/" + mosaic + ".gif";
         }
 
         return displayRadar(url);
     }
 
     private String displayLiteImage(String loc, String type, Boolean loop) {
-        String url = "https://radar.weather.gov/lite/"+type+"/";
+        String url = "https://radar.weather.gov/lite/" + type + "/";
         if (loop) {
-            url += loc+"_loop.gif";
+            url += loc + "_loop.gif";
         } else {
-            url += loc+"_0.png";
+            url += loc + "_0.png";
         }
 
         return displayRadar(url);
@@ -148,15 +148,15 @@ public class RadarFragment extends Fragment {
     private String getApiKey() {
         String apiKey = getString(R.string.test_api_key);
 
-        int built_in_test = getResources().getIdentifier("built_in_test_key","string",
+        int built_in_test = getResources().getIdentifier("built_in_test_key", "string",
                 getActivity().getPackageName());
         if (built_in_test != 0 && !getString(built_in_test).equals(""))
             apiKey = getString(built_in_test);
 
         if (settings.getBoolean("is_built_in_key", false))
-            apiKey = settings.getString("built_in_key","");
+            apiKey = settings.getString("built_in_key", "");
         else if (settings.getBoolean("api_key_activated", false))
-            apiKey = settings.getString("api_key","");
+            apiKey = settings.getString("api_key", "");
         return apiKey;
     }
 
@@ -201,10 +201,10 @@ public class RadarFragment extends Fragment {
         int imageHeight = Integer.parseInt(res);
 
         if (width > height) {
-            Float aspect = (float)width / height;
+            Float aspect = (float) width / height;
             imageWidth = Math.round(imageHeight * aspect);
         } else {
-            Float aspect = (float)height / width;
+            Float aspect = (float) height / width;
             imageHeight = Math.round(imageWidth * aspect);
         }
 
@@ -253,7 +253,7 @@ public class RadarFragment extends Fragment {
         String[] layers;
         Set<String> layersSet = settings.getStringSet("enhanced_layers", null);
         if (layersSet != null)
-            layers = layersSet.toArray(new String[] {});
+            layers = layersSet.toArray(new String[]{});
         else
             layers = getResources().getStringArray(R.array.enhanced_layer_default);
 

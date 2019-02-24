@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with WeatherRadar.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.danhasting.radar;
+package com.danhasting.radar.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -37,6 +37,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
 import com.danhasting.radar.database.Favorite;
 import com.danhasting.radar.database.Source;
@@ -89,7 +90,7 @@ public class RadarActivity extends MainActivity {
         }
 
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
             View contentView = inflater.inflate(R.layout.activity_radar, drawerLayout, false);
             drawerLayout.addView(contentView, 0);
@@ -132,20 +133,12 @@ public class RadarActivity extends MainActivity {
             builder.setTitle(getString(R.string.test_header));
             builder.setMessage(message);
 
-            builder.setPositiveButton(R.string.test_get_key, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent browser = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://www.wunderground.com/weather/api/"));
-                    startActivity(browser);
-                }
+            builder.setPositiveButton(R.string.test_get_key, (dialog, which) -> {
+                Intent browser = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.wunderground.com/weather/api/"));
+                startActivity(browser);
             });
-            builder.setNegativeButton(R.string.test_dismiss, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            builder.setNegativeButton(R.string.test_dismiss, (dialog, which) -> dialog.cancel());
 
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -291,46 +284,40 @@ public class RadarActivity extends MainActivity {
             return;
         }
 
-        ExecutorService service =  Executors.newSingleThreadExecutor();
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                final List<Favorite> favorites = database.favoriteDao().findByData(
-                        source.getInt(), location, type, loop, enhanced, distance);
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(() -> {
+            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+            final List<Favorite> favorites = database.favoriteDao().findByData(
+                    source.getInt(), location, type, loop, enhanced, distance);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (favorites.size() > 0) {
-                            radarName = favorites.get(0).getName();
-                            setTitle(radarName);
+            runOnUiThread(() -> {
+                if (favorites.size() > 0) {
+                    radarName = favorites.get(0).getName();
+                    setTitle(radarName);
 
-                            if (contextMenu) {
-                                hideItem(contextAddFavorite);
-                                showItem(contextRemoveFavorite);
-                                showItem(contextEditFavorite);
-                            } else {
-                                hideItem(addFavorite);
-                                showItem(removeFavorite);
-                            }
-
-                            //Don't set currentFavorite if NeedKeyFragment showing so user can refresh
-                            if (!needKey)
-                                currentFavorite = favorites.get(0).getUid();
-                        } else {
-                            if (contextMenu) {
-                                hideItem(contextRemoveFavorite);
-                                hideItem(contextEditFavorite);
-                                showItem(contextAddFavorite);
-                            } else {
-                                hideItem(removeFavorite);
-                                showItem(addFavorite);
-                            }
-                        }
+                    if (contextMenu) {
+                        hideItem(contextAddFavorite);
+                        showItem(contextRemoveFavorite);
+                        showItem(contextEditFavorite);
+                    } else {
+                        hideItem(addFavorite);
+                        showItem(removeFavorite);
                     }
-                });
-            }
+
+                    //Don't set currentFavorite if NeedKeyFragment showing so user can refresh
+                    if (!needKey)
+                        currentFavorite = favorites.get(0).getUid();
+                } else {
+                    if (contextMenu) {
+                        hideItem(contextRemoveFavorite);
+                        hideItem(contextEditFavorite);
+                        showItem(contextAddFavorite);
+                    } else {
+                        hideItem(removeFavorite);
+                        showItem(addFavorite);
+                    }
+                }
+            });
         });
     }
 
@@ -375,18 +362,10 @@ public class RadarActivity extends MainActivity {
         if (radarName != null) input.setText(radarName);
         builder.setView(input);
 
-        builder.setPositiveButton(button, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Do nothing as we will override below
-            }
+        builder.setPositiveButton(button, (dialog, which) -> {
+            // Do nothing as we will override below
         });
-        builder.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.button_cancel, (dialog, which) -> dialog.cancel());
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -399,62 +378,42 @@ public class RadarActivity extends MainActivity {
                 getString(R.string.button_add));
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                final String name = input.getText().toString();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            final String name = input.getText().toString();
 
-                ExecutorService service =  Executors.newSingleThreadExecutor();
-                service.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                        Boolean exists = database.favoriteDao().findByName(name) != null;
+            ExecutorService service = Executors.newSingleThreadExecutor();
+            service.submit(() -> {
+                AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+                Boolean exists = database.favoriteDao().findByName(name) != null;
 
-                        if (name.equals("")) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    input.setError(getString(R.string.empty_name_error));
-                                }
-                            });
-                        } else if (exists) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    input.setError(getString(R.string.already_exists_error));
-                                }
-                            });
-                        } else {
-                            Favorite favorite = new Favorite();
-                            favorite.setSource(source.getInt());
-                            favorite.setName(name);
-                            favorite.setLocation(location);
-                            favorite.setType(type);
-                            favorite.setLoop(loop);
-                            favorite.setEnhanced(enhanced);
-                            favorite.setDistance(distance);
-                            database.favoriteDao().insertAll(favorite);
+                if (name.equals("")) {
+                    runOnUiThread(() -> input.setError(getString(R.string.empty_name_error)));
+                } else if (exists) {
+                    runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));
+                } else {
+                    Favorite favorite = new Favorite();
+                    favorite.setSource(source.getInt());
+                    favorite.setName(name);
+                    favorite.setLocation(location);
+                    favorite.setType(type);
+                    favorite.setLoop(loop);
+                    favorite.setEnhanced(enhanced);
+                    favorite.setDistance(distance);
+                    database.favoriteDao().insertAll(favorite);
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    hideItem(addFavorite);
-                                    hideItem(contextAddFavorite);
-                                    showItem(removeFavorite);
-                                    showItem(contextRemoveFavorite);
-                                    showItem(contextEditFavorite);
+                    runOnUiThread(() -> {
+                        hideItem(addFavorite);
+                        hideItem(contextAddFavorite);
+                        showItem(removeFavorite);
+                        showItem(contextRemoveFavorite);
+                        showItem(contextEditFavorite);
 
-                                    radarName = name;
-                                    setTitle(radarName);
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
-                    }
-                });
-            }
+                        radarName = name;
+                        setTitle(radarName);
+                        dialog.dismiss();
+                    });
+                }
+            });
         });
     }
 
@@ -463,95 +422,61 @@ public class RadarActivity extends MainActivity {
                 getString(R.string.button_edit));
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                final String name = input.getText().toString();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            final String name = input.getText().toString();
 
-                ExecutorService service =  Executors.newSingleThreadExecutor();
-                service.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                        Boolean exists = database.favoriteDao().findByName(name) != null;
+            ExecutorService service = Executors.newSingleThreadExecutor();
+            service.submit(() -> {
+                AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+                Boolean exists = database.favoriteDao().findByName(name) != null;
 
-                        if (name.equals("")) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    input.setError(getString(R.string.empty_name_error));
-                                }
-                            });
-                        } else if (exists) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    input.setError(getString(R.string.already_exists_error));
-                                }
-                            });
-                        } else {
-                            Favorite favorite = database.favoriteDao().findByName(radarName);
+                if (name.equals("")) {
+                    runOnUiThread(() -> input.setError(getString(R.string.empty_name_error)));
+                } else if (exists) {
+                    runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));
+                } else {
+                    Favorite favorite = database.favoriteDao().findByName(radarName);
 
-                            if (favorite != null) {
-                                favorite.setName(name);
-                                database.favoriteDao().updateFavorites(favorite);
+                    if (favorite != null) {
+                        favorite.setName(name);
+                        database.favoriteDao().updateFavorites(favorite);
 
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        radarName = name;
-                                        setTitle(radarName);
-                                    }
-                                });
-                            }
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
+                        runOnUiThread(() -> {
+                            radarName = name;
+                            setTitle(radarName);
+                        });
                     }
-                });
-            }
+
+                    runOnUiThread(dialog::dismiss);
+                }
+            });
         });
     }
 
     private void removeFavoriteDialog() {
-        DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == DialogInterface.BUTTON_POSITIVE) {
-                    ExecutorService service =  Executors.newSingleThreadExecutor();
-                    service.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                            List<Favorite> favorites = database.favoriteDao().findByData(
-                                    source.getInt(), location, type, loop, enhanced, distance);
+        DialogInterface.OnClickListener dialogListener = (dialog, which) -> {
+            if (which == DialogInterface.BUTTON_POSITIVE) {
+                ExecutorService service = Executors.newSingleThreadExecutor();
+                service.submit(() -> {
+                    AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+                    List<Favorite> favorites = database.favoriteDao().findByData(
+                            source.getInt(), location, type, loop, enhanced, distance);
 
-                            for (Favorite favorite : favorites) {
-                                database.favoriteDao().delete(favorite);
-                            }
+                    for (Favorite favorite : favorites) {
+                        database.favoriteDao().delete(favorite);
+                    }
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showItem(addFavorite);
-                                    showItem(contextAddFavorite);
-                                    hideItem(removeFavorite);
-                                    hideItem(contextRemoveFavorite);
-                                    hideItem(contextEditFavorite);
+                    runOnUiThread(() -> {
+                        showItem(addFavorite);
+                        showItem(contextAddFavorite);
+                        hideItem(removeFavorite);
+                        hideItem(contextRemoveFavorite);
+                        hideItem(contextEditFavorite);
 
-                                    radarName = sourceName;
-                                    setTitle(radarName);
-                                }
-                            });
-                        }
+                        radarName = sourceName;
+                        setTitle(radarName);
                     });
-                }
+                });
             }
         };
 
@@ -567,13 +492,10 @@ public class RadarActivity extends MainActivity {
             if (radarFragment != null) radarFragment.refreshRadar();
             scheduleRefresh();
         } else {
-            DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == DialogInterface.BUTTON_POSITIVE) {
-                        if (radarFragment != null) radarFragment.refreshRadar();
-                        scheduleRefresh();
-                    }
+            DialogInterface.OnClickListener dialogListener = (dialog, which) -> {
+                if (which == DialogInterface.BUTTON_POSITIVE) {
+                    if (radarFragment != null) radarFragment.refreshRadar();
+                    scheduleRefresh();
                 }
             };
 
@@ -607,12 +529,9 @@ public class RadarActivity extends MainActivity {
                 refreshed = false;
 
                 if (autoRefresh() && !paused) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!needKey && radarFragment != null) radarFragment.refreshRadar();
-                            scheduleRefresh();
-                        }
+                    runOnUiThread(() -> {
+                        if (!needKey && radarFragment != null) radarFragment.refreshRadar();
+                        scheduleRefresh();
                     });
                 }
             }

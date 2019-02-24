@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.danhasting.radar.R;
+
 import java.util.Arrays;
 
 public class SelectMosaicFragment extends Fragment {
@@ -54,20 +55,15 @@ public class SelectMosaicFragment extends Fragment {
                 getActivity(), R.array.mosaic_names, android.R.layout.simple_spinner_dropdown_item);
         mosaicSpinner.setAdapter(mosaicAdapter);
 
-        String mosaic = settings.getString("last_mosaic","");
+        String mosaic = settings.getString("last_mosaic", "");
         int index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(mosaic);
         mosaicSpinner.setSelection(index);
 
         final Switch loopSwitch = view.findViewById(R.id.loopSwitch);
-        loopSwitch.setChecked(settings.getBoolean("last_mosaic_loop",false));
+        loopSwitch.setChecked(settings.getBoolean("last_mosaic_loop", false));
 
         Button viewButton = view.findViewById(R.id.viewButton);
-        viewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewMosaic();
-            }
-        });
+        viewButton.setOnClickListener(view -> viewMosaic());
 
         return view;
     }
@@ -105,4 +101,3 @@ public class SelectMosaicFragment extends Fragment {
         callback.onMosaicSelected(mosaic, loop);
     }
 }
-

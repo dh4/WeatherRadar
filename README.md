@@ -4,17 +4,36 @@
 
 Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service and Weather Underground's API.
 
-The images are single images based on location rather than tiled images that can be panned like most other applications of this type. This allows faster loading when connection speeds are sub-optimal. Images can be customized including by resolution to help keep data usage to a minimum when needed. You can save your favorite views for easy reference.
+The images are single images based on location rather than tiled images that can be panned like most other applications of this type.
+This allows faster loading when connection speeds are sub-optimal.
+Images can be customized including by resolution to help keep data usage to a minimum when needed.
+You can save your favorite views for easy reference.
 
-National Weather Service radar imagery is available for the United States and its territories. The Weather Underground radar imagery requires and API key from their website to work. There is a test feature available so you can try it out before acquiring your own API key. Their radar imagery is available for the United States and some parts of Canada, Mexico, Western Europe, and Australia. Their satellite imagery is available worldwide.
+National Weather Service radar imagery is available for the United States and its territories.
+The Weather Underground radar imagery requires an API key from their website to work.
+There is a test feature available so you can try it out before acquiring your own API key.
+Their radar imagery is available for the United States and some parts of Canada, Mexico, Western Europe, and Australia.
+Their satellite imagery is available worldwide.
 
-__NOTE:__ Weather Underground discontinued free API keys at the same time I released this application. If you already have an API key from them, it will work. Otherwise, there doesn't seem to be a way to get the Weather Underground images working. The NWS images still work fine.
+__NOTE:__ Weather Underground discontinued free API keys at the same time I released this application.
+If you already have an API key from them, it will work.
+Otherwise, there doesn't seem to be a way to get the Weather Underground images working.
+The NWS images still work fine.
 
 I will work on integrating another source.
 
 ## Downloading
 
-<p><a href="https://f-droid.org/en/packages/com.danhasting.radar/"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/fdroid.png" alt="Get it on F-Droid" /></a> <a href="https://play.google.com/store/apps/details?id=com.danhasting.radar"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/googleplay.png" alt="Get it on Google Play" /></a></p>
+<a href="https://play.google.com/store/apps/details?id=com.danhasting.radar">
+    <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+         alt="Get it on Google Play" height="80">
+</a>
+<a href="https://f-droid.org/packages/com.danhasting.radar/">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+         alt="Get it on F-Droid" height="80">
+</a>
+
+
 
 APKs are also available on the [releases](https://github.com/dh4/WeatherRadar/releases) page.
 

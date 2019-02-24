@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.danhasting.radar.MainActivity">
+    tools:context="com.danhasting.radar.activities.MainActivity">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -19,33 +19,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/need_key_text" />
+                android:text="@string/need_key_text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
                 android:id="@+id/needKeyButton"
+                style="@style/buttonTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="20dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="@string/need_key_button"
-                style="@style/buttonTheme" />
+                android:text="@string/need_key_button" />
 
             <Button
                 android:id="@+id/openSettingsButton"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:text="@string/open_settings_button" />
@@ -64,10 +64,10 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:text="@string/test_wunderground_button" />
