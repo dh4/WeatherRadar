@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.danhasting.radar.BuildConfig;
@@ -82,15 +81,6 @@ public class AboutActivity extends MainActivity {
             intent.setAction(Intent.ACTION_VIEW);
             intent.addCategory(Intent.CATEGORY_BROWSABLE);
             intent.setData(Uri.parse("https://dh4.github.io/contact/"));
-            startActivity(intent);
-        });
-
-        ImageView wundergroundImage = findViewById(R.id.wunderground_image);
-        wundergroundImage.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_VIEW);
-            intent.addCategory(Intent.CATEGORY_BROWSABLE);
-            intent.setData(Uri.parse("https://www.wunderground.com/"));
             startActivity(intent);
         });
     }

@@ -1,19 +1,15 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Weather Radar</string>
-    <string name="test_api_key">f6031a37e8b4fb5a</string>
 
     <!-- Activity Headers -->
     <string name="select_radar_image">National Weather Service</string>
     <string name="select_mosaic_image">NWS Mosaic</string>
-    <string name="select_wunderground_image">Weather Underground</string>
-    <string name="chooser_title">Select Location</string>
     <string name="about">About Weather Radar</string>
 
     <!-- Nav Drawer -->
     <string name="header_title">Weather Radar</string>
     <string name="nav_select">National Weather Service</string>
     <string name="nav_mosaic">NWS Mosaic</string>
-    <string name="nav_wunderground">Weather Underground</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_favorites">Favorites</string>
 
@@ -35,30 +31,15 @@
     <!-- Forms -->
     <string name="view_nws_image">View Radar</string>
     <string name="view_mosaic_image">View Mosaic</string>
-    <string name="view_wunderground_image">View Radar</string>
     <string name="location_text">Location</string>
     <string name="mosaic_text">Mosaic</string>
     <string name="type_text">Observation</string>
     <string name="loop">Loop</string>
     <string name="enhanced">Enhanced (loop not available)</string>
-    <string name="location_placeholder">City, State or Zip Code</string>
-    <string name="radius_text">Distance</string>
-    <string name="loading">Loading&#8230;</string>
-    <string name="empty_location_error">Please enter a location</string>
-    <string name="connection_error">An error occurred connecting to Weather Underground. Please check your network settings.</string>
-    <string name="no_results_error">No results found. Please modify your location search.</string>
-    <string name="need_key_text">This requires a free API Key</string>
-    <string name="need_key_button">Get Key from Weather Underground</string>
-    <string name="open_settings_button">Open Settings</string>
-    <string name="test_wunderground">Or, you can test Weather Underground images below. Please do not continue to use this, as the built-in API key is rate limited and shared between all users.</string>
-    <string name="test_wunderground_limit" tools:ignore="PluralsCandidate">Or, you can test Weather Underground images below. You have used %1$d of %2$d free uses of this feature.</string>
-    <string name="test_wunderground_button">Test Weather Underground Images</string>
-    <string name="passed_limit_error">You have used all your free uses of this feature. Please get a free API key above!</string>
 
     <!-- Preferences -->
     <string name="general_title">General</string>
     <string name="nws_title">National Weather Service</string>
-    <string name="wunderground_title">Weather Underground</string>
     <string name="show_favorite_title">Show Favorite on Startup</string>
     <string name="show_favorite_summary">When to show a saved radar instead of the default view on application startup.</string>
     <string name="default_favorite_title">Favorite to Show</string>
@@ -70,30 +51,6 @@
     <string name="show_fullscreen_title">Show Fullscreen</string>
     <string name="show_fullscreen_summary">Hides the title and notification bar. Drag from the left side of the screen to access the menu.</string>
     <string name="enhanced_layer_title">Enhanced Image Layers</string>
-    <string name="api_key_title">API Key</string>
-    <string name="api_key_summary">An API key is needed for access to Weather Underground images</string>
-    <string name="api_key_activated">API Key Activated!</string>
-    <string name="api_key_error">API Key Error</string>
-    <string name="api_key_failed">There was an issue verifying your API key. Please check your key and try again.</string>
-    <string name="show_time_label_title">Show Time Label</string>
-    <string name="show_time_label_summary">Display image time in the upper left</string>
-    <string name="image_size_title">Image Resolution</string>
-    <string name="image_size_summary">Larger resolutions will take longer to load and use more data, but appear more crisp</string>
-    <string name="custom_resolution_title">Custom Resolution</string>
-    <string name="custom_resolution_summary">Can be anywhere between 100 and 4096 pixels</string>
-    <string name="custom_resolution_error">Please enter a value between 100 and 4096</string>
-    <string name="lower_resolution_title">Decrease Resolution on Cellular Data</string>
-    <string name="lower_resolution_summary">Lower the resolution by one size when not on Wi-Fi to help decrease data usage.</string>
-    <string name="distance_units_title">Distance Units</string>
-    <string name="animation_speed_title">Animation Speed</string>
-    <string name="animation_frames_title">Animation Frames</string>
-    <string name="animation_frames_summary">Adding frames will slow down loading and use more data, but show a longer history</string>
-    <string name="show_snow_mix_title">Snow and Mixed Precipitation</string>
-    <string name="show_snow_mix_summary">Use a different color palette to show rain/mix/snow</string>
-    <string name="smooth_title">Use Smoothing</string>
-    <string name="smooth_summary">Smooth the colors</string>
-    <string name="noclutter_title">Remove Clutter</string>
-    <string name="noclutter_summary">Remove radar data that we know is not precipitation. Some radar data is not actually rain, but rather particles in the air that reflect back to the radar station.\nNote: This option may sometimes result in an image that looks more cluttered, not less</string>
 
     <!-- About -->
     <string name="version">Version:</string>
@@ -109,22 +66,11 @@
     <string name="nws_line1">Weather Radar provides access to doppler radar images from the United States National Weather Service:\n<a>radar.weather.gov</a></string>
     <string name="nws_line2">This application is not endorsed by the National Weather Service. Their images are public domain and not subject to copyright protection:\n<a>www.weather.gov/disclaimer</a></string>
     <string name="nws_line3">National Weather Service radar imagery is only available for the United States and its territories.</string>
-    <string name="wunderground_header">Weather Underground</string>
-    <string name="wunderground_line1">Weather Radar makes use of the API owned and operated by The Weather Underground, LLC. Weather Underground is a registered trademark of The Weather Channel, LLC.</string>
-    <string name="wunderground_line2">Weather Underground API:\n<a>www.wunderground.com/api</a></string>
-    <string name="wunderground_line3">Weather Underground radar imagery is available for the United States and some parts of Canada, Mexico, Western Europe, and Australia. Their satellite imagery is available worldwide.</string>
-    <string name="wunderground_powered_by">Powered by Weather Underground</string>
 
     <!-- Welcome Dialog -->
     <string name="welcome_dismiss">OK, Got it!</string>
     <string name="welcome_more">Learn More</string>
     <string name="welcome_header">Welcome!</string>
-    <string name="welcome_text">Weather Radar provides access to doppler radar images from Weather Underground and the United States National Weather Service.\n\nIf you are outside the United States, tap Learn More below for information on what data is available for your location.\n</string>
+    <string name="welcome_text">Weather Radar provides access to doppler radar images from the United States National Weather Service.\n</string>
 
-    <!-- Wunderground Test Dialog -->
-    <string name="test_dismiss">OK</string>
-    <string name="test_get_key">Get a Key</string>
-    <string name="test_header">Warning</string>
-    <string name="test_text">You are using the test API key. Please do not continue to use this, as the built-in API key is rate limited and shared between all users (if this feature is not working, that is most likely why). You can get your own key for free.</string>
-    <string name="test_text_limited" tools:ignore="PluralsCandidate">You are using the test API key and have used %1$d of %2$d free uses. To fully enable this feature, you can get your own key for free.</string>
 </resources>

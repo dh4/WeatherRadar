@@ -122,7 +122,7 @@ public class SelectNWSFragment extends Fragment {
 
         String location = getResources().getStringArray(R.array.location_values)[locationSpinner.getSelectedItemPosition()];
         String type = getResources().getStringArray(R.array.type_values)[typeSpinner.getSelectedItemPosition()];
-        Boolean loop = loopSwitch.isChecked();
+        boolean loop = loopSwitch.isChecked();
         Boolean enhanced = enhancedSwitch.isChecked();
 
         if (enhanced) loop = false;

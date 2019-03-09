@@ -52,15 +52,13 @@ import com.danhasting.radar.database.AppDatabase;
 import com.danhasting.radar.database.Favorite;
 import com.danhasting.radar.database.FavoriteViewModel;
 import com.danhasting.radar.database.Source;
-import com.danhasting.radar.fragments.NeedKeyFragment;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        NeedKeyFragment.OnOpenSettingsListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     SharedPreferences settings;
@@ -152,30 +150,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        int built_in_key = getResources().getIdentifier("built_in_key", "string", getPackageName());
-        int test_limit = getResources().getIdentifier("test_limit", "string", getPackageName());
-
-        SharedPreferences.Editor keyEditor = settings.edit();
-
-        if (built_in_key != 0 && !getString(built_in_key).equals("")) {
-            keyEditor.putBoolean("is_built_in_key", true);
-            keyEditor.putBoolean("api_key_activated", true);
-            keyEditor.putString("built_in_key", getString(built_in_key));
-        } else {
-            keyEditor.putBoolean("is_built_in_key", false);
-            if (settings.getString("api_key", "").equals(""))
-                keyEditor.putBoolean("api_key_activated", false);
-        }
-
-        if (test_limit != 0 && getString(test_limit).matches("\\d+")) {
-            keyEditor.putBoolean("is_test_limit", true);
-            keyEditor.putInt("test_limit", Integer.parseInt(getString(test_limit)));
-        } else {
-            keyEditor.putBoolean("is_test_limit", false);
-        }
-
-        keyEditor.apply();
-
         if (classNameEquals("MainActivity"))
             startDefaultView();
         else if (settings.getBoolean("first_run", true)) {
@@ -185,6 +159,13 @@ public class MainActivity extends AppCompatActivity
             editor.putBoolean("first_run", false);
             editor.apply();
         }
+
+        // Remove old Wunderground favorites
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(() -> {
+            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+            database.favoriteDao().deleteWunderground();
+        });
     }
 
     @Override
@@ -203,9 +184,6 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case R.id.nav_mosaic:
                     selectIntent.putExtra("selection", Source.MOSAIC);
-                    break;
-                case R.id.nav_wunderground:
-                    selectIntent.putExtra("selection", Source.WUNDERGROUND);
                     break;
             }
 
@@ -278,8 +256,10 @@ public class MainActivity extends AppCompatActivity
     private void startDefaultView() {
         String show = settings.getString("show_favorite", getString(R.string.wifi_toggle_default));
 
-        if (show.equals("always") || (show.equals("wifi") && onWifi())) {
-            final int favoriteID = Integer.parseInt(settings.getString("default_favorite", "0"));
+        if (show!= null && (show.equals("always") || (show.equals("wifi") && onWifi()))) {
+            String favID = settings.getString("default_favorite", "0");
+            if (favID == null) favID = "0";
+            final int favoriteID = Integer.parseInt(favID);
 
             ExecutorService service = Executors.newSingleThreadExecutor();
             service.submit(() -> {
@@ -308,10 +288,7 @@ public class MainActivity extends AppCompatActivity
         Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
         selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-        if (settings.getBoolean("api_key_activated", false))
-            selectIntent.putExtra("selection", Source.WUNDERGROUND);
-        else
-            selectIntent.putExtra("selection", Source.NWS);
+        selectIntent.putExtra("selection", Source.NWS);
 
         MainActivity.this.startActivity(selectIntent);
     }
@@ -329,14 +306,6 @@ public class MainActivity extends AppCompatActivity
         radarIntent.putExtra("name", favorite.getName());
         radarIntent.putExtra("favoriteID", favorite.getUid());
         MainActivity.this.startActivity(radarIntent);
-    }
-
-    public void openSettings() {
-        Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivityForResult(settingsIntent, 1);
-    }
-
-    public void testWunderground() {
     }
 
     Boolean onWifi() {

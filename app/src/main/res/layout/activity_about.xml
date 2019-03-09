@@ -168,65 +168,6 @@
                 android:paddingBottom="10dp"
                 android:text="@string/nws_line3" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingTop="20dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:text="@string/wunderground_header"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:text="@string/wunderground_line1" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:text="@string/wunderground_line2" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:text="@string/wunderground_line3" />
-
-            <ImageView
-                android:id="@+id/wunderground_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/wunderground_header"
-                android:cropToPadding="false"
-                android:maxWidth="300dp"
-                android:paddingStart="15dp"
-                android:paddingLeft="15dp"
-                android:paddingEnd="40dp"
-                android:paddingRight="40dp"
-                android:paddingBottom="3dp"
-                app:srcCompat="@mipmap/wunderground" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="15dp"
-                android:text="@string/wunderground_powered_by" />
-
         </LinearLayout>
     </ScrollView>
 

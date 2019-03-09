@@ -20,16 +20,12 @@ package com.danhasting.radar.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 
 import com.danhasting.radar.R;
@@ -44,10 +40,6 @@ import java.util.Set;
 public class RadarFragment extends Fragment {
 
     private Source source;
-    private String location;
-    private String type;
-    private Boolean loop;
-    private int distance;
 
     private WebView radarWebView;
 
@@ -79,11 +71,10 @@ public class RadarFragment extends Fragment {
 
         if (bundle != null) {
             source = (Source) bundle.getSerializable("source");
-            location = bundle.getString("location");
-            loop = bundle.getBoolean("loop", false);
-            distance = bundle.getInt("distance", 50);
-            type = bundle.getString("type");
-            Boolean enhanced = bundle.getBoolean("enhanced", false);
+            String location = bundle.getString("location");
+            Boolean loop = bundle.getBoolean("loop", false);
+            String type = bundle.getString("type");
+            boolean enhanced = bundle.getBoolean("enhanced", false);
 
             if (source == null) source = Source.NWS;
             if (type == null) type = "";
@@ -93,21 +84,6 @@ public class RadarFragment extends Fragment {
                 radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
             } else if (source == Source.MOSAIC) {
                 radarWebView.loadData(displayMosaicImage(location, loop), "text/html", null);
-            } else if (source == Source.WUNDERGROUND) {
-                // We dynamically set the size for wunderground images, so wait for the layout to load
-                final ViewTreeObserver observer = radarWebView.getViewTreeObserver();
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        if (!isAdded())
-                            return;
-
-                        radarWebView.loadData(displayWundergroundImage(location, type, loop, distance),
-                                "text/html", null);
-
-                        radarWebView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                });
             } else {
                 radarWebView.loadData(displayLiteImage(location, type, loop), "text/html", null);
             }
@@ -145,92 +121,13 @@ public class RadarFragment extends Fragment {
         return displayRadar(url);
     }
 
-    private String getApiKey() {
-        String apiKey = getString(R.string.test_api_key);
-
-        int built_in_test = getResources().getIdentifier("built_in_test_key", "string",
-                getActivity().getPackageName());
-        if (built_in_test != 0 && !getString(built_in_test).equals(""))
-            apiKey = getString(built_in_test);
-
-        if (settings.getBoolean("is_built_in_key", false))
-            apiKey = settings.getString("built_in_key", "");
-        else if (settings.getBoolean("api_key_activated", false))
-            apiKey = settings.getString("api_key", "");
-        return apiKey;
-    }
-
-    private String displayWundergroundImage(String loc, String type, Boolean loop, int distance) {
-        String apiKey = getApiKey();
-
-        int time_label = settings.getBoolean("show_time_label", true) ? 1 : 0;
-        int snow = settings.getBoolean("show_snow_mix", true) ? 1 : 0;
-        int smooth = settings.getBoolean("smoothing", true) ? 1 : 0;
-        int noclutter = settings.getBoolean("noclutter", true) ? 1 : 0;
-
-        String animateText = "radar";
-
-        if (type.startsWith("sat_") && loop)
-            animateText = "animatedsatellite";
-        else if (type.startsWith("sat_"))
-            animateText = "satellite";
-        else if (loop)
-            animateText = "animatedradar";
-
-
-        String defaultRes = getString(R.string.image_resolution_default);
-
-        String units = settings.getString("distance_units", getString(R.string.distance_unit_default));
-        String speed = settings.getString("animation_speed", getString(R.string.animation_speed_default));
-        String res = settings.getString("image_resolution", defaultRes);
-        String frames = settings.getString("animation_frames", getString(R.string.animation_frames_default));
-        Boolean lower = settings.getBoolean("lower_resolution", false);
-
-        if (res.equals("custom"))
-            res = settings.getString("custom_resolution", defaultRes);
-        if (!res.matches("\\d+"))
-            res = defaultRes;
-
-        if (lower && !onWifi())
-            res = Long.toString(Math.round(Integer.parseInt(res) * 0.667));
-
-        int width = radarWebView.getWidth();
-        int height = radarWebView.getHeight();
-
-        int imageWidth = Integer.parseInt(res);
-        int imageHeight = Integer.parseInt(res);
-
-        if (width > height) {
-            Float aspect = (float) width / height;
-            imageWidth = Math.round(imageHeight * aspect);
-        } else {
-            Float aspect = (float) height / width;
-            imageHeight = Math.round(imageWidth * aspect);
-        }
-
-        String format = "png";
-        if (type.startsWith("sat_") && loop)
-            format = "gif";
-
-        String url = "https://api.wunderground.com/api/%s/%s/q/zmw:%s.%s" +
-                "?width=%s&height=%s&newmaps=1&radius=%s&radunits=%s&smooth=%s&delay=%s&num=%s" +
-                "&rainsnow=%s&noclutter=%s&timelabel=%s&timelabel.y=15&timelabel.x=5";
-        url = String.format(url, apiKey, animateText, loc, format, imageWidth, imageHeight,
-                distance, units, smooth, speed, frames, snow, noclutter, time_label);
-
-        if (type.startsWith("sat_"))
-            url += String.format("&borders=1&key=%s", type);
-
-        return displayRadar(url);
-    }
-
     private String displayRadar(String url) {
         AndroidTemplates loader = new AndroidTemplates(getActivity().getBaseContext());
         Theme theme = new Theme(loader);
 
         Chunk html = theme.makeChunk("lite_radar");
         html.set("url", url);
-        if (source != null && source != Source.WUNDERGROUND)
+        if (source != null)
             html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
 
         return html.toString();
@@ -275,15 +172,5 @@ public class RadarFragment extends Fragment {
             html.set("image7", "true");
 
         return html.toString();
-    }
-
-    private Boolean onWifi() {
-        ConnectivityManager m = (ConnectivityManager) getActivity()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (m != null) {
-            NetworkInfo netInfo = m.getActiveNetworkInfo();
-            return netInfo.getType() == ConnectivityManager.TYPE_WIFI;
-        }
-        return false;
     }
 }

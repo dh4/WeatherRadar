@@ -22,8 +22,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -63,7 +61,6 @@ public class RadarActivity extends MainActivity {
 
     private String sourceName;
     private String radarName;
-    private Boolean needKey = true;
 
     private MenuItem addFavorite;
     private MenuItem removeFavorite;
@@ -81,7 +78,7 @@ public class RadarActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
+        boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("show_fullscreen", false);
         if (fullscreen) {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -108,45 +105,6 @@ public class RadarActivity extends MainActivity {
         if (type == null) type = "";
         if (location == null) location = "";
 
-
-        needKey = source == Source.WUNDERGROUND && !settings.getBoolean("api_key_activated", false);
-        if (needKey) {
-            Boolean limited = settings.getBoolean("is_test_limit", false);
-            int used = 0;
-            int limit = settings.getInt("test_limit", 5);
-            String message;
-
-            if (limited) {
-                used = settings.getInt("test_used", 0) + 1;
-
-                if (used <= limit) {
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putInt("test_used", used);
-                    editor.apply();
-                }
-
-                message = String.format(getString(R.string.test_text_limited), used, limit);
-            } else
-                message = getString(R.string.test_text);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.test_header));
-            builder.setMessage(message);
-
-            builder.setPositiveButton(R.string.test_get_key, (dialog, which) -> {
-                Intent browser = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.wunderground.com/weather/api/"));
-                startActivity(browser);
-            });
-            builder.setNegativeButton(R.string.test_dismiss, (dialog, which) -> dialog.cancel());
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-            if (limited && used > limit)
-                return;
-        }
-
         radarFragment = new RadarFragment();
         radarFragment.setArguments(intent.getExtras());
         getFragmentManager().beginTransaction()
@@ -160,10 +118,6 @@ public class RadarActivity extends MainActivity {
 
         int index;
         switch (source) {
-            case WUNDERGROUND:
-                sourceName = intent.getStringExtra("name");
-                if (sourceName == null) sourceName = getString(R.string.wunderground_title);
-                break;
             case MOSAIC:
                 index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values))
                         .indexOf(location);
@@ -218,7 +172,7 @@ public class RadarActivity extends MainActivity {
         }
 
         // Mosaic loops are large, don't auto-refresh
-        if (!needKey && !refreshed && !(loop && source == Source.MOSAIC) && autoRefresh()) {
+        if (!refreshed && !(loop && source == Source.MOSAIC) && autoRefresh()) {
             if (radarFragment != null) radarFragment.refreshRadar();
             scheduleRefresh();
         }
@@ -235,7 +189,7 @@ public class RadarActivity extends MainActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data.getBooleanExtra("from_settings", false) && !needKey)
+        if (data.getBooleanExtra("from_settings", false))
             recreate();
     }
 
@@ -276,13 +230,6 @@ public class RadarActivity extends MainActivity {
             MenuItem editFavorite = menu.findItem(R.id.action_edit_favorite);
             editFavorite.setVisible(false);
         }
-        MenuItem refresh = menu.findItem(R.id.action_refresh);
-
-        // Don't allow user to add a favorite or refresh if they are using the test api key
-        if (needKey) {
-            refresh.setVisible(false);
-            return;
-        }
 
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(() -> {
@@ -304,9 +251,7 @@ public class RadarActivity extends MainActivity {
                         showItem(removeFavorite);
                     }
 
-                    //Don't set currentFavorite if NeedKeyFragment showing so user can refresh
-                    if (!needKey)
-                        currentFavorite = favorites.get(0).getUid();
+                    currentFavorite = favorites.get(0).getUid();
                 } else {
                     if (contextMenu) {
                         hideItem(contextRemoveFavorite);
@@ -384,7 +329,7 @@ public class RadarActivity extends MainActivity {
             ExecutorService service = Executors.newSingleThreadExecutor();
             service.submit(() -> {
                 AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                Boolean exists = database.favoriteDao().findByName(name) != null;
+                boolean exists = database.favoriteDao().findByName(name) != null;
 
                 if (name.equals("")) {
                     runOnUiThread(() -> input.setError(getString(R.string.empty_name_error)));
@@ -428,7 +373,7 @@ public class RadarActivity extends MainActivity {
             ExecutorService service = Executors.newSingleThreadExecutor();
             service.submit(() -> {
                 AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                Boolean exists = database.favoriteDao().findByName(name) != null;
+                boolean exists = database.favoriteDao().findByName(name) != null;
 
                 if (name.equals("")) {
                     runOnUiThread(() -> input.setError(getString(R.string.empty_name_error)));
@@ -511,7 +456,10 @@ public class RadarActivity extends MainActivity {
         String refresh = settings.getString("auto_refresh",
                 getString(R.string.wifi_toggle_default));
 
-        return (refresh.equals("always") || (refresh.equals("wifi") && onWifi()));
+        if (refresh == null)
+            return false;
+        else
+            return (refresh.equals("always") || (refresh.equals("wifi") && onWifi()));
     }
 
     private void scheduleRefresh() {
@@ -530,7 +478,7 @@ public class RadarActivity extends MainActivity {
 
                 if (autoRefresh() && !paused) {
                     runOnUiThread(() -> {
-                        if (!needKey && radarFragment != null) radarFragment.refreshRadar();
+                        if (radarFragment != null) radarFragment.refreshRadar();
                         scheduleRefresh();
                     });
                 }

@@ -1,5 +1,5 @@
-Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service and Weather Underground's API.
+Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service.
 
-The images are single images based on location rather than tiled images that can be panned like most other applications of this type. This allows faster loading when connection speeds are sub-optimal. Images can be customized including by resolution to help keep data usage to a minimum when needed. You can save your favorite views for easy reference.
+The images are single images based on location rather than tiled images that can be panned like most other applications of this type. This allows faster loading when connection speeds are sub-optimal. You can save your favorite views for easy reference.
 
-National Weather Service radar imagery is available for the United States and its territories. The Weather Underground radar imagery requires and API key from their website to work. There is a test feature available so you can try it out before acquiring your own API key. Their radar imagery is available for the United States and some parts of Canada, Mexico, Western Europe, and Australia. Their satellite imagery is available worldwide.
+National Weather Service radar imagery is available for the United States and its territories.

@@ -54,4 +54,7 @@ public interface FavoriteDao {
 
     @Delete
     void delete(Favorite favorite);
+
+    @Query("DELETE FROM favorite WHERE source = 2")
+    void deleteWunderground();
 }

@@ -2,15 +2,13 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/icon_128.png" alt="Weather Radar" /></p>
 
-Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service and Weather Underground's API.
+Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service.
 
-The images are single images based on location rather than tiled images that can be panned like most other applications of this type. This allows faster loading when connection speeds are sub-optimal. Images can be customized including by resolution to help keep data usage to a minimum when needed. You can save your favorite views for easy reference.
+The images are single images based on location rather than tiled images that can be panned like most other applications of this type. This allows faster loading when connection speeds are sub-optimal. You can save your favorite views for easy reference.
 
-National Weather Service radar imagery is available for the United States and its territories. The Weather Underground radar imagery requires and API key from their website to work. There is a test feature available so you can try it out before acquiring your own API key. Their radar imagery is available for the United States and some parts of Canada, Mexico, Western Europe, and Australia. Their satellite imagery is available worldwide.
+National Weather Service radar imagery is available for the United States and its territories.
 
-__NOTE:__ Weather Underground discontinued free API keys at the same time I released this application. If you already have an API key from them, it will work. Otherwise, there doesn't seem to be a way to get the Weather Underground images working. The NWS images still work fine.
-
-I will work on integrating another source.
+__NOTE:__ This application used to support radar images from Weather Underground. Unfortunately they decided to terminate their API in favor of overpriced "Weather Data Packages" from weather.com after being bought out by IBM. Support for Weather Underground images has been removed with version 1.1 now that they no longer work.
 
 ## Downloading
 
