@@ -19,9 +19,9 @@ APKs are also available on the [releases](https://github.com/dh4/WeatherRadar/re
 ## Screenshots
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/metadata/en-US/images/phoneScreenshots/1.png" alt="Screen Shot" width="250" />
-<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/metadata/en-US/images/phoneScreenshots/2.png" alt="Screen Shot" width="250" />
-<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/metadata/en-US/images/phoneScreenshots/3.png" alt="Screen Shot" width="250" />
+<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="Screen Shot" width="250" />
+<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="Screen Shot" width="250" />
+<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" alt="Screen Shot" width="250" />
 </p>
 
 ## Support
