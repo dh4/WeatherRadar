@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity
     private void startDefaultView() {
         String show = settings.getString("show_favorite", getString(R.string.wifi_toggle_default));
 
-        if (show!= null && (show.equals("always") || (show.equals("wifi") && onWifi()))) {
+        if (show != null && (show.equals("always") || (show.equals("wifi") && onWifi()))) {
             String favID = settings.getString("default_favorite", "0");
             if (favID == null) favID = "0";
             final int favoriteID = Integer.parseInt(favID);
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity
                 final Favorite favorite = database.favoriteDao().loadById(favoriteID);
 
                 runOnUiThread(() -> {
-                    if (favorite != null)
+                    if (favorite != null && favorite.getSource() != 2)
                         startFavoriteView(favorite);
                     else
                         startFormView();
