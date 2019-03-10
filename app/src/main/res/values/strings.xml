@@ -14,9 +14,9 @@
     <string name="nav_favorites">Favorites</string>
 
     <!-- Toolbar menu -->
-    <string name="action_add_favorite">Add Favorite</string>
-    <string name="action_remove_favorite">Remove Favorite</string>
-    <string name="action_edit_favorite">Edit Favorite</string>
+    <string name="action_add_favorite">Add favorite</string>
+    <string name="action_remove_favorite">Remove favorite</string>
+    <string name="action_edit_favorite">Edit favorite</string>
     <string name="action_refresh">Refresh</string>
     <string name="empty_name_error">Please give your favorite a name</string>
     <string name="already_exists_error">A favorite with this name already exists</string>
@@ -40,17 +40,17 @@
     <!-- Preferences -->
     <string name="general_title">General</string>
     <string name="nws_title">National Weather Service</string>
-    <string name="show_favorite_title">Show Favorite on Startup</string>
+    <string name="show_favorite_title">Show favorite on startup</string>
     <string name="show_favorite_summary">When to show a saved radar instead of the default view on application startup.</string>
-    <string name="default_favorite_title">Favorite to Show</string>
+    <string name="default_favorite_title">Favorite to show</string>
     <string name="default_favorite_summary">Select the favorite radar to show</string>
-    <string name="auto_refresh_title">Auto Refresh</string>
+    <string name="auto_refresh_title">Auto refresh</string>
     <string name="auto_refresh_summary">When to automatically refresh radar images. Enabling this will use more data.</string>
-    <string name="show_maximized_title">Show Maximized</string>
+    <string name="show_maximized_title">Show maximized</string>
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
-    <string name="show_fullscreen_title">Show Fullscreen</string>
+    <string name="show_fullscreen_title">Show fullscreen</string>
     <string name="show_fullscreen_summary">Hides the title and notification bar. Drag from the left side of the screen to access the menu.</string>
-    <string name="enhanced_layer_title">Enhanced Image Layers</string>
+    <string name="enhanced_layer_title">Enhanced image layers</string>
 
     <!-- About -->
     <string name="version">Version:</string>
@@ -69,7 +69,7 @@
 
     <!-- Welcome Dialog -->
     <string name="welcome_dismiss">OK, Got it!</string>
-    <string name="welcome_more">Learn More</string>
+    <string name="welcome_more">Learn more</string>
     <string name="welcome_header">Welcome!</string>
     <string name="welcome_text">Weather Radar provides access to doppler radar images from the United States National Weather Service.\n</string>
 

@@ -403,7 +403,7 @@
 
     <array name="wifi_toggle_names">
         <item>Never</item>
-        <item>Wi-Fi Only</item>
+        <item>Wi-Fi only</item>
         <item>Always</item>
     </array>
 
