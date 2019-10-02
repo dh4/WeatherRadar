@@ -312,7 +312,10 @@ public class MainActivity extends AppCompatActivity
         ConnectivityManager m = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (m != null) {
             NetworkInfo netInfo = m.getActiveNetworkInfo();
-            return netInfo.getType() == ConnectivityManager.TYPE_WIFI;
+            if (netInfo != null)
+                return netInfo.getType() == ConnectivityManager.TYPE_WIFI;
+            else
+                return false;
         }
         return false;
     }
