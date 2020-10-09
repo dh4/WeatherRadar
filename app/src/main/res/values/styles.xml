@@ -8,7 +8,7 @@
     </style>
 
     <style name="PopupMenuStyle" parent="Theme.AppCompat.Light">
-        <item name="android:background">@android:color/white</item>
+        <item name="background">@android:color/white</item>
     </style>
 
     <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -20,7 +20,7 @@
     <style name="NavHeader" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="background">@color/colorPrimary</item>
     </style>
 
     <style name="controlTheme" parent="Theme.AppCompat.Light">
@@ -29,7 +29,7 @@
     </style>
 
     <style name="buttonTheme">
-        <item name="android:background">@color/buttonBackground</item>
+        <item name="background">@color/buttonBackground</item>
         <item name="android:textColor">@color/buttonText</item>
     </style>
 

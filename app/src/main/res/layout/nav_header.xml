@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/actionBarSize"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
     android:gravity="center_vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:theme="@style/NavHeader">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_toStartOf="@id/nav_settings"
-        android:layout_toLeftOf="@id/nav_settings"
-        android:text="@string/header_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <Button
         android:id="@+id/nav_settings"
@@ -34,5 +25,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/ic_help" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toStartOf="@id/nav_settings"
+        android:layout_toLeftOf="@id/nav_settings"
+        android:text="@string/header_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
 </RelativeLayout>

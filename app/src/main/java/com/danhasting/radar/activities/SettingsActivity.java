@@ -29,8 +29,9 @@ import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
+
+import androidx.core.content.ContextCompat;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
@@ -72,16 +73,14 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public static class SettingsFragment extends PreferenceFragment {
-        private SharedPreferences settings;
 
         @Override
         public void onCreate(final Bundle savedInstanceState) {
@@ -117,10 +116,9 @@ public class SettingsActivity extends PreferenceActivity {
                 selectedFavorite.setEntryValues(v);
             });
 
-            settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
             final String showDefault = getString(R.string.wifi_toggle_default);
             String showFav = settings.getString("show_favorite", showDefault);
-            if (showFav == null) showFav = showDefault;
             selectedFavorite.setEnabled(!showFav.equals(showDefault));
 
             showFavorite.setOnPreferenceChangeListener((preference, o) -> {

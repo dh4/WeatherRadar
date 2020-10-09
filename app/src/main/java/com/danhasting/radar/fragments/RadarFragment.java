@@ -18,8 +18,8 @@
  */
 package com.danhasting.radar.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
