@@ -1,4 +1,4 @@
-# Weather Radar [![Build Status](https://travis-ci.org/dh4/WeatherRadar.svg?branch=master)](https://travis-ci.org/dh4/WeatherRadar)
+# Weather Radar [![Build Status](https://travis-ci.com/dh4/WeatherRadar.svg?branch=master)](https://travis-ci.com/dh4/WeatherRadar)
 
 <p align="center"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/icon_128.png" alt="Weather Radar" /></p>
 
