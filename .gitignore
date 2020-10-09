@@ -6,6 +6,5 @@ build
 captures
 .externalNativeBuild
 .idea
-gradle.properties
 app/src/main/res/values/keys.xml
 app/release/
