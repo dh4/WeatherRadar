@@ -326,7 +326,6 @@ public class RadarActivity extends MainActivity {
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-            assert input != null;
             final String name = input.getText().toString();
 
             ExecutorService service = Executors.newSingleThreadExecutor();
@@ -371,7 +370,6 @@ public class RadarActivity extends MainActivity {
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-            assert input != null;
             final String name = input.getText().toString();
 
             ExecutorService service = Executors.newSingleThreadExecutor();
