@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import androidx.appcompat.app.ActionBar;
 import android.text.InputType;
 import android.view.ContextMenu;
@@ -325,6 +326,7 @@ public class RadarActivity extends MainActivity {
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            assert input != null;
             final String name = input.getText().toString();
 
             ExecutorService service = Executors.newSingleThreadExecutor();
@@ -369,6 +371,7 @@ public class RadarActivity extends MainActivity {
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            assert input != null;
             final String name = input.getText().toString();
 
             ExecutorService service = Executors.newSingleThreadExecutor();
@@ -457,10 +460,7 @@ public class RadarActivity extends MainActivity {
         String refresh = settings.getString("auto_refresh",
                 getString(R.string.wifi_toggle_default));
 
-        if (refresh == null)
-            return false;
-        else
-            return (refresh.equals("always") || (refresh.equals("wifi") && onWifi()));
+        return (refresh.equals("always") || (refresh.equals("wifi") && onWifi()));
     }
 
     private void scheduleRefresh() {

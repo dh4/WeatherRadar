@@ -30,7 +30,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Switch;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.danhasting.radar.R;
 
@@ -68,10 +69,10 @@ public class SelectNWSFragment extends Fragment {
         index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
         locationSpinner.setSelection(index);
 
-        final Switch loopSwitch = view.findViewById(R.id.loopSwitch);
+        final SwitchCompat loopSwitch = view.findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_nws_loop", false));
 
-        Switch enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
+        SwitchCompat enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
         if (settings.getBoolean("last_nws_enhanced", false)) {
             enhancedSwitch.setChecked(true);
             loopSwitch.setEnabled(false);
@@ -102,7 +103,6 @@ public class SelectNWSFragment extends Fragment {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -117,8 +117,8 @@ public class SelectNWSFragment extends Fragment {
     private void viewRadar() {
         Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
         Spinner locationSpinner = view.findViewById(R.id.locationSpinner);
-        Switch loopSwitch = view.findViewById(R.id.loopSwitch);
-        Switch enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
+        SwitchCompat loopSwitch = view.findViewById(R.id.loopSwitch);
+        SwitchCompat enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
 
         String location = getResources().getStringArray(R.array.location_values)[locationSpinner.getSelectedItemPosition()];
         String type = getResources().getStringArray(R.array.type_values)[typeSpinner.getSelectedItemPosition()];

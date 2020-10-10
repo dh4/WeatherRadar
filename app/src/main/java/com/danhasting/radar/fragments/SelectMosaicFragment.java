@@ -30,7 +30,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Switch;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.danhasting.radar.R;
 
@@ -59,7 +60,7 @@ public class SelectMosaicFragment extends Fragment {
         int index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values)).indexOf(mosaic);
         mosaicSpinner.setSelection(index);
 
-        final Switch loopSwitch = view.findViewById(R.id.loopSwitch);
+        final SwitchCompat loopSwitch = view.findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_mosaic_loop", false));
 
         Button viewButton = view.findViewById(R.id.viewButton);
@@ -79,7 +80,6 @@ public class SelectMosaicFragment extends Fragment {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -93,7 +93,7 @@ public class SelectMosaicFragment extends Fragment {
 
     private void viewMosaic() {
         Spinner mosaicSpinner = view.findViewById(R.id.mosaicSpinner);
-        Switch loopSwitch = view.findViewById(R.id.loopSwitch);
+        SwitchCompat loopSwitch = view.findViewById(R.id.loopSwitch);
 
         String mosaic = getResources().getStringArray(R.array.mosaic_values)[mosaicSpinner.getSelectedItemPosition()];
         Boolean loop = loopSwitch.isChecked();
