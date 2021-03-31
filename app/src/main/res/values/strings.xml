@@ -54,7 +54,7 @@
 
     <!-- About -->
     <string name="version">Version:</string>
-    <string name="copyright">Copyright © 2018&#8211;2020, Dan Hasting</string>
+    <string name="copyright">Copyright © 2018&#8211;2021, Dan Hasting</string>
     <string name="donate">Weather Radar is provided free of charge and with no advertisements. If you find it useful, please consider supporting my work.</string>
     <string name="donate_button">Donate</string>
     <string name="license_line1">Weather Radar is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</string>
