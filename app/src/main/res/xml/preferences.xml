@@ -41,12 +41,12 @@
             android:summary="@string/show_maximized_summary"
             android:title="@string/show_maximized_title" />
 
-        <MultiSelectListPreference
-            android:defaultValue="@array/enhanced_layer_default"
-            android:entries="@array/enhanced_layer_names"
-            android:entryValues="@array/enhanced_layer_values"
-            android:key="enhanced_layers"
-            android:title="@string/enhanced_layer_title" />
+<!--        <MultiSelectListPreference-->
+<!--            android:defaultValue="@array/enhanced_layer_default"-->
+<!--            android:entries="@array/enhanced_layer_names"-->
+<!--            android:entryValues="@array/enhanced_layer_values"-->
+<!--            android:key="enhanced_layers"-->
+<!--            android:title="@string/enhanced_layer_title" />-->
 
     </PreferenceCategory>
 

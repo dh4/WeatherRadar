@@ -51,14 +51,14 @@ public class SelectNWSFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_select_nws, container, false);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
-        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(
-                getActivity(), R.array.type_names, android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(typeAdapter);
-
-        String type = settings.getString("last_nws_type", "");
-        int index = Arrays.asList(getResources().getStringArray(R.array.type_values)).indexOf(type);
-        typeSpinner.setSelection(index);
+//        Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
+//        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(
+//                getActivity(), R.array.type_names, android.R.layout.simple_spinner_dropdown_item);
+//        typeSpinner.setAdapter(typeAdapter);
+//
+//        String type = settings.getString("last_nws_type", "");
+//        int index = Arrays.asList(getResources().getStringArray(R.array.type_values)).indexOf(type);
+//        typeSpinner.setSelection(index);
 
         Spinner locationSpinner = view.findViewById(R.id.locationSpinner);
         ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(
@@ -66,25 +66,25 @@ public class SelectNWSFragment extends Fragment {
         locationSpinner.setAdapter(locationAdapter);
 
         String location = settings.getString("last_nws_location", "");
-        index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
+        int index = Arrays.asList(getResources().getStringArray(R.array.location_values)).indexOf(location);
         locationSpinner.setSelection(index);
 
         final SwitchCompat loopSwitch = view.findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_nws_loop", false));
 
-        SwitchCompat enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
-        if (settings.getBoolean("last_nws_enhanced", false)) {
-            enhancedSwitch.setChecked(true);
-            loopSwitch.setEnabled(false);
-        }
+//        SwitchCompat enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
+//        if (settings.getBoolean("last_nws_enhanced", false)) {
+//            enhancedSwitch.setChecked(true);
+//            loopSwitch.setEnabled(false);
+//        }
 
-        enhancedSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                loopSwitch.setEnabled(false);
-            } else {
-                loopSwitch.setEnabled(true);
-            }
-        });
+//        enhancedSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            if (isChecked) {
+//                loopSwitch.setEnabled(false);
+//            } else {
+//                loopSwitch.setEnabled(true);
+//            }
+//        });
 
         Button viewButton = view.findViewById(R.id.viewButton);
         viewButton.setOnClickListener(view -> viewRadar());
@@ -115,17 +115,20 @@ public class SelectNWSFragment extends Fragment {
     }
 
     private void viewRadar() {
-        Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
+//        Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
         Spinner locationSpinner = view.findViewById(R.id.locationSpinner);
         SwitchCompat loopSwitch = view.findViewById(R.id.loopSwitch);
-        SwitchCompat enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
+//        SwitchCompat enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
 
         String location = getResources().getStringArray(R.array.location_values)[locationSpinner.getSelectedItemPosition()];
-        String type = getResources().getStringArray(R.array.type_values)[typeSpinner.getSelectedItemPosition()];
+//        String type = getResources().getStringArray(R.array.type_values)[typeSpinner.getSelectedItemPosition()];
         boolean loop = loopSwitch.isChecked();
-        Boolean enhanced = enhancedSwitch.isChecked();
+//        Boolean enhanced = enhancedSwitch.isChecked();
 
-        if (enhanced) loop = false;
+//        if (enhanced) loop = false;
+
+        String type = "";
+        Boolean enhanced = false;
 
         callback.onNWSSelected(location, type, loop, enhanced);
     }

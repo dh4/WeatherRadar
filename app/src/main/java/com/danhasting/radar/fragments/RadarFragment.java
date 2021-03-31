@@ -96,26 +96,22 @@ public class RadarFragment extends Fragment {
     }
 
     private String displayMosaicImage(String mosaic, Boolean loop) {
-        String url = "https://radar.weather.gov/Conus/";
+        String url = "https://radar.weather.gov/ridge/lite/";
         if (loop) {
-            if (mosaic.equals("latest")) {
-                url += "Loop/NatLoop.gif";
-            } else {
-                url += "Loop/" + mosaic + "_loop.gif";
-            }
+            url += mosaic + "_loop.gif";
         } else {
-            url += "RadarImg/" + mosaic + ".gif";
+            url += mosaic + "_0.gif";
         }
 
         return displayRadar(url);
     }
 
     private String displayLiteImage(String loc, String type, Boolean loop) {
-        String url = "https://radar.weather.gov/lite/" + type + "/";
+        String url = "https://radar.weather.gov/ridge/lite/";
         if (loop) {
             url += loc + "_loop.gif";
         } else {
-            url += loc + "_0.png";
+            url += loc + "_0.gif";
         }
 
         return displayRadar(url);

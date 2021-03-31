@@ -32,20 +32,20 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:text="@string/type_text" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:paddingLeft="30dp"-->
+<!--                android:paddingRight="30dp"-->
+<!--                android:text="@string/type_text" />-->
 
-            <Spinner
-                android:id="@+id/typeSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="41dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp" />
+<!--            <Spinner-->
+<!--                android:id="@+id/typeSpinner"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="41dp"-->
+<!--                android:paddingLeft="30dp"-->
+<!--                android:paddingRight="30dp" />-->
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/loopSwitch"
@@ -57,15 +57,15 @@
                 android:text="@string/loop"
                 android:theme="@style/controlTheme" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/enhancedSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="41dp"
-                android:layout_marginTop="30dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:text="@string/enhanced"
-                android:theme="@style/controlTheme" />
+<!--            <androidx.appcompat.widget.SwitchCompat-->
+<!--                android:id="@+id/enhancedSwitch"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="41dp"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:paddingLeft="30dp"-->
+<!--                android:paddingRight="30dp"-->
+<!--                android:text="@string/enhanced"-->
+<!--                android:theme="@style/controlTheme" />-->
 
             <Button
                 android:id="@+id/viewButton"
