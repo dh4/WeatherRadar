@@ -81,11 +81,11 @@ public class RadarFragment extends Fragment {
             if (location == null) location = "";
 
             if (enhanced) {
-                radarWebView.loadData(displayEnhancedRadar(location, type), "text/html", null);
+                radarWebView.loadDataWithBaseURL(null, displayEnhancedRadar(location, type), "text/html", "UTF-8", null);
             } else if (source == Source.MOSAIC) {
-                radarWebView.loadData(displayMosaicImage(location, loop), "text/html", null);
+                radarWebView.loadDataWithBaseURL(null, displayMosaicImage(location, loop), "text/html", "UTF-8", null);
             } else {
-                radarWebView.loadData(displayLiteImage(location, type, loop), "text/html", null);
+                radarWebView.loadDataWithBaseURL(null, displayLiteImage(location, type, loop), "text/html", "UTF-8", null);
             }
         }
     }
