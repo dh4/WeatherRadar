@@ -2,8 +2,6 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/icon_128.png" alt="Weather Radar" /></p>
 
-__NOTE: The National Weather Service has discontinued their static radar images, which along with the WU API discontinuation makes this application non-functional. I currently do not have time to code in images from another source. The code and application will be left here and I will update it in the future if I have time and motivation to rewrite it.__
-
 Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service.
 
 The images are single images based on location rather than tiled images that can be panned like most other applications of this type. This allows faster loading when connection speeds are sub-optimal. You can save your favorite views for easy reference.
