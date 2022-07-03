@@ -33,3 +33,7 @@ https://dh4.github.io/donate/
 
 An automatic debug build of the latest git commit can be found here. This can be installed alongside the release version:
 https://s3.amazonaws.com/dh4/weather_radar/master/com.danhasting.radar.devel.apk
+
+## Privacy
+
+Weather Radar does not collect user data of any kind.
