@@ -96,7 +96,7 @@ public class RadarFragment extends Fragment {
     }
 
     private String displayMosaicImage(String mosaic, Boolean loop) {
-        String url = "https://radar.weather.gov/ridge/lite/";
+        String url = "https://radar.weather.gov/ridge/standard/";
         if (loop) {
             url += mosaic + "_loop.gif";
         } else {
@@ -107,7 +107,7 @@ public class RadarFragment extends Fragment {
     }
 
     private String displayLiteImage(String loc, String type, Boolean loop) {
-        String url = "https://radar.weather.gov/ridge/lite/";
+        String url = "https://radar.weather.gov/ridge/standard/";
         if (loop) {
             url += loc + "_loop.gif";
         } else {
