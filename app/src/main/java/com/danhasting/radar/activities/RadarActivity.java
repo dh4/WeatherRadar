@@ -435,30 +435,8 @@ public class RadarActivity extends MainActivity {
     }
 
     private void refreshRadar() {
-        if (!refreshed) {
-            if (radarFragment != null) radarFragment.refreshRadar();
-            scheduleRefresh();
-        } else {
-            DialogInterface.OnClickListener dialogListener = (dialog, which) -> {
-                if (which == DialogInterface.BUTTON_POSITIVE) {
-                    if (radarFragment != null) radarFragment.refreshRadar();
-                    scheduleRefresh();
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.confirm_refresh)
-                    .setPositiveButton(getString(R.string.button_yes), dialogListener)
-                    .setNegativeButton(getString(R.string.button_no), dialogListener)
-                    .show();
-        }
-    }
-
-    private Boolean autoRefresh() {
-        String refresh = settings.getString("auto_refresh",
-                getString(R.string.wifi_toggle_default));
-
-        return (refresh.equals("always") || (refresh.equals("wifi") && onWifi()));
+        if (radarFragment != null) radarFragment.refreshRadar();
+        scheduleRefresh();
     }
 
     private void scheduleRefresh() {
