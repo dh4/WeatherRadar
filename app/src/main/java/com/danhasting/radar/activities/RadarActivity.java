@@ -283,20 +283,14 @@ public class RadarActivity extends MainActivity {
     private void itemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.action_add_favorite:
-                addFavoriteDialog();
-                break;
-            case R.id.action_remove_favorite:
-                removeFavoriteDialog();
-                break;
-            case R.id.action_edit_favorite:
-                editFavoriteDialog();
-                break;
-            case R.id.action_refresh:
-                refreshRadar();
-                break;
-        }
+        if (id == R.id.action_add_favorite)
+            addFavoriteDialog();
+        else if (id == R.id.action_remove_favorite)
+            removeFavoriteDialog();
+        else if (id == R.id.action_edit_favorite)
+            editFavoriteDialog();
+        else if (id == R.id.action_refresh)
+            refreshRadar();
     }
 
     private AlertDialog favoriteDialog(String title, String button) {

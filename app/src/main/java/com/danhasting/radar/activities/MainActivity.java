@@ -71,12 +71,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         // Set color of the top bar on the recents screen
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
-            TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
-                    ContextCompat.getColor(getApplicationContext(), R.color.recentsTopBar));
-            setTaskDescription(taskDesc);
-        }
+        Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
+        TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
+                ContextCompat.getColor(getApplicationContext(), R.color.recentsTopBar));
+        setTaskDescription(taskDesc);
 
         setContentView(R.layout.activity_main);
 
@@ -91,11 +89,9 @@ public class MainActivity extends AppCompatActivity
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),
-                    R.color.colorPrimaryDark));
-        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),
+                R.color.colorPrimaryDark));
 
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -179,14 +175,10 @@ public class MainActivity extends AppCompatActivity
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
             selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-            switch (id) {
-                case R.id.nav_nws:
-                    selectIntent.putExtra("selection", Source.NWS);
-                    break;
-                case R.id.nav_mosaic:
-                    selectIntent.putExtra("selection", Source.MOSAIC);
-                    break;
-            }
+            if (id == R.id.nav_nws)
+                selectIntent.putExtra("selection", Source.NWS);
+            else if (id == R.id.nav_mosaic)
+                selectIntent.putExtra("selection", Source.MOSAIC);
 
             if (selectIntent.hasExtra("selection")) {
                 MainActivity.this.startActivity(selectIntent);

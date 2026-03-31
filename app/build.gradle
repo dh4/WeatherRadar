@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion '30.0.2'
+    compileSdkVersion 36
+    buildToolsVersion '36.0.0'
 
     defaultConfig {
         applicationId "com.danhasting.radar"
-        minSdkVersion 16
-        targetSdkVersion 32
+        minSdkVersion 23
+        targetSdkVersion 36
         versionCode 6
         versionName "1.3"
 
@@ -23,28 +23,29 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
     compileOptions {
         encoding = 'UTF-8'
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+    namespace 'com.danhasting.radar'
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.room:room-runtime:2.2.5'
-    annotationProcessor 'androidx.room:room-compiler:2.2.5'
+    implementation 'androidx.room:room-runtime:2.8.4'
+    annotationProcessor 'androidx.room:room-compiler:2.8.4'
 
-    implementation 'com.x5dev:chunk-templates:3.4.0'
-    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.x5dev:chunk-templates:3.6.2'
+    implementation 'com.loopj.android:android-async-http:1.4.11'
 }

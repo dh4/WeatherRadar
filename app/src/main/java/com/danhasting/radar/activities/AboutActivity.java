@@ -26,8 +26,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
-import com.danhasting.radar.BuildConfig;
 import com.danhasting.radar.R;
 
 public class AboutActivity extends MainActivity {
@@ -43,9 +44,16 @@ public class AboutActivity extends MainActivity {
 
         setTitle(R.string.about);
 
+        PackageManager pm = this.getPackageManager();
+        String versionName =  "Version: unknown";
+        try {
+            PackageInfo pInfo = pm.getPackageInfo(this.getPackageName(), 0);
+            versionName = String.format("%s %s", getText(R.string.version), pInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            // Do nothing
+        }
+
         TextView version = findViewById(R.id.version);
-        String versionName = String.format("%s %s", getText(R.string.version),
-                BuildConfig.VERSION_NAME);
         version.setText(versionName);
 
         Button donateButton = findViewById(R.id.donate_button);
