@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import android.text.InputType;
 import android.view.ContextMenu;
@@ -208,7 +209,7 @@ public class RadarActivity extends MainActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
         itemSelected(item);
         return super.onContextItemSelected(item);
     }
@@ -240,7 +241,7 @@ public class RadarActivity extends MainActivity {
                     source.getInt(), location, type, loop, enhanced, distance);
 
             runOnUiThread(() -> {
-                if (favorites.size() > 0) {
+                if (!favorites.isEmpty()) {
                     radarName = favorites.get(0).getName();
                     setTitle(radarName);
 
@@ -320,6 +321,7 @@ public class RadarActivity extends MainActivity {
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            assert input != null;
             final String name = input.getText().toString();
 
             ExecutorService service = Executors.newSingleThreadExecutor();
@@ -327,7 +329,7 @@ public class RadarActivity extends MainActivity {
                 AppDatabase database = AppDatabase.getAppDatabase(getApplication());
                 boolean exists = database.favoriteDao().findByName(name) != null;
 
-                if (name.equals("")) {
+                if (name.isEmpty()) {
                     runOnUiThread(() -> input.setError(getString(R.string.empty_name_error)));
                 } else if (exists) {
                     runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));
@@ -364,6 +366,7 @@ public class RadarActivity extends MainActivity {
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            assert input != null;
             final String name = input.getText().toString();
 
             ExecutorService service = Executors.newSingleThreadExecutor();
@@ -371,7 +374,7 @@ public class RadarActivity extends MainActivity {
                 AppDatabase database = AppDatabase.getAppDatabase(getApplication());
                 boolean exists = database.favoriteDao().findByName(name) != null;
 
-                if (name.equals("")) {
+                if (name.isEmpty()) {
                     runOnUiThread(() -> input.setError(getString(R.string.empty_name_error)));
                 } else if (exists) {
                     runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));

@@ -26,7 +26,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
@@ -34,6 +33,7 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -238,6 +238,8 @@ public class MainActivity extends AppCompatActivity
 
     private void populateFavorites(Menu menu, List<Favorite> favorites) {
         SubMenu favMenu = menu.findItem(R.id.nav_favorites).getSubMenu();
+
+        assert favMenu != null;
         favMenu.clear();
 
         int i = 0;
@@ -294,6 +296,7 @@ public class MainActivity extends AppCompatActivity
             MainActivity.this.startActivity(radarWebsiteIntent);
         } else {
             Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+
 
             radarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
             radarIntent.putExtra("location", favorite.getLocation());
