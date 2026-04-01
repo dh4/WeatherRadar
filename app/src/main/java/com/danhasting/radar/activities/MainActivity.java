@@ -156,13 +156,6 @@ public class MainActivity extends AppCompatActivity
             editor.putBoolean("first_run", false);
             editor.apply();
         }
-
-        // Remove old Wunderground favorites
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        service.submit(() -> {
-            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-            database.favoriteDao().deleteWunderground();
-        });
     }
 
     @Override
