@@ -181,14 +181,14 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        if (id != currentFavorite) {
-            ExecutorService service = Executors.newSingleThreadExecutor();
-            service.submit(() -> {
-                AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                Favorite favorite = database.favoriteDao().loadById(id);
-                if (favorite != null) startFavoriteView(favorite);
-            });
-        }
+
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(() -> {
+            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+            Favorite favorite = database.favoriteDao().loadById(id);
+            if (favorite != null && (id != currentFavorite || favorite.getSource().equals(Source.RADAR.getInt())))
+                startFavoriteView(favorite);
+        });
 
         return true;
     }
@@ -281,15 +281,16 @@ public class MainActivity extends AppCompatActivity
     private void startFavoriteView(Favorite favorite) {
         if (favorite.getSource().equals(Source.RADAR.getInt())) {
             Intent radarWebsiteIntent = new Intent(MainActivity.this, RadarWebsiteActivity.class);
+            radarWebsiteIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             radarWebsiteIntent.putExtra("location", favorite.getLocation());
             radarWebsiteIntent.putExtra("favorite", true);
             radarWebsiteIntent.putExtra("name", favorite.getName());
             radarWebsiteIntent.putExtra("favoriteID", favorite.getUid());
             MainActivity.this.startActivity(radarWebsiteIntent);
+            overridePendingTransition(0,0);
         } else {
             Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
-
 
             radarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
             radarIntent.putExtra("location", favorite.getLocation());
