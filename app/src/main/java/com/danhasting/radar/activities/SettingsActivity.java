@@ -29,7 +29,11 @@ import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.core.content.ContextCompat;
 
@@ -83,8 +87,9 @@ public class SettingsActivity extends PreferenceActivity {
     public static class SettingsFragment extends PreferenceFragment {
 
         @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View root = super.onCreateView(inflater, container, savedInstanceState);
+
             addPreferencesFromResource(R.xml.preferences);
 
             final ListPreference selectedFavorite = (ListPreference) findPreference("default_favorite");
@@ -95,7 +100,7 @@ public class SettingsActivity extends PreferenceActivity {
                 AppDatabase database = AppDatabase.getAppDatabase(getActivity());
                 List<Favorite> favorites = database.favoriteDao().getList();
 
-                if (favorites.size() == 0) {
+                if (favorites.isEmpty()) {
                     selectedFavorite.setEnabled(false);
                     showFavorite.setEnabled(false);
                     showFavorite.setEnabled(false);
@@ -125,6 +130,22 @@ public class SettingsActivity extends PreferenceActivity {
                 selectedFavorite.setEnabled(!o.toString().equals(showDefault));
                 return true;
             });
+
+            // Add top padding equal to action bar / toolbar height so content sits below header
+            int actionBarHeight = getActionBarHeight();
+            root.setPadding(root.getPaddingLeft(), root.getPaddingTop() + actionBarHeight,
+                    root.getPaddingRight(), root.getPaddingBottom());
+            root.setFitsSystemWindows(true);
+
+            return root;
+        }
+
+        private int getActionBarHeight() {
+            TypedValue tv = new TypedValue();
+            if (getActivity() != null && getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+                return TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+            }
+            return 0;
         }
     }
 }
