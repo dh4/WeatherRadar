@@ -21,13 +21,19 @@ package com.danhasting.radar.fragments;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import java.util.Objects;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
@@ -57,13 +63,28 @@ public class RadarWebsiteFragment extends Fragment {
         radarWebsiteView.getSettings().setDomStorageEnabled(true);
         radarWebsiteView.getSettings().setSupportZoom(true);
 
+        radarWebsiteView.addJavascriptInterface(new Object() {
+            @JavascriptInterface
+            public void onUrlChanged(String url) {
+                // Runs on background thread; post to UI if needed
+                Uri uri = Uri.parse(url);
+                String value = uri.getQueryParameter("settings");
+                if (value != null) {
+                    // handle parameter on UI thread
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("radar_website_settings", value);
+                        editor.apply();
+                    });
+                }
+            }
+        }, "AndroidBridge");
+
         radarWebsiteView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 String css = "header { display: none !important; } main { inset: 0px !important; }";
-                // Escape single quotes and newlines for embedding in JS string
-                css = css.replace("\n", "\\n").replace("'", "\\'");
 
                 String js = "(function(){" +
                         "var parent = document.head || document.documentElement;" +
@@ -72,8 +93,19 @@ public class RadarWebsiteFragment extends Fragment {
                         "style.appendChild(document.createTextNode('" + css + "'));" +
                         "parent.appendChild(style);" +
                         "})()";
-
                 view.evaluateJavascript(js, null);
+
+                String js2 = "(() => {"
+                        + "function notify() { AndroidBridge.onUrlChanged(window.location.href); }"
+                        + "const _pushState = history.pushState;"
+                        + "history.pushState = function(){ _pushState.apply(this, arguments); notify(); };"
+                        + "const _replaceState = history.replaceState;"
+                        + "history.replaceState = function(){ _replaceState.apply(this, arguments); notify(); };"
+                        + "window.addEventListener('popstate', notify);"
+                        + "window.addEventListener('hashchange', notify);"
+                        + "notify();"
+                        + "})()";
+                view.evaluateJavascript(js2, null);
             }
         });
 
@@ -85,7 +117,12 @@ public class RadarWebsiteFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        radarWebsiteView.loadUrl("https://radar.weather.gov/");
+        String website_settings = settings.getString("radar_website_settings", "");
+
+        if (!Objects.equals(website_settings, ""))
+            radarWebsiteView.loadUrl("https://radar.weather.gov/?settings="+website_settings);
+        else
+            radarWebsiteView.loadUrl("https://radar.weather.gov/");
 
     }
 }
