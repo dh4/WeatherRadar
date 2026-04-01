@@ -23,15 +23,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -67,15 +71,8 @@ public class RadarWebsiteActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("show_fullscreen", false);
-        if (fullscreen) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-
         super.onCreate(savedInstanceState);
+
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
             View contentView = inflater.inflate(R.layout.activity_radar_website, drawerLayout, false);
@@ -91,11 +88,7 @@ public class RadarWebsiteActivity extends MainActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, radarWebsiteFragment).commit();
 
-        ActionBar actionBar = getSupportActionBar();
-        if (fullscreen && actionBar != null) {
-            getSupportActionBar().hide();
-            findViewById(R.id.radarWebsiteLayout).setPadding(0, 0, 0, 0);
-        }
+        setFullscreen();
 
         sourceName = getResources().getString(R.string.nws);
         setTitle(sourceName);
@@ -112,8 +105,18 @@ public class RadarWebsiteActivity extends MainActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (data.getBooleanExtra("from_settings", false))
+            setFullscreen();
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
+        setFullscreen();
 
         Bundle extras = intent.getExtras();
 
@@ -138,7 +141,7 @@ public class RadarWebsiteActivity extends MainActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
         itemSelected(item);
         return super.onContextItemSelected(item);
     }
@@ -227,6 +230,7 @@ public class RadarWebsiteActivity extends MainActivity {
         String settings = radarWebsiteFragment.getCurrentSettings();
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            assert input != null;
             final String name = input.getText().toString();
 
             ExecutorService service = Executors.newSingleThreadExecutor();
@@ -234,7 +238,7 @@ public class RadarWebsiteActivity extends MainActivity {
                 AppDatabase database = AppDatabase.getAppDatabase(getApplication());
                 boolean exists = database.favoriteDao().findByName(name) != null;
 
-                if (name.equals("")) {
+                if (name.isEmpty()) {
                     runOnUiThread(() -> input.setError(getString(R.string.empty_name_error)));
                 } else if (exists) {
                     runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));
@@ -267,6 +271,7 @@ public class RadarWebsiteActivity extends MainActivity {
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            assert input != null;
             final String name = input.getText().toString();
 
             ExecutorService service = Executors.newSingleThreadExecutor();
@@ -274,7 +279,7 @@ public class RadarWebsiteActivity extends MainActivity {
                 AppDatabase database = AppDatabase.getAppDatabase(getApplication());
                 boolean exists = database.favoriteDao().findByName(name) != null;
 
-                if (name.equals("")) {
+                if (name.isEmpty()) {
                     runOnUiThread(() -> input.setError(getString(R.string.empty_name_error)));
                 } else if (exists) {
                     runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));
@@ -362,5 +367,47 @@ public class RadarWebsiteActivity extends MainActivity {
 
     private void refreshRadar() {
         if (radarWebsiteFragment != null) radarWebsiteFragment.refreshRadarWebsite("");
+    }
+
+    private void setFullscreen() {
+        boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("show_fullscreen", false);
+
+        Window window = getWindow();
+
+        if (fullscreen) {
+            WindowCompat.setDecorFitsSystemWindows(window, false);
+
+            WindowInsetsControllerCompat insetsController =
+                    new WindowInsetsControllerCompat(window, window.getDecorView());
+
+            insetsController.setSystemBarsBehavior(
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+
+            insetsController.hide(WindowInsetsCompat.Type.systemBars());
+        } else {
+            WindowCompat.setDecorFitsSystemWindows(window, true);
+
+            WindowInsetsControllerCompat insetsController =
+                    new WindowInsetsControllerCompat(window, window.getDecorView());
+
+            insetsController.show(WindowInsetsCompat.Type.systemBars());
+            insetsController.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_DEFAULT);
+        }
+
+        ActionBar actionBar = getSupportActionBar();
+        if (fullscreen && actionBar != null) {
+            getSupportActionBar().hide();
+            findViewById(R.id.radarWebsiteLayout).setPadding(0, 0, 0, 0);
+        } else if (!fullscreen && actionBar != null) {
+            actionBar.show();
+
+            TypedValue tv = new TypedValue();
+            int actionBarHeight = 0;
+            if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+
+            findViewById(R.id.radarWebsiteLayout).setPadding(0, actionBarHeight, 0, 0);
+        }
     }
 }

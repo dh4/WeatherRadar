@@ -33,7 +33,6 @@ import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
 import com.danhasting.radar.fragments.SelectMosaicFragment;
 import com.danhasting.radar.fragments.SelectNWSFragment;
-import com.danhasting.radar.fragments.RadarWebsiteFragment;
 
 public class SelectActivity extends MainActivity
         implements SelectNWSFragment.OnNWSSelectedListener,

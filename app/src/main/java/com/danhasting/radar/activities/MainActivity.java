@@ -18,21 +18,25 @@
  */
 package com.danhasting.radar.activities;
 
+import android.app.Activity;
 import android.app.ActivityManager.TaskDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -45,7 +49,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
@@ -71,9 +75,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         // Set color of the top bar on the recents screen
-        Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
-        TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
-                ContextCompat.getColor(getApplicationContext(), R.color.recentsTopBar));
+        int color = ContextCompat.getColor(getApplicationContext(), R.color.recentsTopBar);
+        TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), null, color);
         setTaskDescription(taskDesc);
 
         setContentView(R.layout.activity_main);
@@ -123,18 +126,21 @@ public class MainActivity extends AppCompatActivity
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FavoriteViewModel viewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+        FavoriteViewModel viewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
         viewModel.getFavorites().observe(this, favorites -> {
             if (favorites != null)
                 populateFavorites(navigationView.getMenu(), favorites);
         });
 
+        ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {}
+        );
 
         Button settingsButton = navigationView.getHeaderView(0).findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(view -> {
             drawerLayout.closeDrawers();
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivityForResult(settingsIntent, 1);
+            settingsLauncher.launch(settingsIntent);
         });
 
         Button aboutButton = navigationView.getHeaderView(0).findViewById(R.id.nav_about);
@@ -308,10 +314,11 @@ public class MainActivity extends AppCompatActivity
     Boolean onWifi() {
         ConnectivityManager m = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (m != null) {
-            NetworkInfo netInfo = m.getActiveNetworkInfo();
-            if (netInfo != null)
-                return netInfo.getType() == ConnectivityManager.TYPE_WIFI;
-            else
+            Network netInfo = m.getActiveNetwork();
+            if (netInfo != null) {
+                NetworkCapabilities caps = m.getNetworkCapabilities(netInfo);
+                return caps != null && caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+            } else
                 return false;
         }
         return false;

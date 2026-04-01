@@ -29,12 +29,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
@@ -82,10 +84,18 @@ public class RadarActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("show_fullscreen", false);
+
         if (fullscreen) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            Window window = getWindow();
+            WindowCompat.setDecorFitsSystemWindows(window, false);
+
+            WindowInsetsControllerCompat insetsController =
+                    new WindowInsetsControllerCompat(window, window.getDecorView());
+
+            insetsController.setSystemBarsBehavior(
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+
+            insetsController.hide(WindowInsetsCompat.Type.systemBars());
         }
 
         super.onCreate(savedInstanceState);

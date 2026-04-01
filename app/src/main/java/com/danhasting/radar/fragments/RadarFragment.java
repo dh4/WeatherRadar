@@ -21,13 +21,14 @@ package com.danhasting.radar.fragments;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
@@ -50,7 +51,7 @@ public class RadarFragment extends Fragment {
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_radar, container, false);
-        settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        settings = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         radarWebView = view.findViewById(R.id.radarWebView);
         radarWebView.getSettings().setLoadWithOverviewMode(true);
@@ -66,28 +67,26 @@ public class RadarFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Bundle bundle = getArguments();
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = requireArguments();
 
-        if (bundle != null) {
-            source = (Source) bundle.getSerializable("source");
-            String location = bundle.getString("location");
-            Boolean loop = bundle.getBoolean("loop", false);
-            String type = bundle.getString("type");
-            boolean enhanced = bundle.getBoolean("enhanced", false);
+        source = (Source) bundle.getSerializable("source");
+        String location = bundle.getString("location");
+        Boolean loop = bundle.getBoolean("loop", false);
+        String type = bundle.getString("type");
+        boolean enhanced = bundle.getBoolean("enhanced", false);
 
-            if (source == null) source = Source.NWS;
-            if (type == null) type = "";
-            if (location == null) location = "";
+        if (source == null) source = Source.NWS;
+        if (type == null) type = "";
+        if (location == null) location = "";
 
-            if (enhanced) {
-                radarWebView.loadDataWithBaseURL(null, displayEnhancedRadar(location, type), "text/html", "UTF-8", null);
-            } else if (source == Source.MOSAIC) {
-                radarWebView.loadDataWithBaseURL(null, displayMosaicImage(location, loop), "text/html", "UTF-8", null);
-            } else {
-                radarWebView.loadDataWithBaseURL(null, displayLiteImage(location, type, loop), "text/html", "UTF-8", null);
-            }
+        if (enhanced) {
+            radarWebView.loadDataWithBaseURL(null, displayEnhancedRadar(location, type), "text/html", "UTF-8", null);
+        } else if (source == Source.MOSAIC) {
+            radarWebView.loadDataWithBaseURL(null, displayMosaicImage(location, loop), "text/html", "UTF-8", null);
+        } else {
+            radarWebView.loadDataWithBaseURL(null, displayLiteImage(location, loop), "text/html", "UTF-8", null);
         }
     }
 
@@ -107,7 +106,7 @@ public class RadarFragment extends Fragment {
         return displayRadar(url);
     }
 
-    private String displayLiteImage(String loc, String type, Boolean loop) {
+    private String displayLiteImage(String loc, Boolean loop) {
         String url = "https://radar.weather.gov/ridge/standard/";
         if (loop) {
             url += loc + "_loop.gif";
@@ -119,7 +118,7 @@ public class RadarFragment extends Fragment {
     }
 
     private String displayRadar(String url) {
-        AndroidTemplates loader = new AndroidTemplates(getActivity().getBaseContext());
+        AndroidTemplates loader = new AndroidTemplates(requireActivity().getBaseContext());
         Theme theme = new Theme(loader);
 
         Chunk html = theme.makeChunk("lite_radar");
@@ -131,7 +130,7 @@ public class RadarFragment extends Fragment {
     }
 
     private String displayEnhancedRadar(String location, String type) {
-        AndroidTemplates loader = new AndroidTemplates(getActivity().getBaseContext());
+        AndroidTemplates loader = new AndroidTemplates(requireActivity().getBaseContext());
         Theme theme = new Theme(loader);
 
         Chunk html = theme.makeChunk("enhanced_radar");
