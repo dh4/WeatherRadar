@@ -4,17 +4,17 @@
 
         <item
             android:id="@+id/nav_radar"
-            android:icon="@drawable/ic_select_image"
+            android:icon="@drawable/radar_icon"
             android:title="@string/nav_radar" />
 
         <item
             android:id="@+id/nav_nws"
-            android:icon="@drawable/ic_select_image"
+            android:icon="@drawable/image_icon"
             android:title="@string/nav_select" />
 
         <item
             android:id="@+id/nav_mosaic"
-            android:icon="@drawable/ic_select_mosaic"
+            android:icon="@drawable/mosaic_icon"
             android:title="@string/nav_mosaic" />
 
         <item
