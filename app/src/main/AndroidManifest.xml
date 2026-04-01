@@ -25,9 +25,7 @@
         <activity
             android:name=".activities.RadarWebsiteActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activities.SettingsActivity"
-            android:theme="@style/SettingsTheme" />
+        <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AboutActivity" />
     </application>
 

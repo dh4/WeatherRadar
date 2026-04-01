@@ -27,7 +27,6 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBar;
@@ -47,6 +46,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity
                 final Favorite favorite = database.favoriteDao().loadById(favoriteID);
 
                 runOnUiThread(() -> {
-                    if (favorite != null && favorite.getSource() != 2)
+                    if (favorite != null)
                         startFavoriteView(favorite);
                     else
                         startRadarView();

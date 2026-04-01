@@ -22,10 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -37,6 +33,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
@@ -110,7 +109,7 @@ public class RadarActivity extends MainActivity {
 
         radarFragment = new RadarFragment();
         radarFragment.setArguments(intent.getExtras());
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, radarFragment).commit();
 
         ActionBar actionBar = getSupportActionBar();

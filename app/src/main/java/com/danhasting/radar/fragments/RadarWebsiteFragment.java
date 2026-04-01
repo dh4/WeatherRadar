@@ -19,19 +19,20 @@
 package com.danhasting.radar.fragments;
 
 import android.annotation.SuppressLint;
-import androidx.fragment.app.Fragment;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -51,7 +52,7 @@ public class RadarWebsiteFragment extends Fragment {
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_radar_website, container, false);
-        settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        settings = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         radarWebsiteView = view.findViewById(R.id.radarWebsiteView);
         radarWebsiteView.getSettings().setLoadWithOverviewMode(true);

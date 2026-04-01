@@ -18,7 +18,6 @@
  */
 package com.danhasting.radar.activities;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +26,8 @@ import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
@@ -87,7 +88,7 @@ public class SelectActivity extends MainActivity
     }
 
     private void launchSelectionFragment(Source selection, Boolean force) {
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         switch (selection) {
             case RADAR:
@@ -101,7 +102,7 @@ public class SelectActivity extends MainActivity
                 if (!(fragment instanceof SelectNWSFragment) || force) {
                     setTitle(R.string.select_nws_image);
                     SelectNWSFragment nwsFragment = new SelectNWSFragment();
-                    getFragmentManager().beginTransaction()
+                    getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, nwsFragment).commit();
                 }
                 break;
@@ -110,7 +111,7 @@ public class SelectActivity extends MainActivity
                 if (!(fragment instanceof SelectMosaicFragment) || force) {
                     setTitle(R.string.select_mosaic_image);
                     SelectMosaicFragment mosaicFragment = new SelectMosaicFragment();
-                    getFragmentManager().beginTransaction()
+                    getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, mosaicFragment).commit();
                 }
                 break;

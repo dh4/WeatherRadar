@@ -18,7 +18,6 @@
  */
 package com.danhasting.radar.fragments;
 
-import android.app.Fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,6 +31,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
 
 import com.danhasting.radar.R;
 

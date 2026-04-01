@@ -18,7 +18,6 @@
  */
 package com.danhasting.radar.fragments;
 
-import android.app.Fragment;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+
+import androidx.fragment.app.Fragment;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
