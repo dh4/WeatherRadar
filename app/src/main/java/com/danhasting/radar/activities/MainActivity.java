@@ -263,27 +263,24 @@ public class MainActivity extends AppCompatActivity
                     if (favorite != null && favorite.getSource() != 2)
                         startFavoriteView(favorite);
                     else
-                        startFormView();
+                        startRadarView();
 
                     if (classNameEquals("MainActivity"))
                         finish();
                 });
             });
         } else {
-            startFormView();
+            startRadarView();
 
             if (classNameEquals("MainActivity"))
                 finish();
         }
     }
 
-    private void startFormView() {
-        Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
-        selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        selectIntent.putExtra("selection", Source.NWS);
-
-        MainActivity.this.startActivity(selectIntent);
+    private void startRadarView() {
+        Intent radarWebsiteIntent = new Intent(MainActivity.this, RadarWebsiteActivity.class);
+        radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        MainActivity.this.startActivity(radarWebsiteIntent);
     }
 
     private void startFavoriteView(Favorite favorite) {
