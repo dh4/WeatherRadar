@@ -80,6 +80,7 @@ public class RadarWebsiteFragment extends Fragment {
 
                         Bundle result = new Bundle();
                         result.putString("settings", value);
+                        if (!isAdded() || getParentFragmentManager() == null) return;
                         getParentFragmentManager().setFragmentResult("current_settings", result);
                     });
                 }
