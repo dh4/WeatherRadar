@@ -19,7 +19,7 @@
 package com.danhasting.radar.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,6 +74,10 @@ public class RadarWebsiteFragment extends Fragment {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString("radar_website_settings", value);
                         editor.apply();
+
+                        Bundle result = new Bundle();
+                        result.putString("settings", value);
+                        getParentFragmentManager().setFragmentResult("current_settings", result);
                     });
                 }
             }

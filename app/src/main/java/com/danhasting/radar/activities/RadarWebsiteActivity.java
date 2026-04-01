@@ -61,6 +61,8 @@ public class RadarWebsiteActivity extends MainActivity {
     private MenuItem contextRemoveFavorite;
     private MenuItem contextEditFavorite;
 
+    private Boolean contextMenu = false;
+
     private RadarWebsiteFragment radarWebsiteFragment;
 
     @Override
@@ -86,7 +88,7 @@ public class RadarWebsiteActivity extends MainActivity {
 
         radarWebsiteFragment = new RadarWebsiteFragment();
         radarWebsiteFragment.setArguments(intent.getExtras());
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, radarWebsiteFragment).commit();
 
         ActionBar actionBar = getSupportActionBar();
@@ -96,16 +98,17 @@ public class RadarWebsiteActivity extends MainActivity {
         }
 
         sourceName = getResources().getString(R.string.nws);
+        setTitle(sourceName);
 
-        if (intent.getBooleanExtra("favorite", false)) {
-            radarName = intent.getStringExtra("name");
-            currentFavorite = intent.getIntExtra("favoriteID", -1);
-        } else
-            radarName = sourceName;
-
-
-        if (radarName != null)
-            setTitle(radarName);
+        // Listen for changed URL settings
+        getSupportFragmentManager().setFragmentResultListener(
+                "current_settings",
+                this,
+                (requestKey, bundle) -> {
+                    location = bundle.getString("settings");
+                    checkFavorite();
+                }
+        );
     }
 
     @Override
@@ -146,8 +149,10 @@ public class RadarWebsiteActivity extends MainActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeMenu(Menu menu, final Boolean contextMenu) {
+    private void initializeMenu(Menu menu, final Boolean context) {
         getMenuInflater().inflate(R.menu.radar_actions, menu);
+
+        contextMenu = context;
 
         if (contextMenu) {
             contextAddFavorite = menu.findItem(R.id.action_add_favorite);
@@ -160,38 +165,7 @@ public class RadarWebsiteActivity extends MainActivity {
             editFavorite.setVisible(false);
         }
 
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        service.submit(() -> {
-            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-            final List<Favorite> favorites = database.favoriteDao().findByLocation(Source.RADAR.getInt(), location);
-
-            runOnUiThread(() -> {
-                if (!favorites.isEmpty()) {
-                    radarName = favorites.get(0).getName();
-                    setTitle(radarName);
-
-                    if (contextMenu) {
-                        hideItem(contextAddFavorite);
-                        showItem(contextRemoveFavorite);
-                        showItem(contextEditFavorite);
-                    } else {
-                        hideItem(addFavorite);
-                        showItem(removeFavorite);
-                    }
-
-                    currentFavorite = favorites.get(0).getUid();
-                } else {
-                    if (contextMenu) {
-                        hideItem(contextRemoveFavorite);
-                        hideItem(contextEditFavorite);
-                        showItem(contextAddFavorite);
-                    } else {
-                        hideItem(removeFavorite);
-                        showItem(addFavorite);
-                    }
-                }
-            });
-        });
+        checkFavorite();
     }
 
     private void initializeMenu(Menu menu) {
@@ -354,6 +328,36 @@ public class RadarWebsiteActivity extends MainActivity {
                 .setPositiveButton(getString(R.string.button_yes), dialogListener)
                 .setNegativeButton(getString(R.string.button_no), dialogListener)
                 .show();
+    }
+
+    private void checkFavorite() {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(() -> {
+            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+            final List<Favorite> favorites = database.favoriteDao().findByLocation(Source.RADAR.getInt(), location);
+
+            runOnUiThread(() -> {
+                if (!favorites.isEmpty()) {
+                    if (contextMenu) {
+                        hideItem(contextAddFavorite);
+                        showItem(contextRemoveFavorite);
+                        showItem(contextEditFavorite);
+                    } else {
+                        hideItem(addFavorite);
+                        showItem(removeFavorite);
+                    }
+
+                    currentFavorite = favorites.get(0).getUid();
+                } else if (contextMenu) {
+                    hideItem(contextRemoveFavorite);
+                    hideItem(contextEditFavorite);
+                    showItem(contextAddFavorite);
+                } else {
+                    hideItem(removeFavorite);
+                    showItem(addFavorite);
+                }
+            });
+        });
     }
 
     private void refreshRadar() {
