@@ -32,12 +32,13 @@ import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
 import com.danhasting.radar.fragments.SelectMosaicFragment;
 import com.danhasting.radar.fragments.SelectNWSFragment;
+import com.danhasting.radar.fragments.RadarWebsiteFragment;
 
 public class SelectActivity extends MainActivity
         implements SelectNWSFragment.OnNWSSelectedListener,
         SelectMosaicFragment.OnMosaicSelectedListener {
 
-    private Source currentSelection = Source.NWS;
+    private Source currentSelection = Source.RADAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,9 @@ public class SelectActivity extends MainActivity
     public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         int id = menuItem.getItemId();
 
-        if (id == R.id.nav_nws)
+        if (id == R.id.nav_radar)
+            launchSelectionFragment(Source.RADAR);
+        else if (id == R.id.nav_nws)
             launchSelectionFragment(Source.NWS);
         else if (id == R.id.nav_mosaic)
             launchSelectionFragment(Source.MOSAIC);
@@ -87,6 +90,15 @@ public class SelectActivity extends MainActivity
         Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
 
         switch (selection) {
+            case RADAR:
+                if (!(fragment instanceof RadarWebsiteFragment) || force) {
+                    setTitle(R.string.select_radar_image);
+                    RadarWebsiteFragment radarWebsiteFragment = new RadarWebsiteFragment();
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, radarWebsiteFragment).commit();
+                }
+                break;
+
             case NWS:
                 if (!(fragment instanceof SelectNWSFragment) || force) {
                     setTitle(R.string.select_radar_image);

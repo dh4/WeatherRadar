@@ -8,8 +8,9 @@
 
     <!-- Nav Drawer -->
     <string name="header_title">Weather Radar</string>
-    <string name="nav_select">National Weather Service</string>
-    <string name="nav_mosaic">NWS Mosaic</string>
+    <string name="nav_radar">NWS Radar</string>
+    <string name="nav_select">NWS Images</string>
+    <string name="nav_mosaic">NWS Mosaics</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_favorites">Favorites</string>
 

@@ -175,7 +175,9 @@ public class MainActivity extends AppCompatActivity
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
             selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-            if (id == R.id.nav_nws)
+            if (id == R.id.nav_radar)
+                selectIntent.putExtra("selection", Source.RADAR);
+            else if (id == R.id.nav_nws)
                 selectIntent.putExtra("selection", Source.NWS);
             else if (id == R.id.nav_mosaic)
                 selectIntent.putExtra("selection", Source.MOSAIC);
