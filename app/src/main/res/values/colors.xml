@@ -6,4 +6,6 @@
     <color name="buttonBackground">#DDDDDD</color>
     <color name="buttonText">#000000</color>
     <color name="recentsTopBar">#EEEEEE</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="linkColor">#09427a</color>
 </resources>

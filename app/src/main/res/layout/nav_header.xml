@@ -16,7 +16,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/ic_settings" />
+        android:foreground="@drawable/ic_settings" />
 
     <Button
         android:id="@+id/nav_about"
@@ -24,7 +24,7 @@
         android:layout_height="28dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/ic_help" />
+        android:foreground="@drawable/ic_help" />
 
     <TextView
         android:layout_width="match_parent"
