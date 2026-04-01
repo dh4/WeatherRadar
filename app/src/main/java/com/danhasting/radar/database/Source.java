@@ -19,9 +19,9 @@
 package com.danhasting.radar.database;
 
 public enum Source {
-    RADAR(0),
-    NWS(1),
-    MOSAIC(2);
+    RADAR(3),
+    NWS(0),
+    MOSAIC(1);
 
     private final int sourceInt;
 

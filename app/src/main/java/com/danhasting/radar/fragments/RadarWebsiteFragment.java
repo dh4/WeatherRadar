@@ -34,15 +34,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 import com.danhasting.radar.R;
-import com.danhasting.radar.database.Source;
-
 
 
 public class RadarWebsiteFragment extends Fragment {
 
-    private Source source;
+    private String location;
 
     private WebView radarWebsiteView;
 
@@ -116,13 +115,48 @@ public class RadarWebsiteFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Bundle bundle = getArguments();
 
+        if (bundle != null)
+            location = bundle.getString("location");
+
+        if (location == null) location = "";
+
+        refreshRadarWebsite(location);
+    }
+
+    public void refreshRadarWebsite(String location) {
         String website_settings = settings.getString("radar_website_settings", "");
+
+        if (!location.isEmpty())
+            website_settings = location;
 
         if (!Objects.equals(website_settings, ""))
             radarWebsiteView.loadUrl("https://radar.weather.gov/?settings="+website_settings);
         else
             radarWebsiteView.loadUrl("https://radar.weather.gov/");
+    }
 
+    public String getCurrentSettings() {
+        Uri uri = Uri.parse(radarWebsiteView.getUrl());
+        return uri.getQueryParameter("settings");
+    }
+
+    public CompletableFuture<String> getCurrentLocationNameAsync() {
+        CompletableFuture<String> f = new CompletableFuture<>();
+        radarWebsiteView.evaluateJavascript(
+                "document.querySelector('.search-location').innerText;",
+                value -> {
+                    String result = "";
+                    if (value != null && !value.equals("null")) {
+                        result = value.replaceAll("^\"|\"$", "")
+                                .replaceAll("\\\\n", "\n")
+                                .replaceAll("\\\\t", "\t")
+                                .replaceAll("\\\\\"", "\"");
+                    }
+                    f.complete(result);
+                }
+        );
+        return f;
     }
 }

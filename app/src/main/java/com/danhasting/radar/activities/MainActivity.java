@@ -287,18 +287,28 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startFavoriteView(Favorite favorite) {
-        Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+        if (favorite.getSource().equals(Source.RADAR.getInt())) {
+            Intent radarWebsiteIntent = new Intent(MainActivity.this, RadarWebsiteActivity.class);
 
-        radarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
-        radarIntent.putExtra("location", favorite.getLocation());
-        radarIntent.putExtra("type", favorite.getType());
-        radarIntent.putExtra("loop", favorite.getLoop());
-        radarIntent.putExtra("enhanced", favorite.getEnhanced());
-        radarIntent.putExtra("distance", favorite.getDistance());
-        radarIntent.putExtra("favorite", true);
-        radarIntent.putExtra("name", favorite.getName());
-        radarIntent.putExtra("favoriteID", favorite.getUid());
-        MainActivity.this.startActivity(radarIntent);
+            radarWebsiteIntent.putExtra("location", favorite.getLocation());
+            radarWebsiteIntent.putExtra("favorite", true);
+            radarWebsiteIntent.putExtra("name", favorite.getName());
+            radarWebsiteIntent.putExtra("favoriteID", favorite.getUid());
+            MainActivity.this.startActivity(radarWebsiteIntent);
+        } else {
+            Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+
+            radarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
+            radarIntent.putExtra("location", favorite.getLocation());
+            radarIntent.putExtra("type", favorite.getType());
+            radarIntent.putExtra("loop", favorite.getLoop());
+            radarIntent.putExtra("enhanced", favorite.getEnhanced());
+            radarIntent.putExtra("distance", favorite.getDistance());
+            radarIntent.putExtra("favorite", true);
+            radarIntent.putExtra("name", favorite.getName());
+            radarIntent.putExtra("favoriteID", favorite.getUid());
+            MainActivity.this.startActivity(radarIntent);
+        }
     }
 
     Boolean onWifi() {

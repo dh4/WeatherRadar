@@ -2,13 +2,14 @@
     <string name="app_name">Weather Radar</string>
 
     <!-- Activity Headers -->
-    <string name="select_radar_image">National Weather Service</string>
-    <string name="select_mosaic_image">NWS Mosaic</string>
+    <string name="nws">National Weather Service</string>
+    <string name="select_nws_image">NWS Images</string>
+    <string name="select_mosaic_image">NWS Mosaics</string>
     <string name="about">About Weather Radar</string>
 
     <!-- Nav Drawer -->
     <string name="header_title">Weather Radar</string>
-    <string name="nav_radar">NWS Radar</string>
+    <string name="nav_radar">Enhanced Radar</string>
     <string name="nav_select">NWS Images</string>
     <string name="nav_mosaic">NWS Mosaics</string>
     <string name="nav_settings">Settings</string>

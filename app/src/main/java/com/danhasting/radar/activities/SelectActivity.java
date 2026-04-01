@@ -91,17 +91,15 @@ public class SelectActivity extends MainActivity
 
         switch (selection) {
             case RADAR:
-                if (!(fragment instanceof RadarWebsiteFragment) || force) {
-                    setTitle(R.string.select_radar_image);
-                    RadarWebsiteFragment radarWebsiteFragment = new RadarWebsiteFragment();
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, radarWebsiteFragment).commit();
-                }
+                Intent radarWebsiteIntent = new Intent(SelectActivity.this, RadarWebsiteActivity.class);
+                radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                SelectActivity.this.startActivity(radarWebsiteIntent);
                 break;
 
             case NWS:
                 if (!(fragment instanceof SelectNWSFragment) || force) {
-                    setTitle(R.string.select_radar_image);
+                    setTitle(R.string.select_nws_image);
                     SelectNWSFragment nwsFragment = new SelectNWSFragment();
                     getFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, nwsFragment).commit();
