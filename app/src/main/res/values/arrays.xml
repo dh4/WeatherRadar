@@ -434,4 +434,19 @@
         <item>dark</item>
     </array>
     <string name="theme_default">system</string>
+
+    <array name="default_view_names">
+        <item>Enhanced Radar</item>
+        <item>NWS Image Selection</item>
+        <item>NWS Mosaic Selection</item>
+        <item>Show Favorite</item>
+    </array>
+
+    <array name="default_view_values">
+        <item>radar</item>
+        <item>image</item>
+        <item>mosaic</item>
+        <item>favorite</item>
+    </array>
+    <string name="default_view_default">radar</string>
 </resources>

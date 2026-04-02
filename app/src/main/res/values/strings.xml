@@ -34,23 +34,21 @@
     <string name="button_no">No</string>
 
     <!-- Forms -->
-    <string name="view_nws_image">View Radar</string>
+    <string name="view_nws_image">View Image</string>
     <string name="view_mosaic_image">View Mosaic</string>
     <string name="location_text">Location</string>
     <string name="mosaic_text">Mosaic</string>
-    <string name="type_text">Observation</string>
     <string name="loop">Loop</string>
-    <string name="enhanced">Enhanced (loop not available)</string>
 
     <!-- Preferences -->
     <string name="general_title">General</string>
     <string name="nws_title">National Weather Service</string>
     <string name="theme_title">Theme</string>
-    <string name="theme_summary">Must restart to take effect</string>
-    <string name="show_favorite_title">Show favorite on startup</string>
-    <string name="show_favorite_summary">When to show a saved radar instead of the default view on application startup.</string>
+    <string name="theme_summary">Must restart to take effect.</string>
+    <string name="default_view_title">Default view</string>
+    <string name="default_view_summary">Set the default view on application startup.</string>
     <string name="default_favorite_title">Favorite to show</string>
-    <string name="default_favorite_summary">Select the favorite radar to show</string>
+    <string name="default_favorite_summary">Select the favorite radar to show.</string>
     <string name="auto_refresh_title">Auto refresh</string>
     <string name="auto_refresh_summary">When to automatically refresh radar images. Enabling this will use more data.</string>
     <string name="prompt_to_refresh_title">Prompt to refresh</string>
@@ -59,11 +57,10 @@
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
     <string name="show_fullscreen_title">Show fullscreen</string>
     <string name="show_fullscreen_summary">Hides the title and notification bar. Drag from the left side of the screen to access the menu.</string>
-    <string name="enhanced_layer_title">Enhanced image layers</string>
 
     <!-- About -->
     <string name="version">Version:</string>
-    <string name="copyright">Copyright © 2018&#8211;2021, Dan Hasting</string>
+    <string name="copyright">Copyright © 2018&#8211;2026, Dan Hasting</string>
     <string name="donate">Weather Radar is provided free of charge and with no advertisements. If you find it useful, please consider supporting my work.</string>
     <string name="donate_button">Donate</string>
     <string name="license_line1">Weather Radar is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</string>

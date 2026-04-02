@@ -249,9 +249,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startDefaultView() {
-        String show = settings.getString("show_favorite", getString(R.string.wifi_toggle_default));
+        String defaultView = settings.getString("default_view", getString(R.string.default_view_default));
 
-        if (show.equals("always") || show.equals("wifi") && onWifi()) {
+        if (defaultView.equals("favorite")) {
             String favID = settings.getString("default_favorite", "0");
             final int favoriteID = Integer.parseInt(favID);
 
@@ -270,18 +270,30 @@ public class MainActivity extends AppCompatActivity
                         finish();
                 });
             });
-        } else {
+        } else if (defaultView.equals("image"))
+            startFormView(Source.NWS);
+        else if (defaultView.equals("mosaic"))
+            startFormView(Source.MOSAIC);
+        else
             startRadarView();
 
-            if (classNameEquals("MainActivity"))
-                finish();
-        }
+        if (classNameEquals("MainActivity"))
+            finish();
     }
 
     private void startRadarView() {
         Intent radarWebsiteIntent = new Intent(MainActivity.this, RadarWebsiteActivity.class);
         radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         MainActivity.this.startActivity(radarWebsiteIntent);
+    }
+
+    private void startFormView(Source source) {
+        Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
+        selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+        selectIntent.putExtra("selection", source);
+
+        MainActivity.this.startActivity(selectIntent);
     }
 
     private void startFavoriteView(Favorite favorite) {

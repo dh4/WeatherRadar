@@ -12,12 +12,12 @@
             android:title="@string/theme_title" />
 
         <ListPreference
-            android:defaultValue="@string/wifi_toggle_default"
-            android:entries="@array/wifi_toggle_names"
-            android:entryValues="@array/wifi_toggle_values"
-            android:key="show_favorite"
-            android:summary="@string/show_favorite_summary"
-            android:title="@string/show_favorite_title" />
+            android:defaultValue="@string/default_view_default"
+            android:entries="@array/default_view_names"
+            android:entryValues="@array/default_view_values"
+            android:key="default_view"
+            android:summary="@string/default_view_summary"
+            android:title="@string/default_view_title" />
 
         <ListPreference
             android:defaultValue="1"

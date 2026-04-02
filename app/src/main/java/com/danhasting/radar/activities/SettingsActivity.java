@@ -76,7 +76,7 @@ public class SettingsActivity extends MainActivity {
             View root = super.onCreateView(inflater, container, savedInstanceState);
 
             final ListPreference selectedFavorite = findPreference("default_favorite");
-            final ListPreference showFavorite = findPreference("show_favorite");
+            final ListPreference defaultView = findPreference("default_view");
 
             ExecutorService service = Executors.newSingleThreadExecutor();
             service.submit(() -> {
@@ -86,9 +86,6 @@ public class SettingsActivity extends MainActivity {
                 if (favorites.isEmpty()) {
                     assert selectedFavorite != null;
                     selectedFavorite.setEnabled(false);
-                    assert showFavorite != null;
-                    showFavorite.setEnabled(false);
-                    showFavorite.setEnabled(false);
                 }
 
                 ArrayList<String> names = new ArrayList<>();
@@ -108,14 +105,21 @@ public class SettingsActivity extends MainActivity {
             });
 
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-            final String showDefault = getString(R.string.wifi_toggle_default);
-            String showFav = settings.getString("show_favorite", showDefault);
+            String defaultViewValue = settings.getString("default_view", getString(R.string.default_view_default));
             assert selectedFavorite != null;
-            selectedFavorite.setEnabled(!showFav.equals(showDefault));
+            selectedFavorite.setEnabled(defaultViewValue.equals("favorite"));
 
-            assert showFavorite != null;
-            showFavorite.setOnPreferenceChangeListener((preference, o) -> {
-                selectedFavorite.setEnabled(!o.toString().equals(showDefault));
+            assert defaultView != null;
+            defaultView.setOnPreferenceChangeListener((preference, o) -> {
+                service.submit(() -> {
+                    AppDatabase database = AppDatabase.getAppDatabase(getActivity());
+                    List<Favorite> favorites = database.favoriteDao().getList();
+
+                    if (!favorites.isEmpty())
+                        selectedFavorite.setEnabled(o.toString().equals("favorite"));
+                    else
+                        selectedFavorite.setEnabled(false);
+                });
                 return true;
             });
 
