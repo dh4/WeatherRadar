@@ -4,7 +4,8 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="alertDialogTheme">@style/AlertDialog</item>
     </style>
 
     <style name="PopupMenuStyle" parent="Theme.MaterialComponents.DayNight">
@@ -31,6 +32,18 @@
     <style name="buttonTheme">
         <item name="background">@color/buttonBackground</item>
         <item name="android:textColor">@color/buttonText</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/alertButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/alertButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/alertButton</item>
+        <item name="android:windowBackground">@color/dialogBackground</item>
+    </style>
+
+    <style name="alertButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@color/dialogButtonText</item>
     </style>
 
     <style name="layout_max_width">

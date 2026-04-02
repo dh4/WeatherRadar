@@ -55,8 +55,7 @@ public class RadarWebsiteActivity extends MainActivity {
 
     private String location;
 
-    private String sourceName;
-    private String radarName;
+    private String favoriteName;
 
     private MenuItem addFavorite;
     private MenuItem removeFavorite;
@@ -90,8 +89,10 @@ public class RadarWebsiteActivity extends MainActivity {
 
         setFullscreen();
 
-        sourceName = getResources().getString(R.string.nws);
-        setTitle(sourceName);
+        if (intent.getBooleanExtra("favorite", false))
+            favoriteName = intent.getStringExtra("name");
+
+        setTitle(getResources().getString(R.string.nws));
 
         // Listen for changed URL settings
         getSupportFragmentManager().setFragmentResultListener(
@@ -203,7 +204,7 @@ public class RadarWebsiteActivity extends MainActivity {
         EditText input = new EditText(this);
         input.setId(R.id.dialog_input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        if (radarName != null) input.setText(radarName);
+        if (favoriteName != null) input.setText(favoriteName);
         builder.setView(input);
 
         builder.setPositiveButton(button, (dialog, which) -> {
@@ -256,8 +257,7 @@ public class RadarWebsiteActivity extends MainActivity {
                         showItem(contextRemoveFavorite);
                         showItem(contextEditFavorite);
 
-                        radarName = name;
-                        setTitle(radarName);
+                        favoriteName = name;
                         dialog.dismiss();
                     });
                 }
@@ -284,15 +284,14 @@ public class RadarWebsiteActivity extends MainActivity {
                 } else if (exists) {
                     runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));
                 } else {
-                    Favorite favorite = database.favoriteDao().findByName(radarName);
+                    Favorite favorite = database.favoriteDao().findByName(favoriteName);
 
                     if (favorite != null) {
                         favorite.setName(name);
                         database.favoriteDao().updateFavorites(favorite);
 
                         runOnUiThread(() -> {
-                            radarName = name;
-                            setTitle(radarName);
+                            favoriteName = name;
                         });
                     }
 
@@ -321,8 +320,7 @@ public class RadarWebsiteActivity extends MainActivity {
                         hideItem(contextRemoveFavorite);
                         hideItem(contextEditFavorite);
 
-                        radarName = sourceName;
-                        setTitle(radarName);
+                        favoriteName = "";
                     });
                 });
             }
@@ -351,8 +349,6 @@ public class RadarWebsiteActivity extends MainActivity {
                         hideItem(addFavorite);
                         showItem(removeFavorite);
                     }
-
-                    currentFavorite = favorites.get(0).getUid();
                 } else if (contextMenu) {
                     hideItem(contextRemoveFavorite);
                     hideItem(contextEditFavorite);
