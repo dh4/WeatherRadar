@@ -43,12 +43,16 @@
     <!-- Preferences -->
     <string name="general_title">General</string>
     <string name="nws_title">National Weather Service</string>
+    <string name="theme_title">Theme</string>
+    <string name="theme_summary">Must restart to take effect</string>
     <string name="show_favorite_title">Show favorite on startup</string>
     <string name="show_favorite_summary">When to show a saved radar instead of the default view on application startup.</string>
     <string name="default_favorite_title">Favorite to show</string>
     <string name="default_favorite_summary">Select the favorite radar to show</string>
     <string name="auto_refresh_title">Auto refresh</string>
     <string name="auto_refresh_summary">When to automatically refresh radar images. Enabling this will use more data.</string>
+    <string name="prompt_to_refresh_title">Prompt to refresh</string>
+    <string name="prompt_to_refresh_summary">Prompt to refresh when manually refreshing images.</string>
     <string name="show_maximized_title">Show maximized</string>
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
     <string name="show_fullscreen_title">Show fullscreen</string>

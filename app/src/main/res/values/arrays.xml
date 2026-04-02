@@ -419,4 +419,17 @@
         <item>always</item>
     </array>
     <string name="wifi_toggle_default">never</string>
+
+    <array name="theme_names">
+        <item>System</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </array>
+
+    <array name="theme_values">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </array>
+    <string name="theme_default">system</string>
 </resources>

@@ -441,7 +441,7 @@ public class RadarActivity extends MainActivity {
     }
 
     private void refreshRadar() {
-        if (!refreshed) {
+        if (!refreshed || !settings.getBoolean("prompt_to_refresh",false)) {
             if (radarFragment != null) radarFragment.refreshRadar();
             scheduleRefresh();
         } else {

@@ -4,6 +4,14 @@
 
     <PreferenceCategory android:title="@string/general_title">
         <ListPreference
+            android:defaultValue="@string/theme_default"
+            android:entries="@array/theme_names"
+            android:entryValues="@array/theme_values"
+            android:key="theme"
+            android:summary="@string/theme_summary"
+            android:title="@string/theme_title" />
+
+        <ListPreference
             android:defaultValue="@string/wifi_toggle_default"
             android:entries="@array/wifi_toggle_names"
             android:entryValues="@array/wifi_toggle_values"
@@ -25,6 +33,12 @@
             android:key="auto_refresh"
             android:summary="@string/auto_refresh_summary"
             android:title="@string/auto_refresh_title" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prompt_to_refresh"
+            android:summary="@string/prompt_to_refresh_summary"
+            android:title="@string/prompt_to_refresh_title" />
 
         <CheckBoxPreference
             android:defaultValue="false"
