@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="?android:attr/actionBarSize">
 
     <PreferenceCategory android:title="@string/general_title">
@@ -26,6 +27,38 @@
             android:summary="@string/default_favorite_summary"
             android:title="@string/default_favorite_title" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/radar_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="show_radar_fullscreen"
+            android:summary="@string/show_fullscreen_summary"
+            android:title="@string/show_fullscreen_title" />
+
+        <androidx.preference.SeekBarPreference
+            android:defaultValue="100"
+            android:key="radar_scale"
+            android:title="@string/radar_scale_title"
+            android:max="100"
+            app:min="50"
+            app:showSeekBarValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/nws_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="show_fullscreen"
+            android:summary="@string/show_fullscreen_summary"
+            android:title="@string/show_fullscreen_title" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="show_maximized"
+            android:summary="@string/show_maximized_summary"
+            android:title="@string/show_maximized_title" />
+
         <ListPreference
             android:defaultValue="@string/wifi_toggle_default"
             android:entries="@array/wifi_toggle_names"
@@ -39,28 +72,6 @@
             android:key="prompt_to_refresh"
             android:summary="@string/prompt_to_refresh_summary"
             android:title="@string/prompt_to_refresh_title" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="show_fullscreen"
-            android:summary="@string/show_fullscreen_summary"
-            android:title="@string/show_fullscreen_title" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/nws_title">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="show_maximized"
-            android:summary="@string/show_maximized_summary"
-            android:title="@string/show_maximized_title" />
-
-<!--        <MultiSelectListPreference-->
-<!--            android:defaultValue="@array/enhanced_layer_default"-->
-<!--            android:entries="@array/enhanced_layer_names"-->
-<!--            android:entryValues="@array/enhanced_layer_values"-->
-<!--            android:key="enhanced_layers"-->
-<!--            android:title="@string/enhanced_layer_title" />-->
 
     </PreferenceCategory>
 

@@ -437,8 +437,8 @@
 
     <array name="default_view_names">
         <item>Enhanced Radar</item>
-        <item>NWS Image Selection</item>
-        <item>NWS Mosaic Selection</item>
+        <item>Image Selection</item>
+        <item>Mosaic Selection</item>
         <item>Show Favorite</item>
     </array>
 

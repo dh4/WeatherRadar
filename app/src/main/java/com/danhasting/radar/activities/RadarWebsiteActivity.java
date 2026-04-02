@@ -109,8 +109,10 @@ public class RadarWebsiteActivity extends MainActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data.getBooleanExtra("from_settings", false))
+        if (data.getBooleanExtra("from_settings", false)) {
             setFullscreen();
+            refreshRadar();
+        }
     }
 
     @Override
@@ -367,7 +369,7 @@ public class RadarWebsiteActivity extends MainActivity {
 
     private void setFullscreen() {
         boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("show_fullscreen", false);
+                .getBoolean("show_radar_fullscreen", false);
 
         Window window = getWindow();
 

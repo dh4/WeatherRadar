@@ -92,6 +92,8 @@ public class RadarWebsiteFragment extends Fragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+
+                // Remove website header
                 String css = "header { display: none !important; } main { inset: 0px !important; }";
 
                 String js = "(function(){" +
@@ -103,6 +105,7 @@ public class RadarWebsiteFragment extends Fragment {
                         "})()";
                 view.evaluateJavascript(js, null);
 
+                // Allow capturing URL changes
                 String js2 = "(() => {"
                         + "function notify() { AndroidBridge.onUrlChanged(window.location.href); }"
                         + "const _pushState = history.pushState;"
@@ -114,6 +117,18 @@ public class RadarWebsiteFragment extends Fragment {
                         + "notify();"
                         + "})()";
                 view.evaluateJavascript(js2, null);
+
+                // Set the overlay scale from settings
+                int scale = settings.getInt("radar_scale",100);
+                float scaleFactor = scale / 100f;
+
+                String js3 = "document.querySelector('meta[name=viewport]')?.setAttribute('content', 'width=device-width, initial-scale="
+                        + scaleFactor + ", maximum-scale=1.0');"
+                        + "if(!document.querySelector('meta[name=viewport]')){"
+                        + "var m=document.createElement('meta');m.name='viewport';m.content='width=device-width, initial-scale="
+                        + scaleFactor + "';document.head.appendChild(m);}";
+
+                view.evaluateJavascript(js3, null);
             }
 
             @Override
