@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Weather Radar</string>
+
     <string name="radar_website">https://radar.weather.gov/</string>
+    <string name="radar_images_location">https://radar.weather.gov/ridge/standard/</string>
 
     <!-- Activity Headers -->
     <string name="nws">National Weather Service</string>

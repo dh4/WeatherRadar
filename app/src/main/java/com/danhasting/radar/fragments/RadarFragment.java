@@ -74,20 +74,14 @@ public class RadarFragment extends Fragment {
         source = (Source) bundle.getSerializable("source");
         String location = bundle.getString("location");
         Boolean loop = bundle.getBoolean("loop", false);
-        String type = bundle.getString("type");
-        boolean enhanced = bundle.getBoolean("enhanced", false);
 
         if (source == null) source = Source.NWS;
-        if (type == null) type = "";
         if (location == null) location = "";
 
-        if (enhanced) {
-            radarWebView.loadDataWithBaseURL(null, displayEnhancedRadar(location, type), "text/html", "UTF-8", null);
-        } else if (source == Source.MOSAIC) {
+        if (source == Source.MOSAIC)
             radarWebView.loadDataWithBaseURL(null, displayMosaicImage(location, loop), "text/html", "UTF-8", null);
-        } else {
+        else
             radarWebView.loadDataWithBaseURL(null, displayLiteImage(location, loop), "text/html", "UTF-8", null);
-        }
     }
 
     public void refreshRadar() {
@@ -96,23 +90,21 @@ public class RadarFragment extends Fragment {
     }
 
     private String displayMosaicImage(String mosaic, Boolean loop) {
-        String url = "https://radar.weather.gov/ridge/standard/";
-        if (loop) {
+        String url = getString(R.string.radar_images_location);
+        if (loop)
             url += mosaic + "_loop.gif";
-        } else {
+        else
             url += mosaic + "_0.gif";
-        }
 
         return displayRadar(url);
     }
 
     private String displayLiteImage(String loc, Boolean loop) {
-        String url = "https://radar.weather.gov/ridge/standard/";
-        if (loop) {
+        String url = getString(R.string.radar_images_location);
+        if (loop)
             url += loc + "_loop.gif";
-        } else {
+        else
             url += loc + "_0.gif";
-        }
 
         return displayRadar(url);
     }
@@ -125,47 +117,6 @@ public class RadarFragment extends Fragment {
         html.set("url", url);
         if (source != null)
             html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
-
-        return html.toString();
-    }
-
-    private String displayEnhancedRadar(String location, String type) {
-        AndroidTemplates loader = new AndroidTemplates(requireActivity().getBaseContext());
-        Theme theme = new Theme(loader);
-
-        Chunk html = theme.makeChunk("enhanced_radar");
-        html.set("location", location);
-        html.set("type", type);
-        html.set("maximized", Boolean.toString(settings.getBoolean("show_maximized", false)));
-
-        if (type.equals("N0Z"))
-            html.set("distance", "Long");
-        else
-            html.set("distance", "Short");
-
-        String[] layers;
-        Set<String> layersSet = settings.getStringSet("enhanced_layers", null);
-        if (layersSet != null)
-            layers = layersSet.toArray(new String[]{});
-        else
-            layers = getResources().getStringArray(R.array.enhanced_layer_default);
-
-        if (Arrays.asList(layers).contains("0"))
-            html.set("image0", "true");
-        if (Arrays.asList(layers).contains("1"))
-            html.set("image1", "true");
-        if (Arrays.asList(layers).contains("2"))
-            html.set("image2", "true");
-        if (Arrays.asList(layers).contains("3"))
-            html.set("image3", "true");
-        if (Arrays.asList(layers).contains("4"))
-            html.set("image4", "true");
-        if (Arrays.asList(layers).contains("5"))
-            html.set("image5", "true");
-        if (Arrays.asList(layers).contains("6"))
-            html.set("image6", "true");
-        if (Arrays.asList(layers).contains("7"))
-            html.set("image7", "true");
 
         return html.toString();
     }
