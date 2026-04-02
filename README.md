@@ -4,7 +4,7 @@
 
 Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service.
 
-The images are single images based on location rather than tiled images that can be panned like most other applications of this type. This allows faster loading when connection speeds are sub-optimal. You can save your favorite views for easy reference.
+There are two radar options: an "enhanced" radar with pan and zoom capabilities and single images based on location. The single images can be faster to load when connection speeds are sub-optimal. You can save your favorite views for easy reference.
 
 National Weather Service radar imagery is available for the United States and its territories.
 
@@ -18,8 +18,8 @@ APKs are also available on the [releases](https://github.com/dh4/WeatherRadar/re
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="Screen Shot" width="250" />
-<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="Screen Shot" width="250" />
-<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" alt="Screen Shot" width="250" />
+<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="Screen Shot" width="250" />
+<img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" alt="Screen Shot" width="250" />
 </p>
 
 ## Support
@@ -31,3 +31,6 @@ https://dh4.github.io/donate/
 ## Privacy
 
 Weather Radar does not collect user data of any kind.
+
+It does make web requests to weather.gov. Their privacy policy can be found here:
+https://www.weather.gov/privacy/
