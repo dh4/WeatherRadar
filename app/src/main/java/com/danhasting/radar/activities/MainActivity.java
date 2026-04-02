@@ -256,6 +256,13 @@ public class MainActivity extends AppCompatActivity
                 String favID = settings.getString("default_favorite", "0");
                 final int favoriteID = Integer.parseInt(favID);
 
+                // Start an activity first before starting another thread
+                // So we don't get a weird artifact on app startup
+                if (onWifi())
+                    startRadarView();
+                else
+                    startFormView(Source.NWS);
+
                 ExecutorService service = Executors.newSingleThreadExecutor();
                 service.submit(() -> {
                     AppDatabase database = AppDatabase.getAppDatabase(getApplication());
@@ -264,8 +271,6 @@ public class MainActivity extends AppCompatActivity
                     runOnUiThread(() -> {
                         if (favorite != null)
                             startFavoriteView(favorite);
-                        else
-                            startRadarView();
 
                         if (classNameEquals("MainActivity"))
                             finish();
