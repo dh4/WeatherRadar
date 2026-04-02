@@ -18,15 +18,21 @@
  */
 package com.danhasting.radar.helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.EditText;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
@@ -41,7 +47,7 @@ import java.util.concurrent.Executors;
 public class RadarMenu {
     public interface Ui {
         Context getContext();
-        Activity getActivity();
+        AppCompatActivity getActivity();
         void setTitle(CharSequence title);
         void refreshRadar();
         void setCurrentFavorite(Integer favorite);
@@ -312,5 +318,44 @@ public class RadarMenu {
                 }
             });
         });
+    }
+
+    public void setFullscreen(boolean fullscreen) {
+        Window window = ui.getActivity().getWindow();
+
+        if (fullscreen) {
+            WindowCompat.setDecorFitsSystemWindows(window, false);
+
+            WindowInsetsControllerCompat insetsController =
+                    new WindowInsetsControllerCompat(window, window.getDecorView());
+
+            insetsController.setSystemBarsBehavior(
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+
+            insetsController.hide(WindowInsetsCompat.Type.systemBars());
+        } else {
+            WindowCompat.setDecorFitsSystemWindows(window, true);
+
+            WindowInsetsControllerCompat insetsController =
+                    new WindowInsetsControllerCompat(window, window.getDecorView());
+
+            insetsController.show(WindowInsetsCompat.Type.systemBars());
+            insetsController.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_DEFAULT);
+        }
+
+        ActionBar actionBar = ui.getActivity().getSupportActionBar();
+        if (fullscreen && actionBar != null) {
+            ui.getActivity().getSupportActionBar().hide();
+            ui.getActivity().findViewById(R.id.radarWebsiteLayout).setPadding(0, 0, 0, 0);
+        } else if (!fullscreen && actionBar != null) {
+            actionBar.show();
+
+            TypedValue tv = new TypedValue();
+            int actionBarHeight = 0;
+            if (ui.getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, ui.getActivity().getResources().getDisplayMetrics());
+
+            ui.getActivity().findViewById(R.id.radarWebsiteLayout).setPadding(0, actionBarHeight, 0, 0);
+        }
     }
 }

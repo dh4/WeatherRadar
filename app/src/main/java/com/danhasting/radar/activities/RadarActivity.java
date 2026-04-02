@@ -18,7 +18,6 @@
  */
 package com.danhasting.radar.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,14 +27,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
@@ -74,19 +70,8 @@ public class RadarActivity extends MainActivity implements RadarMenu.Ui {
                 .getBoolean("show_fullscreen", false);
 
         radarMenu = new RadarMenu(this);
-
-        if (fullscreen) {
-            Window window = getWindow();
-            WindowCompat.setDecorFitsSystemWindows(window, false);
-
-            WindowInsetsControllerCompat insetsController =
-                    new WindowInsetsControllerCompat(window, window.getDecorView());
-
-            insetsController.setSystemBarsBehavior(
-                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-
-            insetsController.hide(WindowInsetsCompat.Type.systemBars());
-        }
+        radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("show_fullscreen", false));
 
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -278,7 +263,7 @@ public class RadarActivity extends MainActivity implements RadarMenu.Ui {
 
     // Ui interface implementations:
     @Override public Context getContext() { return this; }
-    @Override public Activity getActivity() { return this; }
+    @Override public AppCompatActivity getActivity() { return this; }
     @Override public void setTitle(CharSequence title) { super.setTitle(title == null ? sourceName : title); }
     @Override public int getSourceInt() { return source.getInt(); }
     @Override public String getLocation() { return location; }

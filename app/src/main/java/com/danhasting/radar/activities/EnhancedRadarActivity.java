@@ -18,24 +18,18 @@
  */
 package com.danhasting.radar.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
-import androidx.appcompat.app.ActionBar;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
@@ -77,7 +71,8 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
             radarMenu.setFavoriteName(intent.getStringExtra("name"));
 
         setTitle(getResources().getString(R.string.nws));
-        setFullscreen();
+        radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
+                .getBoolean("show_radar_fullscreen", false));
 
         // Listen for changed URL settings
         getSupportFragmentManager().setFragmentResultListener(
@@ -95,7 +90,8 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data.getBooleanExtra("from_settings", false)) {
-            setFullscreen();
+            radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(this)
+                    .getBoolean("show_radar_fullscreen", false));
             refreshRadar();
         }
     }
@@ -104,7 +100,8 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        setFullscreen();
+        radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
+                .getBoolean("show_radar_fullscreen", false));
 
         Bundle extras = intent.getExtras();
 
@@ -144,50 +141,10 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         if (radarWebsiteFragment != null) radarWebsiteFragment.refreshRadarWebsite("");
     }
 
-    private void setFullscreen() {
-        boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("show_radar_fullscreen", false);
 
-        Window window = getWindow();
-
-        if (fullscreen) {
-            WindowCompat.setDecorFitsSystemWindows(window, false);
-
-            WindowInsetsControllerCompat insetsController =
-                    new WindowInsetsControllerCompat(window, window.getDecorView());
-
-            insetsController.setSystemBarsBehavior(
-                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-
-            insetsController.hide(WindowInsetsCompat.Type.systemBars());
-        } else {
-            WindowCompat.setDecorFitsSystemWindows(window, true);
-
-            WindowInsetsControllerCompat insetsController =
-                    new WindowInsetsControllerCompat(window, window.getDecorView());
-
-            insetsController.show(WindowInsetsCompat.Type.systemBars());
-            insetsController.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_DEFAULT);
-        }
-
-        ActionBar actionBar = getSupportActionBar();
-        if (fullscreen && actionBar != null) {
-            getSupportActionBar().hide();
-            findViewById(R.id.radarWebsiteLayout).setPadding(0, 0, 0, 0);
-        } else if (!fullscreen && actionBar != null) {
-            actionBar.show();
-
-            TypedValue tv = new TypedValue();
-            int actionBarHeight = 0;
-            if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-
-            findViewById(R.id.radarWebsiteLayout).setPadding(0, actionBarHeight, 0, 0);
-        }
-    }
 
     @Override public Context getContext() { return this; }
-    @Override public Activity getActivity() { return this; }
+    @Override public AppCompatActivity getActivity() { return this; }
     @Override public void setTitle(CharSequence title) { super.setTitle(getResources().getString(R.string.nws)); } // Keep the title static
     @Override public int getSourceInt() { return Source.RADAR.getInt(); }
     @Override public String getLocation() {

@@ -251,31 +251,31 @@ public class MainActivity extends AppCompatActivity
     private void startDefaultView() {
         String defaultView = settings.getString("default_view", getString(R.string.default_view_default));
 
-        if (defaultView.equals("favorite")) {
-            String favID = settings.getString("default_favorite", "0");
-            final int favoriteID = Integer.parseInt(favID);
+        switch (defaultView) {
+            case "favorite" -> {
+                String favID = settings.getString("default_favorite", "0");
+                final int favoriteID = Integer.parseInt(favID);
 
-            ExecutorService service = Executors.newSingleThreadExecutor();
-            service.submit(() -> {
-                AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                final Favorite favorite = database.favoriteDao().loadById(favoriteID);
+                ExecutorService service = Executors.newSingleThreadExecutor();
+                service.submit(() -> {
+                    AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+                    final Favorite favorite = database.favoriteDao().loadById(favoriteID);
 
-                runOnUiThread(() -> {
-                    if (favorite != null)
-                        startFavoriteView(favorite);
-                    else
-                        startRadarView();
+                    runOnUiThread(() -> {
+                        if (favorite != null)
+                            startFavoriteView(favorite);
+                        else
+                            startRadarView();
 
-                    if (classNameEquals("MainActivity"))
-                        finish();
+                        if (classNameEquals("MainActivity"))
+                            finish();
+                    });
                 });
-            });
-        } else if (defaultView.equals("image"))
-            startFormView(Source.NWS);
-        else if (defaultView.equals("mosaic"))
-            startFormView(Source.MOSAIC);
-        else
-            startRadarView();
+            }
+            case "image" -> startFormView(Source.NWS);
+            case "mosaic" -> startFormView(Source.MOSAIC);
+            default -> startRadarView();
+        }
 
         if (classNameEquals("MainActivity"))
             finish();

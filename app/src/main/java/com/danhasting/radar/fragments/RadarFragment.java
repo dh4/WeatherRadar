@@ -36,8 +36,6 @@ import com.x5.template.Chunk;
 import com.x5.template.Theme;
 import com.x5.template.providers.AndroidTemplates;
 
-import java.util.Arrays;
-import java.util.Set;
 
 public class RadarFragment extends Fragment {
 
