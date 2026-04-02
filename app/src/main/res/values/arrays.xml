@@ -245,7 +245,7 @@
         <item>KPAH</item>
         <item>KPOE</item>
         <item>KLCH</item>
-        <item>KLIX</item>
+        <item>KHDC</item>
         <item>KSHV</item>
         <item>KCBW</item>
         <item>KGYX</item>
@@ -343,6 +343,7 @@
         <item>Central Great Lakes</item>
         <item>Guam</item>
         <item>Hawaii</item>
+        <item>Mid-Atlantic</item>
         <item>National</item>
         <item>National (Full Resolution)</item>
         <item>Northeast</item>
@@ -362,6 +363,7 @@
         <item>CENTGRLAKES</item>
         <item>GUAM</item>
         <item>HAWAII</item>
+        <item>MIDATLANTIC</item>
         <item>CONUS</item>
         <item>CONUS-LARGE</item>
         <item>NORTHEAST</item>
