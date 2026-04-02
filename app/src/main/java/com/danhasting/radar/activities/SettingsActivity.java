@@ -18,20 +18,20 @@
  */
 package com.danhasting.radar.activities;
 
-import android.app.ActivityManager.TaskDescription;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.core.content.ContextCompat;
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.preference.ListPreference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
@@ -43,60 +43,50 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set color of the top bar on the recents screen
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
-            TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
-                    ContextCompat.getColor(getApplicationContext(), R.color.recentsTopBar));
-            setTaskDescription(taskDesc);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (inflater != null) {
+            View contentView = inflater.inflate(R.layout.activity_settings, drawerLayout, false);
+            drawerLayout.addView(contentView, 0);
         }
 
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
-        setTitle(R.string.nav_settings);
-        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("from_settings", true);
-        setResult(RESULT_OK, intent);
-
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+            setTitle(R.string.nav_settings);
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    public static class SettingsFragment extends PreferenceFragment {
+
+    public static class SettingsFragment extends PreferenceFragmentCompat {
 
         @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences);
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            // load preferences from XML
+            setPreferencesFromResource(R.xml.preferences, rootKey);
+        }
 
-            final ListPreference selectedFavorite = (ListPreference) findPreference("default_favorite");
-            final ListPreference showFavorite = (ListPreference) findPreference("show_favorite");
+        @NonNull
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View root = super.onCreateView(inflater, container, savedInstanceState);
+
+            final ListPreference selectedFavorite = findPreference("default_favorite");
+            final ListPreference showFavorite = findPreference("show_favorite");
 
             ExecutorService service = Executors.newSingleThreadExecutor();
             service.submit(() -> {
                 AppDatabase database = AppDatabase.getAppDatabase(getActivity());
                 List<Favorite> favorites = database.favoriteDao().getList();
 
-                if (favorites.size() == 0) {
+                if (favorites.isEmpty()) {
+                    assert selectedFavorite != null;
                     selectedFavorite.setEnabled(false);
+                    assert showFavorite != null;
                     showFavorite.setEnabled(false);
                     showFavorite.setEnabled(false);
                 }
@@ -112,19 +102,37 @@ public class SettingsActivity extends PreferenceActivity {
                 CharSequence[] n = names.toArray(new CharSequence[0]);
                 CharSequence[] v = values.toArray(new CharSequence[0]);
 
+                assert selectedFavorite != null;
                 selectedFavorite.setEntries(n);
                 selectedFavorite.setEntryValues(v);
             });
 
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(requireActivity());
             final String showDefault = getString(R.string.wifi_toggle_default);
             String showFav = settings.getString("show_favorite", showDefault);
+            assert selectedFavorite != null;
             selectedFavorite.setEnabled(!showFav.equals(showDefault));
 
+            assert showFavorite != null;
             showFavorite.setOnPreferenceChangeListener((preference, o) -> {
                 selectedFavorite.setEnabled(!o.toString().equals(showDefault));
                 return true;
             });
+
+
+            // Tell previous activity if we came from settings
+            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        Intent intent = new Intent();
+                        intent.putExtra("from_settings", true);
+                        requireActivity().setResult(Activity.RESULT_OK, intent);
+                        requireActivity().finish();
+                    }
+                });
+
+            return root;
         }
     }
 }

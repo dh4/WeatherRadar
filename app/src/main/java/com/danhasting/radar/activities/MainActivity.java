@@ -18,35 +18,34 @@
  */
 package com.danhasting.radar.activities;
 
-import android.app.ActivityManager.TaskDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
@@ -70,12 +69,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set color of the top bar on the recents screen
-        Bitmap app_icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
-        TaskDescription taskDesc = new TaskDescription(getString(R.string.app_name), app_icon,
-                ContextCompat.getColor(getApplicationContext(), R.color.recentsTopBar));
-        setTaskDescription(taskDesc);
-
         setContentView(R.layout.activity_main);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -88,10 +81,6 @@ public class MainActivity extends AppCompatActivity
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),
-                R.color.colorPrimaryDark));
 
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -123,18 +112,21 @@ public class MainActivity extends AppCompatActivity
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FavoriteViewModel viewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+        FavoriteViewModel viewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
         viewModel.getFavorites().observe(this, favorites -> {
             if (favorites != null)
                 populateFavorites(navigationView.getMenu(), favorites);
         });
 
+        ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {}
+        );
 
         Button settingsButton = navigationView.getHeaderView(0).findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(view -> {
             drawerLayout.closeDrawers();
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivityForResult(settingsIntent, 1);
+            settingsLauncher.launch(settingsIntent);
         });
 
         Button aboutButton = navigationView.getHeaderView(0).findViewById(R.id.nav_about);
@@ -156,13 +148,6 @@ public class MainActivity extends AppCompatActivity
             editor.putBoolean("first_run", false);
             editor.apply();
         }
-
-        // Remove old Wunderground favorites
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        service.submit(() -> {
-            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-            database.favoriteDao().deleteWunderground();
-        });
     }
 
     @Override
@@ -175,7 +160,9 @@ public class MainActivity extends AppCompatActivity
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
             selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-            if (id == R.id.nav_nws)
+            if (id == R.id.nav_radar)
+                selectIntent.putExtra("selection", Source.RADAR);
+            else if (id == R.id.nav_nws)
                 selectIntent.putExtra("selection", Source.NWS);
             else if (id == R.id.nav_mosaic)
                 selectIntent.putExtra("selection", Source.MOSAIC);
@@ -186,14 +173,14 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        if (id != currentFavorite) {
-            ExecutorService service = Executors.newSingleThreadExecutor();
-            service.submit(() -> {
-                AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                Favorite favorite = database.favoriteDao().loadById(id);
-                if (favorite != null) startFavoriteView(favorite);
-            });
-        }
+
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(() -> {
+            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+            Favorite favorite = database.favoriteDao().loadById(id);
+            if (favorite != null && (id != currentFavorite || favorite.getSource().equals(Source.RADAR.getInt())))
+                startFavoriteView(favorite);
+        });
 
         return true;
     }
@@ -236,6 +223,8 @@ public class MainActivity extends AppCompatActivity
 
     private void populateFavorites(Menu menu, List<Favorite> favorites) {
         SubMenu favMenu = menu.findItem(R.id.nav_favorites).getSubMenu();
+
+        assert favMenu != null;
         favMenu.clear();
 
         int i = 0;
@@ -258,54 +247,64 @@ public class MainActivity extends AppCompatActivity
                 final Favorite favorite = database.favoriteDao().loadById(favoriteID);
 
                 runOnUiThread(() -> {
-                    if (favorite != null && favorite.getSource() != 2)
+                    if (favorite != null)
                         startFavoriteView(favorite);
                     else
-                        startFormView();
+                        startRadarView();
 
                     if (classNameEquals("MainActivity"))
                         finish();
                 });
             });
         } else {
-            startFormView();
+            startRadarView();
 
             if (classNameEquals("MainActivity"))
                 finish();
         }
     }
 
-    private void startFormView() {
-        Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
-        selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        selectIntent.putExtra("selection", Source.NWS);
-
-        MainActivity.this.startActivity(selectIntent);
+    private void startRadarView() {
+        Intent radarWebsiteIntent = new Intent(MainActivity.this, RadarWebsiteActivity.class);
+        radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        MainActivity.this.startActivity(radarWebsiteIntent);
     }
 
     private void startFavoriteView(Favorite favorite) {
-        Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+        if (favorite.getSource().equals(Source.RADAR.getInt())) {
+            Intent radarWebsiteIntent = new Intent(MainActivity.this, RadarWebsiteActivity.class);
+            radarWebsiteIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        radarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
-        radarIntent.putExtra("location", favorite.getLocation());
-        radarIntent.putExtra("type", favorite.getType());
-        radarIntent.putExtra("loop", favorite.getLoop());
-        radarIntent.putExtra("enhanced", favorite.getEnhanced());
-        radarIntent.putExtra("distance", favorite.getDistance());
-        radarIntent.putExtra("favorite", true);
-        radarIntent.putExtra("name", favorite.getName());
-        radarIntent.putExtra("favoriteID", favorite.getUid());
-        MainActivity.this.startActivity(radarIntent);
+            radarWebsiteIntent.putExtra("location", favorite.getLocation());
+            radarWebsiteIntent.putExtra("favorite", true);
+            radarWebsiteIntent.putExtra("name", favorite.getName());
+            radarWebsiteIntent.putExtra("favoriteID", favorite.getUid());
+            MainActivity.this.startActivity(radarWebsiteIntent);
+            overridePendingTransition(0,0);
+        } else {
+            Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
+
+            radarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
+            radarIntent.putExtra("location", favorite.getLocation());
+            radarIntent.putExtra("type", favorite.getType());
+            radarIntent.putExtra("loop", favorite.getLoop());
+            radarIntent.putExtra("enhanced", favorite.getEnhanced());
+            radarIntent.putExtra("distance", favorite.getDistance());
+            radarIntent.putExtra("favorite", true);
+            radarIntent.putExtra("name", favorite.getName());
+            radarIntent.putExtra("favoriteID", favorite.getUid());
+            MainActivity.this.startActivity(radarIntent);
+        }
     }
 
     Boolean onWifi() {
         ConnectivityManager m = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (m != null) {
-            NetworkInfo netInfo = m.getActiveNetworkInfo();
-            if (netInfo != null)
-                return netInfo.getType() == ConnectivityManager.TYPE_WIFI;
-            else
+            Network netInfo = m.getActiveNetwork();
+            if (netInfo != null) {
+                NetworkCapabilities caps = m.getNetworkCapabilities(netInfo);
+                return caps != null && caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+            } else
                 return false;
         }
         return false;

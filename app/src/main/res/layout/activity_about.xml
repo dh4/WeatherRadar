@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize"
+    android:background="@color/windowBackground"
     tools:context="com.danhasting.radar.activities.AboutActivity">
 
     <ScrollView
@@ -79,6 +80,7 @@
                 android:layout_marginBottom="20dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
+                android:textColor="@color/buttonText"
                 android:text="@string/donate_button" />
 
             <TextView
@@ -108,6 +110,7 @@
                 android:gravity="center"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
+                android:textColor="@color/buttonText"
                 android:text="@string/github_button" />
 
             <Button
@@ -121,6 +124,7 @@
                 android:gravity="center"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
+                android:textColor="@color/buttonText"
                 android:text="@string/issue_button" />
 
             <Button
@@ -133,6 +137,7 @@
                 android:layout_marginBottom="30dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
+                android:textColor="@color/buttonText"
                 android:text="@string/contact_button" />
 
             <TextView
@@ -152,6 +157,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="10dp"
+                android:textColorLink="@color/linkColor"
                 android:text="@string/nws_line1" />
 
             <TextView
@@ -161,6 +167,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="10dp"
+                android:textColorLink="@color/linkColor"
                 android:text="@string/nws_line2" />
 
             <TextView

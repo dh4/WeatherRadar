@@ -18,7 +18,6 @@
  */
 package com.danhasting.radar.activities;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +26,8 @@ import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
@@ -37,7 +38,7 @@ public class SelectActivity extends MainActivity
         implements SelectNWSFragment.OnNWSSelectedListener,
         SelectMosaicFragment.OnMosaicSelectedListener {
 
-    private Source currentSelection = Source.NWS;
+    private Source currentSelection = Source.RADAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,9 @@ public class SelectActivity extends MainActivity
     public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
         int id = menuItem.getItemId();
 
-        if (id == R.id.nav_nws)
+        if (id == R.id.nav_radar)
+            launchSelectionFragment(Source.RADAR);
+        else if (id == R.id.nav_nws)
             launchSelectionFragment(Source.NWS);
         else if (id == R.id.nav_mosaic)
             launchSelectionFragment(Source.MOSAIC);
@@ -84,14 +87,21 @@ public class SelectActivity extends MainActivity
     }
 
     private void launchSelectionFragment(Source selection, Boolean force) {
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         switch (selection) {
+            case RADAR:
+                Intent radarWebsiteIntent = new Intent(SelectActivity.this, RadarWebsiteActivity.class);
+                radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                SelectActivity.this.startActivity(radarWebsiteIntent);
+                break;
+
             case NWS:
                 if (!(fragment instanceof SelectNWSFragment) || force) {
-                    setTitle(R.string.select_radar_image);
+                    setTitle(R.string.select_nws_image);
                     SelectNWSFragment nwsFragment = new SelectNWSFragment();
-                    getFragmentManager().beginTransaction()
+                    getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, nwsFragment).commit();
                 }
                 break;
@@ -100,7 +110,7 @@ public class SelectActivity extends MainActivity
                 if (!(fragment instanceof SelectMosaicFragment) || force) {
                     setTitle(R.string.select_mosaic_image);
                     SelectMosaicFragment mosaicFragment = new SelectMosaicFragment();
-                    getFragmentManager().beginTransaction()
+                    getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, mosaicFragment).commit();
                 }
                 break;

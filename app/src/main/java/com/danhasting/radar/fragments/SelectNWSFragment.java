@@ -18,12 +18,9 @@
  */
 package com.danhasting.radar.fragments;
 
-import android.app.Fragment;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +28,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.danhasting.radar.R;
 
@@ -49,20 +49,11 @@ public class SelectNWSFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_select_nws, container, false);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-//        Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
-//        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(
-//                getActivity(), R.array.type_names, android.R.layout.simple_spinner_dropdown_item);
-//        typeSpinner.setAdapter(typeAdapter);
-//
-//        String type = settings.getString("last_nws_type", "");
-//        int index = Arrays.asList(getResources().getStringArray(R.array.type_values)).indexOf(type);
-//        typeSpinner.setSelection(index);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         Spinner locationSpinner = view.findViewById(R.id.locationSpinner);
         ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(
-                getActivity(), R.array.location_names, android.R.layout.simple_spinner_dropdown_item);
+                requireActivity(), R.array.location_names, android.R.layout.simple_spinner_dropdown_item);
         locationSpinner.setAdapter(locationAdapter);
 
         String location = settings.getString("last_nws_location", "");
@@ -72,20 +63,6 @@ public class SelectNWSFragment extends Fragment {
         final SwitchCompat loopSwitch = view.findViewById(R.id.loopSwitch);
         loopSwitch.setChecked(settings.getBoolean("last_nws_loop", false));
 
-//        SwitchCompat enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
-//        if (settings.getBoolean("last_nws_enhanced", false)) {
-//            enhancedSwitch.setChecked(true);
-//            loopSwitch.setEnabled(false);
-//        }
-
-//        enhancedSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                loopSwitch.setEnabled(false);
-//            } else {
-//                loopSwitch.setEnabled(true);
-//            }
-//        });
-
         Button viewButton = view.findViewById(R.id.viewButton);
         viewButton.setOnClickListener(view -> viewRadar());
 
@@ -93,39 +70,22 @@ public class SelectNWSFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
         try {
             callback = (OnNWSSelectedListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnNWSSelectedListener");
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        try {
-            callback = (OnNWSSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnNWSSelectedListener");
+            throw new ClassCastException(context + " must implement OnNWSSelectedListener");
         }
     }
 
     private void viewRadar() {
-//        Spinner typeSpinner = view.findViewById(R.id.typeSpinner);
         Spinner locationSpinner = view.findViewById(R.id.locationSpinner);
         SwitchCompat loopSwitch = view.findViewById(R.id.loopSwitch);
-//        SwitchCompat enhancedSwitch = view.findViewById(R.id.enhancedSwitch);
 
         String location = getResources().getStringArray(R.array.location_values)[locationSpinner.getSelectedItemPosition()];
-//        String type = getResources().getStringArray(R.array.type_values)[typeSpinner.getSelectedItemPosition()];
         boolean loop = loopSwitch.isChecked();
-//        Boolean enhanced = enhancedSwitch.isChecked();
-
-//        if (enhanced) loop = false;
 
         String type = "";
         Boolean enhanced = false;

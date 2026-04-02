@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,40 +32,30 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.preference.PreferenceManager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.AppDatabase;
 import com.danhasting.radar.database.Favorite;
 import com.danhasting.radar.database.Source;
-import com.danhasting.radar.fragments.RadarFragment;
+import com.danhasting.radar.fragments.RadarWebsiteFragment;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class RadarActivity extends MainActivity {
 
-    private Source source;
-    private String type;
+public class RadarWebsiteActivity extends MainActivity {
+
     private String location;
-    private Boolean loop;
-    private Boolean enhanced;
-    private int distance;
 
-    private String sourceName;
-    private String radarName;
+    private String favoriteName;
 
     private MenuItem addFavorite;
     private MenuItem removeFavorite;
@@ -73,128 +64,45 @@ public class RadarActivity extends MainActivity {
     private MenuItem contextRemoveFavorite;
     private MenuItem contextEditFavorite;
 
-    private Timer timer;
-    private Boolean refreshed = true;
-    private Boolean paused = false;
-    private Date lastPause;
+    private Boolean contextMenu = false;
 
-    private RadarFragment radarFragment;
+    private RadarWebsiteFragment radarWebsiteFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("show_fullscreen", false);
-
-        if (fullscreen) {
-            Window window = getWindow();
-            WindowCompat.setDecorFitsSystemWindows(window, false);
-
-            WindowInsetsControllerCompat insetsController =
-                    new WindowInsetsControllerCompat(window, window.getDecorView());
-
-            insetsController.setSystemBarsBehavior(
-                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-
-            insetsController.hide(WindowInsetsCompat.Type.systemBars());
-        }
-
         super.onCreate(savedInstanceState);
+
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_radar, drawerLayout, false);
+            View contentView = inflater.inflate(R.layout.activity_radar_website, drawerLayout, false);
             drawerLayout.addView(contentView, 0);
         }
 
         Intent intent = getIntent();
-        source = (Source) intent.getSerializableExtra("source");
-        type = intent.getStringExtra("type");
         location = intent.getStringExtra("location");
-        loop = intent.getBooleanExtra("loop", false);
-        enhanced = intent.getBooleanExtra("enhanced", false);
-        distance = intent.getIntExtra("distance", 50);
-
-        if (source == null) source = Source.NWS;
-        if (type == null) type = "";
         if (location == null) location = "";
 
-        radarFragment = new RadarFragment();
-        radarFragment.setArguments(intent.getExtras());
+        radarWebsiteFragment = new RadarWebsiteFragment();
+        radarWebsiteFragment.setArguments(intent.getExtras());
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, radarFragment).commit();
+                .replace(R.id.fragment_container, radarWebsiteFragment).commit();
 
-        ActionBar actionBar = getSupportActionBar();
-        if (fullscreen && actionBar != null) {
-            getSupportActionBar().hide();
-            findViewById(R.id.radarLayout).setPadding(0, 0, 0, 0);
-        }
+        setFullscreen();
 
-        int index;
-        switch (source) {
-            case MOSAIC:
-                index = Arrays.asList(getResources().getStringArray(R.array.mosaic_values))
-                        .indexOf(location);
-                sourceName = getResources().getStringArray(R.array.mosaic_names)[index];
-                break;
-            case NWS:
-                index = Arrays.asList(getResources().getStringArray(R.array.location_values))
-                        .indexOf(location);
-                sourceName = getResources().getStringArray(R.array.location_names)[index];
-                sourceName = sourceName.replaceAll("[^/]+/ ", "");
-                break;
-        }
+        if (intent.getBooleanExtra("favorite", false))
+            favoriteName = intent.getStringExtra("name");
 
-        if (intent.getBooleanExtra("favorite", false)) {
-            radarName = intent.getStringExtra("name");
-            currentFavorite = intent.getIntExtra("favoriteID", -1);
-        } else
-            radarName = sourceName;
+        setTitle(getResources().getString(R.string.nws));
 
-        if (radarName != null)
-            setTitle(radarName);
-
-        scheduleRefresh();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        Bundle extras = intent.getExtras();
-
-        if (extras != null) {
-            Intent newIntent = new Intent(this, RadarActivity.class);
-            newIntent.putExtras(extras);
-            startActivity(newIntent);
-            finish();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        paused = false;
-
-        if (lastPause != null) {
-            Date now = Calendar.getInstance().getTime();
-            long seconds = (now.getTime() - lastPause.getTime()) / 1000;
-
-            if (seconds > 60 * 5)
-                refreshed = false;
-        }
-
-        // Mosaic loops are large, don't auto-refresh
-        if (!refreshed && !(loop && source == Source.MOSAIC) && autoRefresh()) {
-            if (radarFragment != null) radarFragment.refreshRadar();
-            scheduleRefresh();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        paused = true;
-        lastPause = Calendar.getInstance().getTime();
+        // Listen for changed URL settings
+        getSupportFragmentManager().setFragmentResultListener(
+                "current_settings",
+                this,
+                (requestKey, bundle) -> {
+                    location = bundle.getString("settings");
+                    checkFavorite();
+                }
+        );
     }
 
     @Override
@@ -202,7 +110,23 @@ public class RadarActivity extends MainActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data.getBooleanExtra("from_settings", false))
-            recreate();
+            setFullscreen();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setFullscreen();
+
+        Bundle extras = intent.getExtras();
+
+        if (extras != null) {
+            Intent newIntent = new Intent(this, RadarWebsiteActivity.class);
+            newIntent.putExtras(extras);
+            startActivity(newIntent);
+            finish();
+        }
     }
 
     @Override
@@ -229,8 +153,10 @@ public class RadarActivity extends MainActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeMenu(Menu menu, final Boolean contextMenu) {
+    private void initializeMenu(Menu menu, final Boolean context) {
         getMenuInflater().inflate(R.menu.radar_actions, menu);
+
+        contextMenu = context;
 
         if (contextMenu) {
             contextAddFavorite = menu.findItem(R.id.action_add_favorite);
@@ -243,39 +169,7 @@ public class RadarActivity extends MainActivity {
             editFavorite.setVisible(false);
         }
 
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        service.submit(() -> {
-            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-            final List<Favorite> favorites = database.favoriteDao().findByData(
-                    source.getInt(), location, type, loop, enhanced, distance);
-
-            runOnUiThread(() -> {
-                if (!favorites.isEmpty()) {
-                    radarName = favorites.get(0).getName();
-                    setTitle(radarName);
-
-                    if (contextMenu) {
-                        hideItem(contextAddFavorite);
-                        showItem(contextRemoveFavorite);
-                        showItem(contextEditFavorite);
-                    } else {
-                        hideItem(addFavorite);
-                        showItem(removeFavorite);
-                    }
-
-                    currentFavorite = favorites.get(0).getUid();
-                } else {
-                    if (contextMenu) {
-                        hideItem(contextRemoveFavorite);
-                        hideItem(contextEditFavorite);
-                        showItem(contextAddFavorite);
-                    } else {
-                        hideItem(removeFavorite);
-                        showItem(addFavorite);
-                    }
-                }
-            });
-        });
+        checkFavorite();
     }
 
     private void initializeMenu(Menu menu) {
@@ -310,7 +204,7 @@ public class RadarActivity extends MainActivity {
         EditText input = new EditText(this);
         input.setId(R.id.dialog_input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        if (radarName != null) input.setText(radarName);
+        if (favoriteName != null) input.setText(favoriteName);
         builder.setView(input);
 
         builder.setPositiveButton(button, (dialog, which) -> {
@@ -329,6 +223,13 @@ public class RadarActivity extends MainActivity {
                 getString(R.string.button_add));
         final EditText input = dialog.findViewById(R.id.dialog_input);
 
+        radarWebsiteFragment.getCurrentLocationNameAsync().thenAccept(name -> {
+            assert input != null;
+            input.setText(name);
+        });
+
+        String settings = radarWebsiteFragment.getCurrentSettings();
+
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             assert input != null;
             final String name = input.getText().toString();
@@ -344,13 +245,9 @@ public class RadarActivity extends MainActivity {
                     runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));
                 } else {
                     Favorite favorite = new Favorite();
-                    favorite.setSource(source.getInt());
+                    favorite.setSource(Source.RADAR.getInt());
                     favorite.setName(name);
-                    favorite.setLocation(location);
-                    favorite.setType(type);
-                    favorite.setLoop(loop);
-                    favorite.setEnhanced(enhanced);
-                    favorite.setDistance(distance);
+                    favorite.setLocation(settings);
                     database.favoriteDao().insertAll(favorite);
 
                     runOnUiThread(() -> {
@@ -360,8 +257,7 @@ public class RadarActivity extends MainActivity {
                         showItem(contextRemoveFavorite);
                         showItem(contextEditFavorite);
 
-                        radarName = name;
-                        setTitle(radarName);
+                        favoriteName = name;
                         dialog.dismiss();
                     });
                 }
@@ -388,15 +284,14 @@ public class RadarActivity extends MainActivity {
                 } else if (exists) {
                     runOnUiThread(() -> input.setError(getString(R.string.already_exists_error)));
                 } else {
-                    Favorite favorite = database.favoriteDao().findByName(radarName);
+                    Favorite favorite = database.favoriteDao().findByName(favoriteName);
 
                     if (favorite != null) {
                         favorite.setName(name);
                         database.favoriteDao().updateFavorites(favorite);
 
                         runOnUiThread(() -> {
-                            radarName = name;
-                            setTitle(radarName);
+                            favoriteName = name;
                         });
                     }
 
@@ -412,8 +307,7 @@ public class RadarActivity extends MainActivity {
                 ExecutorService service = Executors.newSingleThreadExecutor();
                 service.submit(() -> {
                     AppDatabase database = AppDatabase.getAppDatabase(getApplication());
-                    List<Favorite> favorites = database.favoriteDao().findByData(
-                            source.getInt(), location, type, loop, enhanced, distance);
+                    List<Favorite> favorites = database.favoriteDao().findByLocation(Source.RADAR.getInt(), location);
 
                     for (Favorite favorite : favorites) {
                         database.favoriteDao().delete(favorite);
@@ -426,8 +320,7 @@ public class RadarActivity extends MainActivity {
                         hideItem(contextRemoveFavorite);
                         hideItem(contextEditFavorite);
 
-                        radarName = sourceName;
-                        setTitle(radarName);
+                        favoriteName = "";
                     });
                 });
             }
@@ -440,54 +333,77 @@ public class RadarActivity extends MainActivity {
                 .show();
     }
 
+    private void checkFavorite() {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(() -> {
+            AppDatabase database = AppDatabase.getAppDatabase(getApplication());
+            final List<Favorite> favorites = database.favoriteDao().findByLocation(Source.RADAR.getInt(), location);
+
+            runOnUiThread(() -> {
+                if (!favorites.isEmpty()) {
+                    if (contextMenu) {
+                        hideItem(contextAddFavorite);
+                        showItem(contextRemoveFavorite);
+                        showItem(contextEditFavorite);
+                    } else {
+                        hideItem(addFavorite);
+                        showItem(removeFavorite);
+                    }
+                } else if (contextMenu) {
+                    hideItem(contextRemoveFavorite);
+                    hideItem(contextEditFavorite);
+                    showItem(contextAddFavorite);
+                } else {
+                    hideItem(removeFavorite);
+                    showItem(addFavorite);
+                }
+            });
+        });
+    }
+
     private void refreshRadar() {
-        if (!refreshed) {
-            if (radarFragment != null) radarFragment.refreshRadar();
-            scheduleRefresh();
+        if (radarWebsiteFragment != null) radarWebsiteFragment.refreshRadarWebsite("");
+    }
+
+    private void setFullscreen() {
+        boolean fullscreen = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("show_fullscreen", false);
+
+        Window window = getWindow();
+
+        if (fullscreen) {
+            WindowCompat.setDecorFitsSystemWindows(window, false);
+
+            WindowInsetsControllerCompat insetsController =
+                    new WindowInsetsControllerCompat(window, window.getDecorView());
+
+            insetsController.setSystemBarsBehavior(
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+
+            insetsController.hide(WindowInsetsCompat.Type.systemBars());
         } else {
-            DialogInterface.OnClickListener dialogListener = (dialog, which) -> {
-                if (which == DialogInterface.BUTTON_POSITIVE) {
-                    if (radarFragment != null) radarFragment.refreshRadar();
-                    scheduleRefresh();
-                }
-            };
+            WindowCompat.setDecorFitsSystemWindows(window, true);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.confirm_refresh)
-                    .setPositiveButton(getString(R.string.button_yes), dialogListener)
-                    .setNegativeButton(getString(R.string.button_no), dialogListener)
-                    .show();
-        }
-    }
+            WindowInsetsControllerCompat insetsController =
+                    new WindowInsetsControllerCompat(window, window.getDecorView());
 
-    private Boolean autoRefresh() {
-        String refresh = settings.getString("auto_refresh",
-                getString(R.string.wifi_toggle_default));
-
-        return (refresh.equals("always") || (refresh.equals("wifi") && onWifi()));
-    }
-
-    private void scheduleRefresh() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
+            insetsController.show(WindowInsetsCompat.Type.systemBars());
+            insetsController.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_DEFAULT);
         }
 
-        timer = new Timer();
-        refreshed = true;
+        ActionBar actionBar = getSupportActionBar();
+        if (fullscreen && actionBar != null) {
+            getSupportActionBar().hide();
+            findViewById(R.id.radarWebsiteLayout).setPadding(0, 0, 0, 0);
+        } else if (!fullscreen && actionBar != null) {
+            actionBar.show();
 
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                refreshed = false;
+            TypedValue tv = new TypedValue();
+            int actionBarHeight = 0;
+            if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
 
-                if (autoRefresh() && !paused) {
-                    runOnUiThread(() -> {
-                        if (radarFragment != null) radarFragment.refreshRadar();
-                        scheduleRefresh();
-                    });
-                }
-            }
-        }, 1000 * 60 * 5);
+            findViewById(R.id.radarWebsiteLayout).setPadding(0, actionBarHeight, 0, 0);
+        }
     }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#084a8c</color>
+    <color name="colorPrimaryDark">#09427a</color>
+    <color name="colorAccent">#1e89f6</color>
+    <color name="radarBackground">#333333</color>
+    <color name="buttonBackground">#DDDDDD</color>
+    <color name="buttonText">#FFFFFF</color>
+    <color name="recentsTopBar">#EEEEEE</color>
+    <color name="windowBackground">#333333</color>
+    <color name="dialogBackground">#444444</color>
+    <color name="linkColor">#1871c9</color>
+    <color name="dialogButtonText">#1e89f6</color>
+    <color name="dialogButtonTextNeutral">#CCCCCC</color>
+</resources>
