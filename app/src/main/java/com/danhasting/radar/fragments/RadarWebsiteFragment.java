@@ -123,10 +123,10 @@ public class RadarWebsiteFragment extends Fragment {
                 float scaleFactor = scale / 100f;
 
                 String js3 = "document.querySelector('meta[name=viewport]')?.setAttribute('content', 'width=device-width, initial-scale="
-                        + scaleFactor + ", maximum-scale=1.0');"
+                        + scaleFactor + ", maximum-scale=1.0, user-scalable=no');"
                         + "if(!document.querySelector('meta[name=viewport]')){"
                         + "var m=document.createElement('meta');m.name='viewport';m.content='width=device-width, initial-scale="
-                        + scaleFactor + "';document.head.appendChild(m);}";
+                        + scaleFactor + ",maximum-scale=1.0,user-scalable=no';document.head.appendChild(m);}";
 
                 view.evaluateJavascript(js3, null);
             }
