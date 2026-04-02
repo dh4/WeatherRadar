@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -114,6 +115,16 @@ public class RadarWebsiteFragment extends Fragment {
                         + "})()";
                 view.evaluateJavascript(js2, null);
             }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+
+                // Prevent loading websites other than radar.weather.gov
+                Uri uri = request.getUrl();
+                if (uri.toString().equals(getString(R.string.radar_website) + "null"))
+                    return true; // Prevent loading /null on radar.weather.gov as well
+                return !uri.toString().startsWith(getString(R.string.radar_website));
+            }
         });
 
         registerForContextMenu(view);
@@ -140,9 +151,9 @@ public class RadarWebsiteFragment extends Fragment {
             website_settings = location;
 
         if (!Objects.equals(website_settings, ""))
-            radarWebsiteView.loadUrl("https://radar.weather.gov/?settings="+website_settings);
+            radarWebsiteView.loadUrl(getString(R.string.radar_website) + "?settings="+website_settings);
         else
-            radarWebsiteView.loadUrl("https://radar.weather.gov/");
+            radarWebsiteView.loadUrl(getString(R.string.radar_website));
     }
 
     public String getCurrentSettings() {
