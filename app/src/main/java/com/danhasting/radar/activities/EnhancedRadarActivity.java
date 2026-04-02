@@ -40,17 +40,17 @@ import androidx.appcompat.app.ActionBar;
 import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
 import com.danhasting.radar.helpers.RadarMenu;
-import com.danhasting.radar.fragments.RadarWebsiteFragment;
+import com.danhasting.radar.fragments.EnhancedRadarFragment;
 
 import java.util.concurrent.CompletableFuture;
 
 
-public class RadarWebsiteActivity extends MainActivity implements RadarMenu.Ui {
+public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui {
     private RadarMenu radarMenu;
 
     private String location;
 
-    private RadarWebsiteFragment radarWebsiteFragment;
+    private EnhancedRadarFragment radarWebsiteFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class RadarWebsiteActivity extends MainActivity implements RadarMenu.Ui {
         location = intent.getStringExtra("location");
         if (location == null) location = "";
 
-        radarWebsiteFragment = new RadarWebsiteFragment();
+        radarWebsiteFragment = new EnhancedRadarFragment();
         radarWebsiteFragment.setArguments(intent.getExtras());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, radarWebsiteFragment).commit();
@@ -109,7 +109,7 @@ public class RadarWebsiteActivity extends MainActivity implements RadarMenu.Ui {
         Bundle extras = intent.getExtras();
 
         if (extras != null) {
-            Intent newIntent = new Intent(this, RadarWebsiteActivity.class);
+            Intent newIntent = new Intent(this, EnhancedRadarActivity.class);
             newIntent.putExtras(extras);
             startActivity(newIntent);
             finish();

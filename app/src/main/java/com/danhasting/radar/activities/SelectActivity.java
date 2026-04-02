@@ -91,7 +91,7 @@ public class SelectActivity extends MainActivity
 
         switch (selection) {
             case RADAR:
-                Intent radarWebsiteIntent = new Intent(SelectActivity.this, RadarWebsiteActivity.class);
+                Intent radarWebsiteIntent = new Intent(SelectActivity.this, EnhancedRadarActivity.class);
                 radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                 SelectActivity.this.startActivity(radarWebsiteIntent);

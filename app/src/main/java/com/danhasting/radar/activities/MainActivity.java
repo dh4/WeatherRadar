@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startRadarView() {
-        Intent radarWebsiteIntent = new Intent(MainActivity.this, RadarWebsiteActivity.class);
+        Intent radarWebsiteIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
         radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         MainActivity.this.startActivity(radarWebsiteIntent);
     }
@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startFavoriteView(Favorite favorite) {
         if (favorite.getSource().equals(Source.RADAR.getInt())) {
-            Intent radarWebsiteIntent = new Intent(MainActivity.this, RadarWebsiteActivity.class);
+            Intent radarWebsiteIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
             radarWebsiteIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             radarWebsiteIntent.putExtra("location", favorite.getLocation());

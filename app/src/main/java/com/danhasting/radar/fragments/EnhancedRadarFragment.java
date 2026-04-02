@@ -43,7 +43,7 @@ import java.util.concurrent.CompletableFuture;
 import com.danhasting.radar.R;
 
 
-public class RadarWebsiteFragment extends Fragment {
+public class EnhancedRadarFragment extends Fragment {
 
     private String location;
 
