@@ -39,6 +39,7 @@
         <item name="buttonBarNegativeButtonStyle">@style/alertButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/alertButton</item>
         <item name="android:windowBackground">@color/dialogBackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="alertButton" parent="Widget.MaterialComponents.Button.TextButton">
