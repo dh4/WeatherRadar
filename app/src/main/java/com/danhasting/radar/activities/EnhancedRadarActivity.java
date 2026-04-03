@@ -44,7 +44,7 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
 
     private String location;
 
-    private EnhancedRadarFragment radarWebsiteFragment;
+    private EnhancedRadarFragment radarEnhancedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +62,10 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         location = intent.getStringExtra("location");
         if (location == null) location = "";
 
-        radarWebsiteFragment = new EnhancedRadarFragment();
-        radarWebsiteFragment.setArguments(intent.getExtras());
+        radarEnhancedFragment = new EnhancedRadarFragment();
+        radarEnhancedFragment.setArguments(intent.getExtras());
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, radarWebsiteFragment).commit();
+                .replace(R.id.fragment_container, radarEnhancedFragment).commit();
 
         if (intent.getBooleanExtra("favorite", false))
             radarMenu.setFavoriteName(intent.getStringExtra("name"));
@@ -138,7 +138,7 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
     }
 
     public void refreshRadar() {
-        if (radarWebsiteFragment != null) radarWebsiteFragment.refreshEnhancedRadar("");
+        if (radarEnhancedFragment != null) radarEnhancedFragment.refreshEnhancedRadar("");
     }
 
 
@@ -148,14 +148,14 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
     @Override public void setTitle(CharSequence title) { super.setTitle(getResources().getString(R.string.nws)); } // Keep the title static
     @Override public int getSourceInt() { return Source.RADAR.getInt(); }
     @Override public String getLocation() {
-        return radarWebsiteFragment != null ? radarWebsiteFragment.getCurrentSettings() : null;
+        return radarEnhancedFragment != null ? radarEnhancedFragment.getCurrentSettings() : null;
     }
     @Override public String getType() { return null; }
     @Override public Boolean getLoop() { return null; }
     @Override public Boolean getEnhanced() { return null; }
     @Override public int getDistance() { return 0; }
     @Override public CompletableFuture<String> getCurrentLocationNameAsync() {
-        return radarWebsiteFragment != null ? radarWebsiteFragment.getCurrentLocationNameAsync() : null;
+        return radarEnhancedFragment != null ? radarEnhancedFragment.getCurrentLocationNameAsync() : null;
     }
     @Override public void setCurrentFavorite(Integer favorite) {} // Do nothing since enhanced radar can move away from favorite
 }

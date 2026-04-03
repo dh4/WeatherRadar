@@ -165,7 +165,7 @@ public class RadarMenu {
                     ui.getActivity().runOnUiThread(() -> input.setError(ui.getContext().getString(R.string.empty_name_error)));
                 else if (exists)
                     ui.getActivity().runOnUiThread(() -> input.setError(ui.getContext().getString(R.string.already_exists_error)));
-                else {
+                else if (location != null) {
                     Favorite favorite = new Favorite();
                     favorite.setSource(ui.getSourceInt());
                     favorite.setName(name);
@@ -194,6 +194,8 @@ public class RadarMenu {
 
                         dialog.dismiss();
                     });
+                } else {
+                    dialog.dismiss();
                 }
             });
         });
