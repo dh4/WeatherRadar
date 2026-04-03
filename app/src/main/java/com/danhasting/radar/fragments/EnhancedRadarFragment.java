@@ -136,9 +136,8 @@ public class EnhancedRadarFragment extends Fragment {
 
                 // Prevent loading websites other than radar.weather.gov
                 Uri uri = request.getUrl();
-                if (uri.toString().equals(getString(R.string.radar_website) + "null"))
-                    return true; // Prevent loading /null on radar.weather.gov as well
-                return !uri.toString().startsWith(getString(R.string.radar_website));
+                String radarWebsite = getString(R.string.radar_website);
+                return !uri.toString().equals(radarWebsite) && !uri.toString().startsWith(radarWebsite + "?");
             }
         });
 
