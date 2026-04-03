@@ -5,7 +5,7 @@
     <string name="radar_images_location">https://radar.weather.gov/ridge/standard/</string>
 
     <!-- Activity Headers -->
-    <string name="nws">National Weather Service</string>
+    <string name="enhanced_radar_header">National Weather Service</string>
     <string name="select_nws_image">NWS Images</string>
     <string name="select_mosaic_image">NWS Mosaics</string>
     <string name="about">About Weather Radar</string>
@@ -57,7 +57,7 @@
     <string name="show_maximized_title">Show maximized</string>
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
     <string name="show_fullscreen_title">Show fullscreen</string>
-    <string name="show_fullscreen_summary">Hides the title and notification bar. Drag from the left side of the screen to access the menu.</string>
+    <string name="show_fullscreen_summary">Hides the top bar. Drag from the left side of the screen to access the sidebar or hold to access the context menu.</string>
     <string name="radar_scale_title">Overlay Scale</string>
 
 
@@ -72,7 +72,7 @@
     <string name="issue_button">Report an Issue</string>
     <string name="contact_button">Contact Me</string>
     <string name="nws_header">National Weather Service</string>
-    <string name="nws_line1">Weather Radar provides access to doppler radar images from the United States National Weather Service:\n<a>radar.weather.gov</a></string>
+    <string name="nws_line1">Weather Radar provides access to doppler radar images from the United States National Weather Service. Their privacy policy can be found here:\n<a>www.weather.gov/privacy</a></string>
     <string name="nws_line2">This application is not endorsed by the National Weather Service. Their images are public domain and not subject to copyright protection:\n<a>www.weather.gov/disclaimer</a></string>
     <string name="nws_line3">National Weather Service radar imagery is only available for the United States and its territories.</string>
 

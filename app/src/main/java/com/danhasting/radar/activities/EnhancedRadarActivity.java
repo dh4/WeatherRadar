@@ -70,7 +70,7 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         if (intent.getBooleanExtra("favorite", false))
             radarMenu.setFavoriteName(intent.getStringExtra("name"));
 
-        setTitle(getResources().getString(R.string.nws));
+        setTitle(getResources().getString(R.string.enhanced_radar_header));
         radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getBoolean("show_radar_fullscreen", false));
 
@@ -148,7 +148,7 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
 
     @Override public Context getContext() { return this; }
     @Override public AppCompatActivity getActivity() { return this; }
-    @Override public void setTitle(CharSequence title) { super.setTitle(getResources().getString(R.string.nws)); } // Keep the title static
+    @Override public void setTitle(CharSequence title) { super.setTitle(getResources().getString(R.string.enhanced_radar_header)); } // Keep the title static
     @Override public int getSourceInt() { return Source.RADAR.getInt(); }
     @Override public String getLocation() {
         return radarEnhancedFragment != null ? radarEnhancedFragment.getCurrentSettings() : null;
