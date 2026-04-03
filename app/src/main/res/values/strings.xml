@@ -43,7 +43,7 @@
     <!-- Preferences -->
     <string name="general_title">General</string>
     <string name="radar_title">Enhanced Radar</string>
-    <string name="nws_title">National Weather Service Images</string>
+    <string name="nws_title">Radar Images</string>
     <string name="theme_title">Theme</string>
     <string name="theme_summary">Must restart to take effect.</string>
     <string name="default_view_title">Default view</string>
