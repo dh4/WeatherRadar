@@ -94,7 +94,6 @@ public class RadarMenu {
             if (editFavorite != null) editFavorite.setVisible(false);
         }
 
-        // Decide whether to use checkFavorite (fast) or DB query with full data
         checkFavorite();
     }
 
@@ -314,9 +313,11 @@ public class RadarMenu {
                     hideItem(contextRemoveFavorite);
                     hideItem(contextEditFavorite);
                     showItem(contextAddFavorite);
+                    ui.setCurrentFavorite(-1);
                 } else {
                     hideItem(removeFavorite);
                     showItem(addFavorite);
+                    ui.setCurrentFavorite(-1);
                 }
             });
         });

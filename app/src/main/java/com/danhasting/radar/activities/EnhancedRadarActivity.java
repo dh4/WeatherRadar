@@ -141,6 +141,9 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         if (radarEnhancedFragment != null) radarEnhancedFragment.refreshEnhancedRadar("");
     }
 
+    public void setCurrentFavorite(Integer favorite) {
+        currentFavorite = favorite;
+    }
 
 
     @Override public Context getContext() { return this; }
@@ -157,5 +160,4 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
     @Override public CompletableFuture<String> getCurrentLocationNameAsync() {
         return radarEnhancedFragment != null ? radarEnhancedFragment.getCurrentLocationNameAsync() : null;
     }
-    @Override public void setCurrentFavorite(Integer favorite) {} // Do nothing since enhanced radar can move away from favorite
 }

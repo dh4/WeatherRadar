@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
         service.submit(() -> {
             AppDatabase database = AppDatabase.getAppDatabase(getApplication());
             Favorite favorite = database.favoriteDao().loadById(id);
-            if (favorite != null && (id != currentFavorite || favorite.getSource().equals(Source.RADAR.getInt())))
+            if (favorite != null && (id != currentFavorite))
                 startFavoriteView(favorite);
         });
 
