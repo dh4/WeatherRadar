@@ -6,6 +6,7 @@
     <color name="radarBackground">#333333</color>
     <color name="buttonBackground">#DDDDDD</color>
     <color name="buttonText">#FFFFFF</color>
+    <color name="buttonTextSelect">#FFFFFF</color>
     <color name="recentsTopBar">#EEEEEE</color>
     <color name="windowBackground">#333333</color>
     <color name="dialogBackground">#444444</color>

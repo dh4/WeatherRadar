@@ -45,7 +45,7 @@
 
             <Button
                 android:id="@+id/viewButton"
-                style="@style/buttonTheme"
+                style="@style/buttonThemeSelect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

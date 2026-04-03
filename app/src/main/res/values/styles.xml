@@ -34,6 +34,11 @@
         <item name="android:textColor">@color/buttonText</item>
     </style>
 
+    <style name="buttonThemeSelect">
+        <item name="background">@color/buttonBackground</item>
+        <item name="android:textColor">@color/buttonTextSelect</item>
+    </style>
+
     <style name="AlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/alertButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/alertButton</item>
