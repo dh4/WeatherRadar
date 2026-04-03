@@ -28,9 +28,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,27 +49,31 @@ import com.danhasting.radar.R;
 public class EnhancedRadarFragment extends Fragment {
 
     private String location;
+    private boolean errorShown = false;
 
-    private WebView radarWebsiteView;
+    private ProgressBar progressBar;
+    private WebView radarEnhancedView;
 
     private SharedPreferences settings;
 
     @Override
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_radar_website, container, false);
+        View view = inflater.inflate(R.layout.fragment_enhanced_radar, container, false);
         settings = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
-        radarWebsiteView = view.findViewById(R.id.radarWebsiteView);
-        radarWebsiteView.getSettings().setLoadWithOverviewMode(true);
-        radarWebsiteView.getSettings().setUseWideViewPort(true);
-        radarWebsiteView.getSettings().setBuiltInZoomControls(true);
-        radarWebsiteView.getSettings().setDisplayZoomControls(false);
-        radarWebsiteView.getSettings().setJavaScriptEnabled(true);
-        radarWebsiteView.getSettings().setDomStorageEnabled(true);
-        radarWebsiteView.getSettings().setSupportZoom(true);
+        progressBar = view.findViewById(R.id.radarEnhancedProgress);
 
-        radarWebsiteView.addJavascriptInterface(new Object() {
+        radarEnhancedView = view.findViewById(R.id.radarEnhancedView);
+        radarEnhancedView.getSettings().setLoadWithOverviewMode(true);
+        radarEnhancedView.getSettings().setUseWideViewPort(true);
+        radarEnhancedView.getSettings().setBuiltInZoomControls(true);
+        radarEnhancedView.getSettings().setDisplayZoomControls(false);
+        radarEnhancedView.getSettings().setJavaScriptEnabled(true);
+        radarEnhancedView.getSettings().setDomStorageEnabled(true);
+        radarEnhancedView.getSettings().setSupportZoom(true);
+
+        radarEnhancedView.addJavascriptInterface(new Object() {
             @JavascriptInterface
             public void onUrlChanged(String url) {
                 // Runs on background thread; post to UI if needed
@@ -88,7 +95,8 @@ public class EnhancedRadarFragment extends Fragment {
             }
         }, "AndroidBridge");
 
-        radarWebsiteView.setWebViewClient(new WebViewClient() {
+        radarEnhancedView.setWebViewClient(new WebViewClient() {
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -129,6 +137,22 @@ public class EnhancedRadarFragment extends Fragment {
                         + scaleFactor + ",maximum-scale=1.0,user-scalable=no';document.head.appendChild(m);}";
 
                 view.evaluateJavascript(js3, null);
+
+                radarEnhancedView.postDelayed(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    if (!errorShown) radarEnhancedView.setVisibility(View.VISIBLE );
+                }, 250);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                if (errorShown) return;
+
+                progressBar.setVisibility(View.GONE);
+                radarEnhancedView.setVisibility(View.GONE);
+
+                Toast.makeText(requireActivity(), "Radar did not load. Check your network connection.", Toast.LENGTH_LONG).show();
+                errorShown = true;
             }
 
             @Override
@@ -155,29 +179,34 @@ public class EnhancedRadarFragment extends Fragment {
 
         if (location == null) location = "";
 
-        refreshRadarWebsite(location);
+        refreshEnhancedRadar(location);
     }
 
-    public void refreshRadarWebsite(String location) {
+    public void refreshEnhancedRadar(String location) {
+        errorShown = false;
+
+        progressBar.setVisibility(View.VISIBLE);
+        radarEnhancedView.setVisibility(View.GONE);
+
         String website_settings = settings.getString("radar_website_settings", "");
 
         if (!location.isEmpty())
             website_settings = location;
 
         if (!Objects.equals(website_settings, ""))
-            radarWebsiteView.loadUrl(getString(R.string.radar_website) + "?settings="+website_settings);
+            radarEnhancedView.loadUrl(getString(R.string.radar_website) + "?settings="+website_settings);
         else
-            radarWebsiteView.loadUrl(getString(R.string.radar_website));
+            radarEnhancedView.loadUrl(getString(R.string.radar_website));
     }
 
     public String getCurrentSettings() {
-        Uri uri = Uri.parse(radarWebsiteView.getUrl());
+        Uri uri = Uri.parse(radarEnhancedView.getUrl());
         return uri.getQueryParameter("settings");
     }
 
     public CompletableFuture<String> getCurrentLocationNameAsync() {
         CompletableFuture<String> f = new CompletableFuture<>();
-        radarWebsiteView.evaluateJavascript(
+        radarEnhancedView.evaluateJavascript(
                 "document.querySelector('.search-location').innerText;",
                 value -> {
                     String result = "";

@@ -54,7 +54,7 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            View contentView = inflater.inflate(R.layout.activity_radar_website, drawerLayout, false);
+            View contentView = inflater.inflate(R.layout.activity_enhanced_radar, drawerLayout, false);
             drawerLayout.addView(contentView, 0);
         }
 
@@ -138,7 +138,7 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
     }
 
     public void refreshRadar() {
-        if (radarWebsiteFragment != null) radarWebsiteFragment.refreshRadarWebsite("");
+        if (radarWebsiteFragment != null) radarWebsiteFragment.refreshEnhancedRadar("");
     }
 
 
