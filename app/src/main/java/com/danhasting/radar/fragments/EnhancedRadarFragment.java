@@ -170,14 +170,14 @@ public class EnhancedRadarFragment extends Fragment {
                                 + ".menu-panel { background: #212425 !important; } "
                                 + ".cmi-radar-container { color: #ddd !important; } "
                                 + ".panel-buttons { background: #2b2e30 !important; } "
-                                + ".cmi-radar-container input { border: #777 !important; background-color: #666 !important; color: #ddd !important; } "
+                                + ".panel-buttons input, .config-item-input { border-color: #495053 !important; background-color: #222426 !important; color: #ddd !important; } "
                                 + ".details-period-temperature .temp-low { color: rgb(94, 134, 184) !important; } "
                                 + ".menu-panel-agenda { color: #ddd !important; background: #212425 !important; } "
-                                + ".menu-panel-agenda-actions-item.selected { border-bottom-color: #999 !important; } "
+                                + ".menu-panel-agenda-actions-item.selected { border-bottom-color: #ddd !important; } "
                                 + ".menu-panel-agenda-actions-item { border-bottom: 4px solid #212425 !important; border-right: 1px solid #181a1b !important; } "
                                 + ".agenda-menu-item-bar { background-color: #181a1b !important; } "
-                                + ".menu-panel-agenda-actions-item-icon { color: #ddd !important } "
-                                + ".search-input { background: #000 !important; } ";
+                                + ".menu-panel-agenda-actions-item-icon { color: #ddd !important } ";
+
                     }
 
                     // Allow capturing URL changes
