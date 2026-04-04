@@ -19,6 +19,7 @@
 package com.danhasting.radar.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -161,7 +162,16 @@ public class EnhancedRadarFragment extends Fragment {
                 // Prevent loading websites other than radar.weather.gov
                 Uri uri = request.getUrl();
                 String radarWebsite = getString(R.string.radar_website);
-                return !uri.toString().equals(radarWebsite) && !uri.toString().startsWith(radarWebsite + "?");
+                if (uri.toString().equals(radarWebsite) || uri.toString().startsWith(radarWebsite + "?")
+                        || uri.toString().startsWith(radarWebsite + "#"))
+                    return false;
+                else if (uri.toString().equals(radarWebsite + "null"))
+                    return true;
+                else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
+                    view.getContext().startActivity(intent);
+                    return true;
+                }
             }
         });
 
