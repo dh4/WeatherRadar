@@ -130,11 +130,11 @@ public class EnhancedRadarFragment extends Fragment {
                             + ".map-legend { overflow:hidden !important; } ";
 
                     if (darkMode) {
-                        css += "body { background: #333 !important; color: #FFF !important } "
-                                + ".offcanvas, .modal-content { background-color: #333 !important; color: #FFF !important } "
+                        css += "body { background: #212425 !important; color: #ddd !important } "
+                                + ".offcanvas, .modal-content { background-color: #212425 !important; color: #ddd !important } "
                                 + ".accordion-item, .accordion-button, .accessibility-container, .dropdown-menu, .form-control, .info-bubble "
-                                + "{ background: #444 !important; color: #FFF !important } "
-                                + ".refresh-div p { background-color: #333 !important; } "
+                                + "{ background: #181a1b !important; color: #ddd !important } "
+                                + ".refresh-div p { background-color: #212425 !important; } "
                                 + ".form-control::placeholder { color: #999 !important } "
                                 + ".form-control { border-color: #666 } ";
                     }
@@ -160,6 +160,25 @@ public class EnhancedRadarFragment extends Fragment {
                 } else {
                     // Remove website header
                     css = "header { display: none !important; } main { inset: 0px !important; }";
+
+                    if (darkMode) {
+                        css += ".menu-agendas { background: #212425 !important; } "
+                                + ".menu-panel-agenda { background: #212425 !important; color: #ddd !important; } "
+                                + ".menu-panel-agenda-title { color: #ddd !important; } "
+                                + ".menu-panel { background: #212425 !important; color: #ddd !important; } "
+                                + ".optionExpanded { background: #181a1b !important; } "
+                                + ".menu-panel { background: #212425 !important; } "
+                                + ".cmi-radar-container { color: #ddd !important; } "
+                                + ".panel-buttons { background: #2b2e30 !important; } "
+                                + ".cmi-radar-container input { border: #777 !important; background-color: #666 !important; color: #ddd !important; } "
+                                + ".details-period-temperature .temp-low { color: rgb(94, 134, 184) !important; } "
+                                + ".menu-panel-agenda { color: #ddd !important; background: #212425 !important; } "
+                                + ".menu-panel-agenda-actions-item.selected { border-bottom-color: #999 !important; } "
+                                + ".menu-panel-agenda-actions-item { border-bottom: 4px solid #212425 !important; border-right: 1px solid #181a1b !important; } "
+                                + ".agenda-menu-item-bar { background-color: #181a1b !important; } "
+                                + ".menu-panel-agenda-actions-item-icon { color: #ddd !important } "
+                                + ".search-input { background: #000 !important; } ";
+                    }
 
                     // Allow capturing URL changes
                     String capture_url_change_js = "(() => {"
