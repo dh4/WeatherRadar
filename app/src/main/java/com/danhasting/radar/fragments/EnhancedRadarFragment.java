@@ -144,6 +144,16 @@ public class EnhancedRadarFragment extends Fragment {
                             + "AndroidBridge.onUrlChanged(location.href);";
                     view.evaluateJavascript(fragment_js, null);
 
+                    // Inject js to replace initial button text
+                    String button_name_js = "(function(){"
+                            + "  var btns = document.getElementsByTagName('button');"
+                            + "  for(var i=0;i<btns.length;i++){"
+                            + "    var b = btns[i];"
+                            + "    b.textContent = b.textContent.replace(/Click to Geolocate/g, 'Continue');"
+                            + "  }"
+                            + "})();";
+                    view.evaluateJavascript(button_name_js, null);
+
                     scale = settings.getInt("air_scale", 100);
                 } else {
                     // Remove website header
@@ -244,16 +254,26 @@ public class EnhancedRadarFragment extends Fragment {
         if (location == null) location = "";
 
         // Set the basemap to dark if it's the first launch and we're in dark mode
-        if (source == Source.AIR && darkMode) {
-            String url = getString(R.string.air_quality_website);
-            CookieManager cookieManager = CookieManager.getInstance();
-            String currentCookie = CookieManager.getInstance().getCookie(url);
+        if (darkMode) {
+            if (source == Source.AIR) {
+                String url = getString(R.string.air_quality_website);
+                CookieManager cookieManager = CookieManager.getInstance();
+                String currentCookie = CookieManager.getInstance().getCookie(url);
 
-            if (currentCookie == null || !currentCookie.contains("basemap")) {
-                String cookieString = "basemap=%22esriDarkStyle%22;";
+                if (currentCookie == null || !currentCookie.contains("basemap")) {
+                    String cookieString = "basemap=%22esriDarkStyle%22;";
 
-                cookieManager.setAcceptCookie(true);
-                cookieManager.setCookie(url, cookieString);
+                    cookieManager.setAcceptCookie(true);
+                    cookieManager.setCookie(url, cookieString);
+                }
+            } else {
+                String website_settings = settings.getString("nws_website_settings", "");
+                if (website_settings.isEmpty()) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("nws_website_settings", getString(R.string.nws_dark_base_map));
+                    editor.apply();
+                }
+
             }
         }
 

@@ -5,6 +5,8 @@
     <string name="air_quality_website">https://fire.airnow.gov/</string>
     <string name="radar_images_location">https://radar.weather.gov/ridge/standard/</string>
 
+    <string name="nws_dark_base_map">v1_eyJhZ2VuZGEiOnsiaWQiOm51bGwsImNlbnRlciI6Wy05NSwzN10sImxvY2F0aW9uIjpudWxsLCJ6b29tIjo0fSwiYW5pbWF0aW5nIjpmYWxzZSwiYmFzZSI6ImRhcmtjYW52YXMiLCJhcnRjYyI6ZmFsc2UsImNvdW50eSI6ZmFsc2UsImN3YSI6ZmFsc2UsInJmYyI6ZmFsc2UsInN0YXRlIjpmYWxzZSwibWVudSI6dHJ1ZSwic2hvcnRGdXNlZE9ubHkiOmZhbHNlLCJvcGFjaXR5Ijp7ImFsZXJ0cyI6MC44LCJsb2NhbCI6MC42LCJsb2NhbFN0YXRpb25zIjowLjgsIm5hdGlvbmFsIjowLjZ9fQ%3D%3D</string>
+
     <!-- Activity Headers -->
     <string name="enhanced_radar_header">National Weather Service</string>
     <string name="air_quality_header">Air Quality</string>
