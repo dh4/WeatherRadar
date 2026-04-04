@@ -8,6 +8,11 @@
             android:title="@string/nav_radar" />
 
         <item
+            android:id="@+id/nav_air"
+            android:icon="@drawable/air_icon"
+            android:title="@string/nav_air" />
+
+        <item
             android:id="@+id/nav_nws"
             android:icon="@drawable/image_icon"
             android:title="@string/nav_select" />

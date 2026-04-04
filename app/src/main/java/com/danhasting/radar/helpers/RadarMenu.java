@@ -248,8 +248,8 @@ public class RadarMenu {
                     AppDatabase database = AppDatabase.getAppDatabase(ui.getContext().getApplicationContext());
                     List<Favorite> favorites;
 
-                    if (ui.getSourceInt() == Source.RADAR.getInt())
-                        favorites = database.favoriteDao().findByLocation(Source.RADAR.getInt(), location);
+                    if (ui.getSourceInt() == Source.RADAR.getInt() || ui.getSourceInt() == Source.AIR.getInt())
+                        favorites = database.favoriteDao().findByLocation(ui.getSourceInt(), location);
                     else
                         favorites = database.favoriteDao().findByData(ui.getSourceInt(), location, ui.getType(),
                                 ui.getLoop(), ui.getEnhanced(), ui.getDistance());
@@ -287,8 +287,8 @@ public class RadarMenu {
             AppDatabase database = AppDatabase.getAppDatabase(ui.getContext().getApplicationContext());
             List<Favorite> favorites;
 
-            if (ui.getSourceInt() == Source.RADAR.getInt())
-                favorites = database.favoriteDao().findByLocation(Source.RADAR.getInt(), location);
+            if (ui.getSourceInt() == Source.RADAR.getInt() || ui.getSourceInt() == Source.AIR.getInt())
+                favorites = database.favoriteDao().findByLocation(ui.getSourceInt(), location);
             else
                 favorites = database.favoriteDao().findByData(ui.getSourceInt(), location, ui.getType(),
                         ui.getLoop(), ui.getEnhanced(), ui.getDistance());

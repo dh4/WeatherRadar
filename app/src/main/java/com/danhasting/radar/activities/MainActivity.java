@@ -176,6 +176,8 @@ public class MainActivity extends AppCompatActivity
 
             if (id == R.id.nav_radar)
                 selectIntent.putExtra("selection", Source.RADAR);
+            else if (id == R.id.nav_air)
+                selectIntent.putExtra("selection", Source.AIR);
             else if (id == R.id.nav_nws)
                 selectIntent.putExtra("selection", Source.NWS);
             else if (id == R.id.nav_mosaic)
@@ -259,7 +261,7 @@ public class MainActivity extends AppCompatActivity
                 // Start an activity first before starting another thread
                 // So we don't get a weird artifact on app startup
                 if (onWifi())
-                    startRadarView();
+                    startRadarView(Source.RADAR);
                 else
                     startFormView(Source.NWS);
 
@@ -277,19 +279,21 @@ public class MainActivity extends AppCompatActivity
                     });
                 });
             }
+            case "air" -> startRadarView(Source.AIR);
             case "image" -> startFormView(Source.NWS);
             case "mosaic" -> startFormView(Source.MOSAIC);
-            default -> startRadarView();
+            default -> startRadarView(Source.RADAR);
         }
 
         if (classNameEquals("MainActivity"))
             finish();
     }
 
-    private void startRadarView() {
-        Intent radarWebsiteIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
-        radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        MainActivity.this.startActivity(radarWebsiteIntent);
+    private void startRadarView(Source source) {
+        Intent enhancedRadarIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
+        enhancedRadarIntent.putExtra("source", source);
+        enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        MainActivity.this.startActivity(enhancedRadarIntent);
     }
 
     private void startFormView(Source source) {
@@ -302,15 +306,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startFavoriteView(Favorite favorite) {
-        if (favorite.getSource().equals(Source.RADAR.getInt())) {
-            Intent radarWebsiteIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
-            radarWebsiteIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (favorite.getSource().equals(Source.RADAR.getInt()) || favorite.getSource().equals(Source.AIR.getInt())) {
+            Intent enhancedRadarIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
+            enhancedRadarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
+            enhancedRadarIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            radarWebsiteIntent.putExtra("location", favorite.getLocation());
-            radarWebsiteIntent.putExtra("favorite", true);
-            radarWebsiteIntent.putExtra("name", favorite.getName());
-            radarWebsiteIntent.putExtra("favoriteID", favorite.getUid());
-            MainActivity.this.startActivity(radarWebsiteIntent);
+            enhancedRadarIntent.putExtra("location", favorite.getLocation());
+            enhancedRadarIntent.putExtra("favorite", true);
+            enhancedRadarIntent.putExtra("name", favorite.getName());
+            enhancedRadarIntent.putExtra("favoriteID", favorite.getUid());
+            MainActivity.this.startActivity(enhancedRadarIntent);
             overridePendingTransition(0,0);
         } else {
             Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);

@@ -43,6 +43,7 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
     private RadarMenu radarMenu;
 
     private String location;
+    private Source source;
 
     private EnhancedRadarFragment radarEnhancedFragment;
 
@@ -59,6 +60,7 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         }
 
         Intent intent = getIntent();
+        source = (Source) intent.getSerializableExtra("source");
         location = intent.getStringExtra("location");
         if (location == null) location = "";
 
@@ -70,9 +72,15 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         if (intent.getBooleanExtra("favorite", false))
             radarMenu.setFavoriteName(intent.getStringExtra("name"));
 
-        setTitle(getResources().getString(R.string.enhanced_radar_header));
-        radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
-                .getBoolean("show_radar_fullscreen", false));
+        if (source == Source.AIR) {
+            setTitle(getResources().getString(R.string.air_quality_header));
+            radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
+                    .getBoolean("show_air_fullscreen", false));
+        } else {
+            setTitle(getResources().getString(R.string.enhanced_radar_header));
+            radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
+                    .getBoolean("show_radar_fullscreen", false));
+        }
 
         // Listen for changed URL settings
         getSupportFragmentManager().setFragmentResultListener(
@@ -90,8 +98,12 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data.getBooleanExtra("from_settings", false)) {
-            radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(this)
-                    .getBoolean("show_radar_fullscreen", false));
+            if (source == Source.AIR)
+                radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(this)
+                        .getBoolean("show_air_fullscreen", false));
+            else
+                radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(this)
+                        .getBoolean("show_radar_fullscreen", false));
             refreshRadar();
         }
     }
@@ -100,8 +112,12 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
-                .getBoolean("show_radar_fullscreen", false));
+        if (source == Source.AIR)
+            radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
+                    .getBoolean("show_air_fullscreen", false));
+        else
+            radarMenu.setFullscreen(PreferenceManager.getDefaultSharedPreferences(getContext())
+                    .getBoolean("show_radar_fullscreen", false));
 
         Bundle extras = intent.getExtras();
 
@@ -145,11 +161,17 @@ public class EnhancedRadarActivity extends MainActivity implements RadarMenu.Ui 
         currentFavorite = favorite;
     }
 
+    @Override public void setTitle(CharSequence title) {
+        if (source == Source.AIR)
+            super.setTitle(getResources().getString(R.string.air_quality_header));
+        else
+            super.setTitle(getResources().getString(R.string.enhanced_radar_header));
+    } // Keep the title static
+
 
     @Override public Context getContext() { return this; }
     @Override public AppCompatActivity getActivity() { return this; }
-    @Override public void setTitle(CharSequence title) { super.setTitle(getResources().getString(R.string.enhanced_radar_header)); } // Keep the title static
-    @Override public int getSourceInt() { return Source.RADAR.getInt(); }
+    @Override public int getSourceInt() { return source.getInt(); }
     @Override public String getLocation() {
         return radarEnhancedFragment != null ? radarEnhancedFragment.getCurrentSettings() : null;
     }

@@ -437,6 +437,7 @@
 
     <array name="default_view_names">
         <item>Enhanced Radar</item>
+        <item>Air Quality</item>
         <item>Image Selection</item>
         <item>Mosaic Selection</item>
         <item>Show Favorite</item>
@@ -444,6 +445,7 @@
 
     <array name="default_view_values">
         <item>radar</item>
+        <item>air</item>
         <item>image</item>
         <item>mosaic</item>
         <item>favorite</item>
