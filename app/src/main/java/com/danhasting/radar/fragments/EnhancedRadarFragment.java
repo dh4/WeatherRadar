@@ -146,10 +146,12 @@ public class EnhancedRadarFragment extends Fragment {
 
                     // Inject js to replace initial button text
                     String button_name_js = "(function(){"
-                            + "  var btns = document.getElementsByTagName('button');"
-                            + "  for(var i=0;i<btns.length;i++){"
-                            + "    var b = btns[i];"
-                            + "    b.textContent = b.textContent.replace(/Click to Geolocate/g, 'Continue');"
+                            + "  var els = document.querySelectorAll('button[data-bs-dismiss=\"modal\"]');"
+                            + "  for (var i = 0; i < els.length; i++) {"
+                            + "    var el = els[i];"
+                            + "    if ((el.textContent || '').trim() === 'Click to Geolocate') {"
+                            + "      el.textContent = 'Continue';"
+                            + "    }"
                             + "  }"
                             + "})();";
                     view.evaluateJavascript(button_name_js, null);
