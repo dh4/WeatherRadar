@@ -68,6 +68,8 @@ public class SelectActivity extends MainActivity
 
         if (id == R.id.nav_radar)
             launchSelectionFragment(Source.RADAR);
+        else if (id == R.id.nav_air)
+            launchSelectionFragment(Source.AIR);
         else if (id == R.id.nav_nws)
             launchSelectionFragment(Source.NWS);
         else if (id == R.id.nav_mosaic)
