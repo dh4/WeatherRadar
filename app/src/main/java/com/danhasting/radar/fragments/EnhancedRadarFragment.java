@@ -131,12 +131,26 @@ public class EnhancedRadarFragment extends Fragment {
 
                     if (darkMode && settings.getBoolean("air_overlay_dark_mode", true)) {
                         css += "body { background: #212425 !important; color: #ddd !important } "
+                                + "a { color: #1871c9 !important; } "
                                 + ".offcanvas, .modal-content { background-color: #212425 !important; color: #ddd !important } "
                                 + ".accordion-item, .accordion-button, .accessibility-container, .dropdown-menu, .form-control, .info-bubble "
                                 + "{ background: #181a1b !important; color: #ddd !important } "
                                 + ".refresh-div p { background-color: #212425 !important; } "
                                 + ".form-control::placeholder { color: #999 !important } "
-                                + ".form-control { border-color: #666 } ";
+                                + ".form-control { border-color: #666 } "
+                                + ".tab-col, .graph-inset, .rec-txt { background-color: #3c4244 !important; color: #ddd !important; } "
+                                + ".tab-pad { border-color: #666B6E !important; } "
+                                + ".trend-fill { background-image: radial-gradient(circle, rgb(47, 47, 47) 30%, rgba(255, 255, 255, 0), #3c4244) !important; } "
+                                + ".content-body { background: #262a2b !important; color: #ddd !important; } "
+                                + ".swipe-box, .swipe-box p { background: #3c4244 !important; color: #ddd !important; } "
+                                + ".link-like { color: #ddd !important; } "
+                                + ".flex-column .rec-bubble, .flex-column .rec-bubble p { background: #262a2b !important } "
+                                + "th, td { background: #262a2b !important; color: #ddd !important; } "
+                                + "th, td { border-bottom: 1px solid #3c4244 !important; } "
+                                + ".site-card { border-color: #999 !important; } "
+                                + ".site-card.svelte-13hcvub, .site-card.svelte-13hcvub .site-col { background: #262a2b !important; color: #ddd !important; } "
+                                + ".maplibregl-popup-content { background: #262a2b !important; color: #ddd !important; } "
+                                + ".maplibregl-popup-tip { border-top-color: #262a2b !important; } ";
                     }
 
                     // Inject JS to get onUrlChanged working for URI fragment changes
@@ -163,6 +177,7 @@ public class EnhancedRadarFragment extends Fragment {
 
                     if (darkMode && settings.getBoolean("radar_overlay_dark_mode", true)) {
                         css += "body, .main, .cmi-radar-container { background: #212425 !important; color: #ddd !important } "
+                                + "a { color: #1871c9 !important; } "
                                 + ".menu-agendas { background: #212425 !important; } "
                                 + ".menu-panel-agenda { background: #212425 !important; color: #ddd !important; } "
                                 + ".menu-panel-agenda-title { color: #ddd !important; } "
@@ -173,6 +188,12 @@ public class EnhancedRadarFragment extends Fragment {
                                 + ".panel-buttons { background: #2b2e30 !important; } "
                                 + ".panel-buttons input, .config-item-input { border-color: #495053 !important; "
                                 + "    background-color: #222426 !important; color: #ddd !important; } "
+                                + ".panel-item { background: #212425 !important; border-color: #3e4446 !important; } "
+                                + ".panel { background: #181a1b !important; } "
+                                + ".title, .advanced-button { background: #212425 !important; color: #ddd !important; } "
+                                + ".action .button { background: #084a8c !important; color: #fff !important; } "
+                                + ".alert-actions:hover { background: #212425 !important; color: #fff !important; } "
+                                + ".term-name { background: #212425 !important; } "
                                 + ".details-period-temperature .temp-low { color: rgb(94, 134, 184) !important; } "
                                 + ".menu-panel-agenda { color: #ddd !important; background: #212425 !important; } "
                                 + ".menu-panel-agenda-actions-item.selected { border-bottom-color: #ddd !important; } "
