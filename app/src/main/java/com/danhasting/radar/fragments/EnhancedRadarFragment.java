@@ -125,11 +125,11 @@ public class EnhancedRadarFragment extends Fragment {
 
                 if (source == Source.AIR) {
                     // Remove info at bottom (looks cluttered on a small screen)
-                    css = ".maplibregl-ctrl-bottom-right  { display: none !important; } "
+                    css = ".maplibregl-ctrl-bottom-right { display: none !important; } "
                             + ".refresh-div { bottom: 15px !important; right: 10px !important; } "
                             + ".map-legend { overflow:hidden !important; } ";
 
-                    if (darkMode) {
+                    if (darkMode && settings.getBoolean("air_overlay_dark_mode", true)) {
                         css += "body { background: #212425 !important; color: #ddd !important } "
                                 + ".offcanvas, .modal-content { background-color: #212425 !important; color: #ddd !important } "
                                 + ".accordion-item, .accordion-button, .accessibility-container, .dropdown-menu, .form-control, .info-bubble "
@@ -161,7 +161,7 @@ public class EnhancedRadarFragment extends Fragment {
                     // Remove website header
                     css = "header { display: none !important; } main { inset: 0px !important; }";
 
-                    if (darkMode) {
+                    if (darkMode && settings.getBoolean("radar_overlay_dark_mode", true)) {
                         css += ".menu-agendas { background: #212425 !important; } "
                                 + ".menu-panel-agenda { background: #212425 !important; color: #ddd !important; } "
                                 + ".menu-panel-agenda-title { color: #ddd !important; } "
@@ -170,18 +170,20 @@ public class EnhancedRadarFragment extends Fragment {
                                 + ".menu-panel { background: #212425 !important; } "
                                 + ".cmi-radar-container { color: #ddd !important; } "
                                 + ".panel-buttons { background: #2b2e30 !important; } "
-                                + ".panel-buttons input, .config-item-input { border-color: #495053 !important; background-color: #222426 !important; color: #ddd !important; } "
+                                + ".panel-buttons input, .config-item-input { border-color: #495053 !important; "
+                                + "    background-color: #222426 !important; color: #ddd !important; } "
                                 + ".details-period-temperature .temp-low { color: rgb(94, 134, 184) !important; } "
                                 + ".menu-panel-agenda { color: #ddd !important; background: #212425 !important; } "
                                 + ".menu-panel-agenda-actions-item.selected { border-bottom-color: #ddd !important; } "
-                                + ".menu-panel-agenda-actions-item { border-bottom: 4px solid #212425 !important; border-right: 1px solid #181a1b !important; } "
+                                + ".menu-panel-agenda-actions-item { border-bottom: 4px solid #212425 !important; "
+                                + "    border-right: 1px solid #181a1b !important; } "
                                 + ".agenda-menu-item-bar { background-color: #181a1b !important; } "
                                 + ".menu-panel-agenda-actions-item-icon { color: #ddd !important } ";
 
                     }
 
                     // Allow capturing URL changes
-                    String capture_url_change_js = "(() => {"
+                    String capture_url_change_js = "(function(){"
                             + "function notify() { AndroidBridge.onUrlChanged(window.location.href); }"
                             + "const _pushState = history.pushState;"
                             + "history.pushState = function(){ _pushState.apply(this, arguments); notify(); };"
@@ -197,13 +199,17 @@ public class EnhancedRadarFragment extends Fragment {
                 }
 
                 // Inject custom css
-                String css_js = "(function(){" +
-                        "var parent = document.head || document.documentElement;" +
-                        "var style = document.createElement('style');" +
-                        "style.type = 'text/css';" +
-                        "style.appendChild(document.createTextNode('" + css + "'));" +
-                        "parent.appendChild(style);" +
-                        "})()";
+                String css_js = "(function(){"
+                        + "var parent = document.head || document.documentElement;"
+                        + "var style = document.querySelector('.weather-radar-css');"
+                        + "if (!style) {"
+                        + "  var style = document.createElement('style');"
+                        + "  style.className = 'weather-radar-css';"
+                        + "  style.type = 'text/css';"
+                        + "  parent.appendChild(style);"
+                        + "}"
+                        + "style.textContent = '" + css + "';"
+                        + "})()";
                 view.evaluateJavascript(css_js, null);
 
                 // Set the overlay scale from settings

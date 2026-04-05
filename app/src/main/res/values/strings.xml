@@ -64,7 +64,9 @@
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
     <string name="show_fullscreen_title">Show fullscreen</string>
     <string name="show_fullscreen_summary">Hides the top bar. Drag from the left side of the screen to access the sidebar or hold to access the context menu.</string>
-    <string name="scale_title">Overlay Scale</string>
+    <string name="scale_title">Overlay scale</string>
+    <string name="overlay_dark_mode_title">Adjust overlay style</string>
+    <string name="overlay_dark_mode_summary">Apply dark styling to the overlay when in dark mode</string>
 
 
     <!-- About -->

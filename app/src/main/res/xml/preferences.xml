@@ -44,6 +44,12 @@
             app:min="50"
             app:showSeekBarValue="true" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="radar_overlay_dark_mode"
+            android:summary="@string/overlay_dark_mode_summary"
+            android:title="@string/overlay_dark_mode_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/air_quality_title">
@@ -60,6 +66,12 @@
             android:max="100"
             app:min="50"
             app:showSeekBarValue="true" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="air_overlay_dark_mode"
+            android:summary="@string/overlay_dark_mode_summary"
+            android:title="@string/overlay_dark_mode_title" />
 
     </PreferenceCategory>
 
