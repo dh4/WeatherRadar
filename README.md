@@ -1,6 +1,6 @@
 # Weather Radar
 
-<p style="text-align:center;"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/icon_128.png" alt="Weather Radar" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/resources/icon_128.png" alt="Weather Radar" /></p>
 
 Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service and an air quality map from AirNow.
 
@@ -16,7 +16,7 @@ APKs are also available on the [releases](https://github.com/dh4/WeatherRadar/re
 
 ## Screenshots
 
-<p style="text-align:center;">
+<p align="center">
 <img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="Screen Shot" width="250" />
 <img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="Screen Shot" width="250" />
 <img src="https://raw.githubusercontent.com/dh4/WeatherRadar/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" alt="Screen Shot" width="250" />
