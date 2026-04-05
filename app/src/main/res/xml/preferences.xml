@@ -39,10 +39,39 @@
         <androidx.preference.SeekBarPreference
             android:defaultValue="100"
             android:key="radar_scale"
-            android:title="@string/radar_scale_title"
+            android:title="@string/scale_title"
             android:max="100"
             app:min="50"
             app:showSeekBarValue="true" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="radar_overlay_dark_mode"
+            android:summary="@string/overlay_dark_mode_summary"
+            android:title="@string/overlay_dark_mode_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/air_quality_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="show_air_fullscreen"
+            android:summary="@string/show_fullscreen_summary"
+            android:title="@string/show_fullscreen_title" />
+
+        <androidx.preference.SeekBarPreference
+            android:defaultValue="100"
+            android:key="air_scale"
+            android:title="@string/scale_title"
+            android:max="100"
+            app:min="50"
+            app:showSeekBarValue="true" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="air_overlay_dark_mode"
+            android:summary="@string/overlay_dark_mode_summary"
+            android:title="@string/overlay_dark_mode_title" />
 
     </PreferenceCategory>
 

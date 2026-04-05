@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="type_names">
-        <item>Base Reflectivity</item>
-        <item>Composite Reflectivity</item>
-        <item>Base Velocity</item>
-        <item>Storm Relative Velocity</item>
-        <item>One-Hour Rainfall Total</item>
-        <item>Storm Rainfall Total</item>
-        <item>Long Range Base Reflectivity</item>
-    </array>
-    <array name="type_values">
-        <item>N0R</item>
-        <item>NCR</item>
-        <item>N0V</item>
-        <item>N0S</item>
-        <item>N1P</item>
-        <item>NTP</item>
-        <item>N0Z</item>
-    </array>
-
     <array name="location_names">
         <item>Alabama / Birmingham</item>
         <item>Alabama / Eastern Alabama</item>
@@ -377,38 +358,6 @@
         <item>UPPERMISSVLY</item>
     </array>
 
-    <array name="enhanced_layer_names">
-        <item>Topo</item>
-        <item>Radar</item>
-        <item>Counties</item>
-        <item>Rivers</item>
-        <item>Highways</item>
-        <item>Cities</item>
-        <item>Warnings</item>
-        <item>Legend</item>
-    </array>
-
-    <string-array name="enhanced_layer_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-    </string-array>
-
-    <string-array name="enhanced_layer_default">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-    </string-array>
-
     <array name="wifi_toggle_names">
         <item>Never</item>
         <item>Wi-Fi only</item>
@@ -437,6 +386,7 @@
 
     <array name="default_view_names">
         <item>Enhanced Radar</item>
+        <item>Air Quality</item>
         <item>Image Selection</item>
         <item>Mosaic Selection</item>
         <item>Show Favorite</item>
@@ -444,6 +394,7 @@
 
     <array name="default_view_values">
         <item>radar</item>
+        <item>air</item>
         <item>image</item>
         <item>mosaic</item>
         <item>favorite</item>

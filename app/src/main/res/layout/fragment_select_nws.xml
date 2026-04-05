@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/windowBackground">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -29,14 +28,16 @@
             <Spinner
                 android:id="@+id/locationSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="41dp"
+                android:layout_height="48dp"
+                android:maxWidth="320dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/loopSwitch"
                 android:layout_width="match_parent"
-                android:layout_height="41dp"
+                android:layout_height="48dp"
+                android:maxWidth="320dp"
                 android:layout_marginTop="30dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
@@ -48,6 +49,7 @@
                 style="@style/buttonThemeSelect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxWidth="320dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginRight="20dp"

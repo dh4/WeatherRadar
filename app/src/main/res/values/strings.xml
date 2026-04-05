@@ -1,11 +1,15 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Weather Radar</string>
 
     <string name="radar_website">https://radar.weather.gov/</string>
+    <string name="air_quality_website">https://fire.airnow.gov/</string>
     <string name="radar_images_location">https://radar.weather.gov/ridge/standard/</string>
+
+    <string name="nws_dark_base_map" tools:ignore="Typos">v1_eyJhZ2VuZGEiOnsiaWQiOm51bGwsImNlbnRlciI6Wy05NSwzN10sImxvY2F0aW9uIjpudWxsLCJ6b29tIjo0fSwiYW5pbWF0aW5nIjpmYWxzZSwiYmFzZSI6ImRhcmtjYW52YXMiLCJhcnRjYyI6ZmFsc2UsImNvdW50eSI6ZmFsc2UsImN3YSI6ZmFsc2UsInJmYyI6ZmFsc2UsInN0YXRlIjpmYWxzZSwibWVudSI6dHJ1ZSwic2hvcnRGdXNlZE9ubHkiOmZhbHNlLCJvcGFjaXR5Ijp7ImFsZXJ0cyI6MC44LCJsb2NhbCI6MC42LCJsb2NhbFN0YXRpb25zIjowLjgsIm5hdGlvbmFsIjowLjZ9fQ%3D%3D</string>
 
     <!-- Activity Headers -->
     <string name="enhanced_radar_header">National Weather Service</string>
+    <string name="air_quality_header">Air Quality</string>
     <string name="select_nws_image">NWS Images</string>
     <string name="select_mosaic_image">NWS Mosaics</string>
     <string name="about">About Weather Radar</string>
@@ -13,6 +17,7 @@
     <!-- Nav Drawer -->
     <string name="header_title">Weather Radar</string>
     <string name="nav_radar">Enhanced Radar</string>
+    <string name="nav_air">Air Quality</string>
     <string name="nav_select">NWS Images</string>
     <string name="nav_mosaic">NWS Mosaics</string>
     <string name="nav_settings">Settings</string>
@@ -43,6 +48,7 @@
     <!-- Preferences -->
     <string name="general_title">General</string>
     <string name="radar_title">Enhanced Radar</string>
+    <string name="air_quality_title">Air Quality</string>
     <string name="nws_title">Radar Images</string>
     <string name="theme_title">Theme</string>
     <string name="theme_summary">Must restart to take effect.</string>
@@ -58,7 +64,9 @@
     <string name="show_maximized_summary">Tap the edge of the image to view cut-off portions.</string>
     <string name="show_fullscreen_title">Show fullscreen</string>
     <string name="show_fullscreen_summary">Hides the top bar. Drag from the left side of the screen to access the sidebar or hold to access the context menu.</string>
-    <string name="radar_scale_title">Overlay Scale</string>
+    <string name="scale_title">Overlay scale</string>
+    <string name="overlay_dark_mode_title">Adjust overlay style</string>
+    <string name="overlay_dark_mode_summary">Apply dark styling to the overlay when in dark mode</string>
 
 
     <!-- About -->
@@ -75,6 +83,9 @@
     <string name="nws_line1">Weather Radar provides access to doppler radar images from the United States National Weather Service. Their privacy policy can be found here:\n<a>www.weather.gov/privacy</a></string>
     <string name="nws_line2">This application is not endorsed by the National Weather Service. Their images are public domain and not subject to copyright protection:\n<a>www.weather.gov/disclaimer</a></string>
     <string name="nws_line3">National Weather Service radar imagery is only available for the United States and its territories.</string>
+    <string name="airnow_header">AirNow</string>
+    <string name="airnow_line1">Weather Radar provides access to the air quality map at <a>fire.airnow.gov</a>. AirNow is a collaboration of various government agencies and this application is not endorsed by or affiliated with that partnership or any of the participating agencies. You can view their disclaimer here:\n<a>www.airnow.gov/fasm-v4/disclaimer</a></string>
+    <string name="airnow_line2">Or for more information about AirNow, visit:\n<a>www.airnow.gov/about-airnow</a></string>
 
     <!-- Welcome Dialog -->
     <string name="welcome_dismiss">OK, Got it!</string>

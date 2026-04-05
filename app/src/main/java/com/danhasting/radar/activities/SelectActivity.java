@@ -68,6 +68,8 @@ public class SelectActivity extends MainActivity
 
         if (id == R.id.nav_radar)
             launchSelectionFragment(Source.RADAR);
+        else if (id == R.id.nav_air)
+            launchSelectionFragment(Source.AIR);
         else if (id == R.id.nav_nws)
             launchSelectionFragment(Source.NWS);
         else if (id == R.id.nav_mosaic)
@@ -89,12 +91,23 @@ public class SelectActivity extends MainActivity
     private void launchSelectionFragment(Source selection, Boolean force) {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
+        Intent enhancedRadarIntent;
+
         switch (selection) {
             case RADAR:
-                Intent radarWebsiteIntent = new Intent(SelectActivity.this, EnhancedRadarActivity.class);
-                radarWebsiteIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                enhancedRadarIntent = new Intent(SelectActivity.this, EnhancedRadarActivity.class);
+                enhancedRadarIntent.putExtra("source", Source.fromInt(Source.RADAR.getInt()));
+                enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-                SelectActivity.this.startActivity(radarWebsiteIntent);
+                SelectActivity.this.startActivity(enhancedRadarIntent);
+                break;
+
+            case AIR:
+                enhancedRadarIntent = new Intent(SelectActivity.this, EnhancedRadarActivity.class);
+                enhancedRadarIntent.putExtra("source", Source.fromInt(Source.AIR.getInt()));
+                enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                SelectActivity.this.startActivity(enhancedRadarIntent);
                 break;
 
             case NWS:
