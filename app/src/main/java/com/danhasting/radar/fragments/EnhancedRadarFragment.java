@@ -162,7 +162,8 @@ public class EnhancedRadarFragment extends Fragment {
                     css = "header { display: none !important; } main { inset: 0px !important; }";
 
                     if (darkMode && settings.getBoolean("radar_overlay_dark_mode", true)) {
-                        css += ".menu-agendas { background: #212425 !important; } "
+                        css += "body, .main, .cmi-radar-container { background: #212425 !important; color: #ddd !important } "
+                                + ".menu-agendas { background: #212425 !important; } "
                                 + ".menu-panel-agenda { background: #212425 !important; color: #ddd !important; } "
                                 + ".menu-panel-agenda-title { color: #ddd !important; } "
                                 + ".menu-panel { background: #212425 !important; color: #ddd !important; } "
