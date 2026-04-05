@@ -7,10 +7,8 @@
     <color name="buttonBackground">#DDDDDD</color>
     <color name="buttonText">#000000</color>
     <color name="buttonTextSelect">#FFFFFF</color>
-    <color name="recentsTopBar">#EEEEEE</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="dialogBackground">#EEEEEE</color>
     <color name="linkColor">#09427a</color>
     <color name="dialogButtonText">#1e89f6</color>
-    <color name="dialogButtonTextNeutral">#999999</color>
 </resources>

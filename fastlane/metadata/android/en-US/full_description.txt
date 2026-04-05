@@ -1,5 +1,5 @@
-Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service.
+Weather Radar is an open-source application featuring doppler radar images from the United States National Weather Service and the air quality map from AirNow.
 
-The images are single images based on location rather than tiled images that can be panned like most other applications of this type. This allows faster loading when connection speeds are sub-optimal. You can save your favorite views for easy reference.
+There are two radar options: an "enhanced" radar with pan and zoom capabilities and single images based on location. The single images can be faster to load when connection speeds are suboptimal. You can save your favorite views for easy reference.
 
 National Weather Service radar imagery is available for the United States and its territories.

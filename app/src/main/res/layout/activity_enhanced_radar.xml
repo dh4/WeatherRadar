@@ -3,8 +3,7 @@
     android:id="@+id/radarWebsiteLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize"
-    android:background="@color/windowBackground">
+    android:paddingTop="?attr/actionBarSize">
 
     <FrameLayout
         android:id="@+id/fragment_container"
