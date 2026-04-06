@@ -100,6 +100,7 @@ public class SelectActivity extends MainActivity
                 enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                 SelectActivity.this.startActivity(enhancedRadarIntent);
+                SelectActivity.this.finish();
                 break;
 
             case AIR:
@@ -108,6 +109,7 @@ public class SelectActivity extends MainActivity
                 enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                 SelectActivity.this.startActivity(enhancedRadarIntent);
+                SelectActivity.this.finish();
                 break;
 
             case NWS:
