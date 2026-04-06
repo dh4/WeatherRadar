@@ -97,7 +97,7 @@ public class SelectActivity extends MainActivity
             case RADAR:
                 fullWebIntent = new Intent(SelectActivity.this, FullWebActivity.class);
                 fullWebIntent.putExtra("source", Source.fromInt(Source.RADAR.getInt()));
-                fullWebIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                fullWebIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                 SelectActivity.this.startActivity(fullWebIntent);
                 SelectActivity.this.finish();
@@ -106,7 +106,7 @@ public class SelectActivity extends MainActivity
             case AIR:
                 fullWebIntent = new Intent(SelectActivity.this, FullWebActivity.class);
                 fullWebIntent.putExtra("source", Source.fromInt(Source.AIR.getInt()));
-                fullWebIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                fullWebIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                 SelectActivity.this.startActivity(fullWebIntent);
                 SelectActivity.this.finish();

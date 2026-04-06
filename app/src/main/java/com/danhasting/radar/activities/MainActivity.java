@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity
         if (favorite.getSource().equals(Source.RADAR.getInt()) || favorite.getSource().equals(Source.AIR.getInt())) {
             Intent fullWebIntent = new Intent(MainActivity.this, FullWebActivity.class);
             fullWebIntent.putExtra("source", Source.fromInt(favorite.getSource()));
-            fullWebIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            fullWebIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             fullWebIntent.putExtra("location", favorite.getLocation());
             fullWebIntent.putExtra("favorite", true);
