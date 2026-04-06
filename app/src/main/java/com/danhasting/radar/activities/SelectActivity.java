@@ -91,24 +91,24 @@ public class SelectActivity extends MainActivity
     private void launchSelectionFragment(Source selection, Boolean force) {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-        Intent enhancedRadarIntent;
+        Intent fullWebIntent;
 
         switch (selection) {
             case RADAR:
-                enhancedRadarIntent = new Intent(SelectActivity.this, EnhancedRadarActivity.class);
-                enhancedRadarIntent.putExtra("source", Source.fromInt(Source.RADAR.getInt()));
-                enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                fullWebIntent = new Intent(SelectActivity.this, FullWebActivity.class);
+                fullWebIntent.putExtra("source", Source.fromInt(Source.RADAR.getInt()));
+                fullWebIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                SelectActivity.this.startActivity(enhancedRadarIntent);
+                SelectActivity.this.startActivity(fullWebIntent);
                 SelectActivity.this.finish();
                 break;
 
             case AIR:
-                enhancedRadarIntent = new Intent(SelectActivity.this, EnhancedRadarActivity.class);
-                enhancedRadarIntent.putExtra("source", Source.fromInt(Source.AIR.getInt()));
-                enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                fullWebIntent = new Intent(SelectActivity.this, FullWebActivity.class);
+                fullWebIntent.putExtra("source", Source.fromInt(Source.AIR.getInt()));
+                fullWebIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                SelectActivity.this.startActivity(enhancedRadarIntent);
+                SelectActivity.this.startActivity(fullWebIntent);
                 SelectActivity.this.finish();
                 break;
 

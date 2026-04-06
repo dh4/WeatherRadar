@@ -24,7 +24,7 @@
             android:name=".activities.RadarActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.EnhancedRadarActivity"
+            android:name=".activities.FullWebActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AboutActivity" />

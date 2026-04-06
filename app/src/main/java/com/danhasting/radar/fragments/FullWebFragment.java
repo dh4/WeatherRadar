@@ -50,7 +50,7 @@ import com.danhasting.radar.R;
 import com.danhasting.radar.database.Source;
 
 
-public class EnhancedRadarFragment extends Fragment {
+public class FullWebFragment extends Fragment {
 
     private String location;
     private Source source;
@@ -59,31 +59,31 @@ public class EnhancedRadarFragment extends Fragment {
     private boolean darkMode = false;
 
     private ProgressBar progressBar;
-    private WebView radarEnhancedView;
+    private WebView fullWebView;
 
     private SharedPreferences settings;
 
     @Override
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_enhanced_radar, container, false);
+        View view = inflater.inflate(R.layout.fragment_full_web, container, false);
         settings = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         darkMode = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
 
-        progressBar = view.findViewById(R.id.radarEnhancedProgress);
+        progressBar = view.findViewById(R.id.fullWebProgress);
 
-        radarEnhancedView = view.findViewById(R.id.radarEnhancedView);
-        radarEnhancedView.getSettings().setLoadWithOverviewMode(true);
-        radarEnhancedView.getSettings().setUseWideViewPort(true);
-        radarEnhancedView.getSettings().setBuiltInZoomControls(true);
-        radarEnhancedView.getSettings().setDisplayZoomControls(false);
-        radarEnhancedView.getSettings().setJavaScriptEnabled(true);
-        radarEnhancedView.getSettings().setDomStorageEnabled(true);
-        radarEnhancedView.getSettings().setSupportZoom(true);
+        fullWebView = view.findViewById(R.id.fullWebView);
+        fullWebView.getSettings().setLoadWithOverviewMode(true);
+        fullWebView.getSettings().setUseWideViewPort(true);
+        fullWebView.getSettings().setBuiltInZoomControls(true);
+        fullWebView.getSettings().setDisplayZoomControls(false);
+        fullWebView.getSettings().setJavaScriptEnabled(true);
+        fullWebView.getSettings().setDomStorageEnabled(true);
+        fullWebView.getSettings().setSupportZoom(true);
 
-        radarEnhancedView.setVerticalScrollBarEnabled(false);
-        radarEnhancedView.setHorizontalScrollBarEnabled(false);
+        fullWebView.setVerticalScrollBarEnabled(false);
+        fullWebView.setHorizontalScrollBarEnabled(false);
 
         // Uncomment the below code for algorithmic dark mode in the webview
         // We implemented custom styles below which look better though
@@ -92,10 +92,10 @@ public class EnhancedRadarFragment extends Fragment {
 //        if ((source == Source.AIR && settings.getBoolean("air_overlay_dark_mode", true)) ||
 //                (source == Source.RADAR && settings.getBoolean("radar_overlay_dark_mode", true))) {
 //            if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-//                WebSettingsCompat.setAlgorithmicDarkeningAllowed(radarEnhancedView.getSettings(), true);
+//                WebSettingsCompat.setAlgorithmicDarkeningAllowed(fullWebView.getSettings(), true);
 //        }
 
-        radarEnhancedView.addJavascriptInterface(new Object() {
+        fullWebView.addJavascriptInterface(new Object() {
             @JavascriptInterface
             public void onUrlChanged(String url) {
                 // Runs on background thread; post to UI if needed
@@ -127,7 +127,7 @@ public class EnhancedRadarFragment extends Fragment {
             }
         }, "AndroidBridge");
 
-        radarEnhancedView.setWebViewClient(new WebViewClient() {
+        fullWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -261,9 +261,9 @@ public class EnhancedRadarFragment extends Fragment {
 
                 if (pageLoaded) return;
 
-                radarEnhancedView.postDelayed(() -> {
+                fullWebView.postDelayed(() -> {
                     progressBar.setVisibility(View.GONE);
-                    if (!errorShown) radarEnhancedView.setVisibility(View.VISIBLE);
+                    if (!errorShown) fullWebView.setVisibility(View.VISIBLE);
                     pageLoaded = true;
                 }, 250);
             }
@@ -274,7 +274,7 @@ public class EnhancedRadarFragment extends Fragment {
                 if (pageLoaded) return;
 
                 progressBar.setVisibility(View.GONE);
-                radarEnhancedView.setVisibility(View.GONE);
+                fullWebView.setVisibility(View.GONE);
 
                 Toast.makeText(requireActivity(), "Map did not load. Check your network connection.", Toast.LENGTH_LONG).show();
                 errorShown = true;
@@ -340,15 +340,15 @@ public class EnhancedRadarFragment extends Fragment {
             }
         }
 
-        refreshEnhancedRadar(location);
+        refreshWebView(location);
     }
 
-    public void refreshEnhancedRadar(String location) {
+    public void refreshWebView(String location) {
         errorShown = false;
         pageLoaded = false;
 
         progressBar.setVisibility(View.VISIBLE);
-        radarEnhancedView.setVisibility(View.GONE);
+        fullWebView.setVisibility(View.GONE);
 
         if (source == Source.AIR) {
             String website_settings = settings.getString("airnow_website_settings", "");
@@ -357,9 +357,9 @@ public class EnhancedRadarFragment extends Fragment {
                 website_settings = location;
 
             if (!Objects.equals(website_settings, ""))
-                radarEnhancedView.loadUrl(getString(R.string.air_quality_website) + "#"+website_settings);
+                fullWebView.loadUrl(getString(R.string.air_quality_website) + "#"+website_settings);
             else
-                radarEnhancedView.loadUrl(getString(R.string.air_quality_website));
+                fullWebView.loadUrl(getString(R.string.air_quality_website));
         } else {
             String website_settings = settings.getString("nws_website_settings", "");
 
@@ -367,14 +367,14 @@ public class EnhancedRadarFragment extends Fragment {
                 website_settings = location;
 
             if (!Objects.equals(website_settings, ""))
-                radarEnhancedView.loadUrl(getString(R.string.radar_website) + "?settings=" + website_settings);
+                fullWebView.loadUrl(getString(R.string.radar_website) + "?settings=" + website_settings);
             else
-                radarEnhancedView.loadUrl(getString(R.string.radar_website));
+                fullWebView.loadUrl(getString(R.string.radar_website));
         }
     }
 
     public String getCurrentSettings() {
-        Uri uri = Uri.parse(radarEnhancedView.getUrl());
+        Uri uri = Uri.parse(fullWebView.getUrl());
 
         if (source == Source.AIR)
             return uri.getFragment();
@@ -384,7 +384,7 @@ public class EnhancedRadarFragment extends Fragment {
 
     public CompletableFuture<String> getCurrentLocationNameAsync() {
         CompletableFuture<String> f = new CompletableFuture<>();
-        radarEnhancedView.evaluateJavascript(
+        fullWebView.evaluateJavascript(
                 "document.querySelector('.search-location').innerText;",
                 value -> {
                     String result = "";

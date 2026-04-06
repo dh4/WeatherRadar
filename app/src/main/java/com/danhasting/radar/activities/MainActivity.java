@@ -178,9 +178,9 @@ public class MainActivity extends AppCompatActivity
         Source currentSource = WeatherRadar.getCurrentSource();
 
         if (currentActivity != null && currentSource != null) {
-            if (id == R.id.nav_radar && currentActivity instanceof EnhancedRadarActivity && currentSource == Source.RADAR)
+            if (id == R.id.nav_radar && currentActivity instanceof FullWebActivity && currentSource == Source.RADAR)
                 return false;
-            if (id == R.id.nav_air && currentActivity instanceof EnhancedRadarActivity && currentSource == Source.AIR)
+            if (id == R.id.nav_air && currentActivity instanceof FullWebActivity && currentSource == Source.AIR)
                 return false;
             if (id == R.id.nav_nws && currentActivity instanceof SelectActivity && currentSource == Source.NWS)
                 return false;
@@ -311,10 +311,10 @@ public class MainActivity extends AppCompatActivity
     private void startRadarView(Source source) {
         WeatherRadar.setCurrentSource(source);
 
-        Intent enhancedRadarIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
-        enhancedRadarIntent.putExtra("source", source);
-        enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        MainActivity.this.startActivity(enhancedRadarIntent);
+        Intent fullWebIntent = new Intent(MainActivity.this, FullWebActivity.class);
+        fullWebIntent.putExtra("source", source);
+        fullWebIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        MainActivity.this.startActivity(fullWebIntent);
     }
 
     private void startFormView(Source source) {
@@ -332,15 +332,15 @@ public class MainActivity extends AppCompatActivity
         WeatherRadar.setCurrentSource(Source.fromInt(favorite.getSource()));
 
         if (favorite.getSource().equals(Source.RADAR.getInt()) || favorite.getSource().equals(Source.AIR.getInt())) {
-            Intent enhancedRadarIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
-            enhancedRadarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
-            enhancedRadarIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent fullWebIntent = new Intent(MainActivity.this, FullWebActivity.class);
+            fullWebIntent.putExtra("source", Source.fromInt(favorite.getSource()));
+            fullWebIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            enhancedRadarIntent.putExtra("location", favorite.getLocation());
-            enhancedRadarIntent.putExtra("favorite", true);
-            enhancedRadarIntent.putExtra("name", favorite.getName());
-            enhancedRadarIntent.putExtra("favoriteID", favorite.getUid());
-            MainActivity.this.startActivity(enhancedRadarIntent);
+            fullWebIntent.putExtra("location", favorite.getLocation());
+            fullWebIntent.putExtra("favorite", true);
+            fullWebIntent.putExtra("name", favorite.getName());
+            fullWebIntent.putExtra("favoriteID", favorite.getUid());
+            MainActivity.this.startActivity(fullWebIntent);
             overridePendingTransition(0,0);
         } else {
             Intent radarIntent = new Intent(MainActivity.this, RadarActivity.class);
