@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".WeatherRadar"
         android:allowBackup="true"
         android:icon="@mipmap/app_icon_adaptive"
         android:label="@string/app_name"

@@ -30,6 +30,7 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 
 import com.danhasting.radar.R;
+import com.danhasting.radar.WeatherRadar;
 import com.danhasting.radar.database.Source;
 import com.danhasting.radar.fragments.SelectMosaicFragment;
 import com.danhasting.radar.fragments.SelectNWSFragment;
@@ -37,8 +38,6 @@ import com.danhasting.radar.fragments.SelectNWSFragment;
 public class SelectActivity extends MainActivity
         implements SelectNWSFragment.OnNWSSelectedListener,
         SelectMosaicFragment.OnMosaicSelectedListener {
-
-    private Source currentSelection = Source.RADAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +82,10 @@ public class SelectActivity extends MainActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data.getBooleanExtra("from_settings", false)) {
-            launchSelectionFragment(currentSelection, true);
-        }
+        Source currentSource = WeatherRadar.getCurrentSource();
+
+        if (currentSource != null && data.getBooleanExtra("from_settings", false))
+            launchSelectionFragment(currentSource, true);
     }
 
     private void launchSelectionFragment(Source selection, Boolean force) {
@@ -129,7 +129,7 @@ public class SelectActivity extends MainActivity
                 break;
         }
 
-        currentSelection = selection;
+        WeatherRadar.setCurrentSource(selection);
     }
 
     private void launchSelectionFragment(Source selection) {

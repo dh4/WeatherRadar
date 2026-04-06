@@ -18,6 +18,7 @@
  */
 package com.danhasting.radar.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +30,8 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+
+import com.danhasting.radar.WeatherRadar;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -170,6 +173,21 @@ public class MainActivity extends AppCompatActivity
 
         final int id = menuItem.getItemId();
 
+        // Prevent launching the current view again
+        Activity currentActivity = WeatherRadar.getCurrentActivity();
+        Source currentSource = WeatherRadar.getCurrentSource();
+
+        if (currentActivity != null && currentSource != null) {
+            if (id == R.id.nav_radar && currentActivity instanceof EnhancedRadarActivity && currentSource == Source.RADAR)
+                return false;
+            if (id == R.id.nav_air && currentActivity instanceof EnhancedRadarActivity && currentSource == Source.AIR)
+                return false;
+            if (id == R.id.nav_nws && currentActivity instanceof SelectActivity && currentSource == Source.NWS)
+                return false;
+            if (id == R.id.nav_mosaic && currentActivity instanceof SelectActivity && currentSource == Source.MOSAIC)
+                return false;
+        }
+
         if (!classNameEquals("SelectActivity")) {
             Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
             selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -185,6 +203,7 @@ public class MainActivity extends AppCompatActivity
 
             if (selectIntent.hasExtra("selection")) {
                 MainActivity.this.startActivity(selectIntent);
+
                 return true;
             }
         }
@@ -290,6 +309,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startRadarView(Source source) {
+        WeatherRadar.setCurrentSource(source);
+
         Intent enhancedRadarIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
         enhancedRadarIntent.putExtra("source", source);
         enhancedRadarIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -297,6 +318,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startFormView(Source source) {
+        WeatherRadar.setCurrentSource(source);
+
         Intent selectIntent = new Intent(MainActivity.this, SelectActivity.class);
         selectIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
@@ -306,6 +329,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startFavoriteView(Favorite favorite) {
+        WeatherRadar.setCurrentSource(Source.fromInt(favorite.getSource()));
+
         if (favorite.getSource().equals(Source.RADAR.getInt()) || favorite.getSource().equals(Source.AIR.getInt())) {
             Intent enhancedRadarIntent = new Intent(MainActivity.this, EnhancedRadarActivity.class);
             enhancedRadarIntent.putExtra("source", Source.fromInt(favorite.getSource()));
