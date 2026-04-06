@@ -16,7 +16,7 @@
 
     <!-- Nav Drawer -->
     <string name="header_title">Weather Radar</string>
-    <string name="nav_radar">Enhanced Radar</string>
+    <string name="nav_radar">Radar Map</string>
     <string name="nav_air">Air Quality</string>
     <string name="nav_select">NWS Images</string>
     <string name="nav_mosaic">NWS Mosaics</string>
