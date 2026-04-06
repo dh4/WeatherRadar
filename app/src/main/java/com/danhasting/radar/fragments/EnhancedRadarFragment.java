@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -85,6 +84,16 @@ public class EnhancedRadarFragment extends Fragment {
 
         radarEnhancedView.setVerticalScrollBarEnabled(false);
         radarEnhancedView.setHorizontalScrollBarEnabled(false);
+
+        // Uncomment the below code for algorithmic dark mode in the webview
+        // We implemented custom styles below which look better though
+        // implementation 'androidx.webkit:webkit:1.5.0'
+
+//        if ((source == Source.AIR && settings.getBoolean("air_overlay_dark_mode", true)) ||
+//                (source == Source.RADAR && settings.getBoolean("radar_overlay_dark_mode", true))) {
+//            if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+//                WebSettingsCompat.setAlgorithmicDarkeningAllowed(radarEnhancedView.getSettings(), true);
+//        }
 
         radarEnhancedView.addJavascriptInterface(new Object() {
             @JavascriptInterface
@@ -154,7 +163,8 @@ public class EnhancedRadarFragment extends Fragment {
                                 + ".site-card { border-color: #999 !important; } "
                                 + ".site-card.svelte-13hcvub, .site-card.svelte-13hcvub .site-col { background: #262a2b !important; color: #ddd !important; } "
                                 + ".maplibregl-popup-content { background: #262a2b !important; color: #ddd !important; } "
-                                + ".maplibregl-popup-tip { border-top-color: #262a2b !important; } ";
+                                + ".maplibregl-popup-tip { border-top-color: #262a2b !important; } "
+                                + ".map-legend .bottom-container, .map-legend .bottom-container strong { background: #262a2b !important; color: #ddd !important; } ";
                     }
 
                     // Inject JS to get onUrlChanged working for URI fragment changes
