@@ -81,7 +81,7 @@
     <string name="contact_button">Contact Me</string>
     <string name="nws_header">National Weather Service</string>
     <string name="nws_line1">Weather Radar provides access to doppler radar images from the United States National Weather Service. Their privacy policy can be found here:\n<a>www.weather.gov/privacy</a></string>
-    <string name="nws_line2">This application is not endorsed by the National Weather Service. Their images are public domain and not subject to copyright protection:\n<a>www.weather.gov/disclaimer</a></string>
+    <string name="nws_line2">This application is not endorsed by the National Weather Service. The images are public domain and not subject to copyright protection:\n<a>www.weather.gov/disclaimer</a></string>
     <string name="nws_line3">National Weather Service radar imagery is only available for the United States and its territories.</string>
     <string name="airnow_header">AirNow</string>
     <string name="airnow_line1">Weather Radar provides access to the air quality map at <a>fire.airnow.gov</a>. AirNow is a collaboration of various government agencies and this application is not endorsed by or affiliated with that partnership or any of the participating agencies. You can view their disclaimer here:\n<a>www.airnow.gov/fasm-v4/disclaimer</a></string>
