@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -81,6 +82,9 @@ public class EnhancedRadarFragment extends Fragment {
         radarEnhancedView.getSettings().setJavaScriptEnabled(true);
         radarEnhancedView.getSettings().setDomStorageEnabled(true);
         radarEnhancedView.getSettings().setSupportZoom(true);
+
+        radarEnhancedView.setVerticalScrollBarEnabled(false);
+        radarEnhancedView.setHorizontalScrollBarEnabled(false);
 
         radarEnhancedView.addJavascriptInterface(new Object() {
             @JavascriptInterface
