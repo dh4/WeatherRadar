@@ -41,7 +41,7 @@
             android:key="radar_scale"
             android:title="@string/scale_title"
             android:max="100"
-            app:min="50"
+            app:min="25"
             app:showSeekBarValue="true" />
 
         <CheckBoxPreference
@@ -64,7 +64,7 @@
             android:key="air_scale"
             android:title="@string/scale_title"
             android:max="100"
-            app:min="50"
+            app:min="25"
             app:showSeekBarValue="true" />
 
         <CheckBoxPreference
