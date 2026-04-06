@@ -24,8 +24,10 @@ import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -118,14 +120,24 @@ public class RadarMenu {
     }
 
     private AlertDialog favoriteDialog(String title, String button) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ui.getContext());
-        builder.setTitle(title);
+        // Set left and right margins of the EditText
+        int marginDp = 20;
+        int marginPx = (int) (marginDp * ui.getContext().getResources().getDisplayMetrics().density + 0.5f);
+
+        FrameLayout wrapper = new FrameLayout(ui.getContext());
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(marginPx, 0, marginPx, 0);
 
         EditText input = new EditText(ui.getContext());
         input.setId(R.id.dialog_input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         if (favoriteName != null) input.setText(favoriteName);
-        builder.setView(input);
+        wrapper.addView(input, params);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ui.getContext());
+        builder.setTitle(title);
+        builder.setView(wrapper);
 
         builder.setPositiveButton(button, (dialog, which) -> {
             // Do nothing as we will override below
