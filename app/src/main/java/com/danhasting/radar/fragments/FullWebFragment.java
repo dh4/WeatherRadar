@@ -273,11 +273,13 @@ public class FullWebFragment extends Fragment {
                 if (errorShown) return;
                 if (pageLoaded) return;
 
-                progressBar.setVisibility(View.GONE);
-                fullWebView.setVisibility(View.GONE);
+                if (request.isForMainFrame()) {
+                    progressBar.setVisibility(View.GONE);
+                    fullWebView.setVisibility(View.GONE);
 
-                Toast.makeText(requireActivity(), "Map did not load. Check your network connection.", Toast.LENGTH_LONG).show();
-                errorShown = true;
+                    Toast.makeText(requireActivity(), "Map did not load. Check your network connection.", Toast.LENGTH_LONG).show();
+                    errorShown = true;
+                }
             }
 
             @Override
