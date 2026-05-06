@@ -277,7 +277,8 @@ public class FullWebFragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
                     fullWebView.setVisibility(View.GONE);
 
-                    Toast.makeText(requireActivity(), "Map did not load. Check your network connection.", Toast.LENGTH_LONG).show();
+                    if (isAdded()) //Check if still attached to the activity
+                        Toast.makeText(requireActivity(), "Map did not load. Check your network connection.", Toast.LENGTH_LONG).show();
                     errorShown = true;
                 }
             }
