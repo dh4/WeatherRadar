@@ -8,8 +8,8 @@ android {
         applicationId "com.danhasting.radar"
         minSdkVersion 24
         targetSdkVersion 36
-        versionCode 7
-        versionName "2.0"
+        versionCode 8
+        versionName "2.1"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
